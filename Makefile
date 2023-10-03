@@ -6,7 +6,7 @@
 #    By: mde-sa-- <mde-sa--@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/23 09:55:46 by mde-sa--          #+#    #+#              #
-#    Updated: 2023/10/03 09:44:55 by mde-sa--         ###   ########.fr        #
+#    Updated: 2023/10/03 11:32:05 by mde-sa--         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME	=   philosophers
 
 CC      = 	cc
 
-CFLAGS   =  -Wall -Wextra -Werror -g
+CFLAGS   =  -Wall -Wextra -Werror -g -pthread
 
 SRCDIR	=	src
 
@@ -26,7 +26,7 @@ LIBS	=   -L$(LIBFTDIR) -lft
 
 INCFLAGS =  -I $(INCDIR) -I $(LIBFTDIR)
 
-SRC		=	main.c arg_check.c
+SRC		=	main.c arg_check.c thread_management.c
 
 OBJS	= 	$(addprefix $(SRCDIR)/, $(SRC:.c=.o))
 

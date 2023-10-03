@@ -6,7 +6,7 @@
 /*   By: mde-sa-- <mde-sa--@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 09:33:22 by mde-sa--          #+#    #+#             */
-/*   Updated: 2023/10/03 10:37:28 by mde-sa--         ###   ########.fr       */
+/*   Updated: 2023/10/03 11:22:27 by mde-sa--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,5 +48,5 @@ void	print_args(t_args *args)
 	ft_printf("3. Time_to_eat: %i\n", args->time_to_eat);
 	ft_printf("4. Time_to_sleep: %i\n", args->time_to_sleep);
 	ft_printf("5. Number of times each philosopher must eat: ");
-	ft_printf("%i\n", args->number_of_times_each_philosopher_must_eat);
+	ft_printf("%i\n\n\n", args->number_of_times_each_philosopher_must_eat);
 }
