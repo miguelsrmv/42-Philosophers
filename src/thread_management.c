@@ -3,42 +3,42 @@
 /*                                                        :::      ::::::::   */
 /*   thread_management.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mde-sa-- <mde-sa--@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mde-sa-- <mde-sa--@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 11:29:17 by mde-sa--          #+#    #+#             */
-/*   Updated: 2023/10/03 11:55:22 by mde-sa--         ###   ########.fr       */
+/*   Updated: 2023/10/04 22:39:56 by mde-sa--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-void	create_global(&args, philo, &print_mutex)
+int	create_threads(t_args *args)
 {
-	
-}
+	int	i;
 
-int	create_threads(t_args *args, pthread_t *philo)
-{
-	int i;
-	
 	i = 0;
-	while (i < args->number_of_philosophers)
+	while (i < args->philo_num)
 	{
-		if (pthread_create(&philo[i], NULL, &routine, &i) != 0)
+		args->philo_id = (int *)malloc(sizeof(int));
+		if (!args->philo_id)
+			return (MALLOC_ERROR);
+		*(args->philo_id) = i + 1;
+		if (pthread_create(&(args->philo[i]), NULL, &routine, args) != 0)
 			return (THREAD_ERROR);
+		sleep(1);
 		i++;
 	}
 	return (SUCCESS);
 }
 
-int	join_threads(t_args *args, pthread_t *philo)
+int	join_threads(t_args *args)
 {
-	int i;
+	int	i;
 
 	i = 0;
-	while (i < args->number_of_philosophers)
+	while (i < args->philo_num)
 	{
-		if (pthread_join(philo[i], NULL) != 0)
+		if (pthread_join(args->philo[i], NULL) != 0)
 			return (THREAD_ERROR);
 		i++;
 	}
