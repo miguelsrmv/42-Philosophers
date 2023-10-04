@@ -6,7 +6,7 @@
 /*   By: mde-sa-- <mde-sa--@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 15:59:16 by mde-sa--          #+#    #+#             */
-/*   Updated: 2023/10/04 23:04:23 by mde-sa--         ###   ########.fr       */
+/*   Updated: 2023/10/04 23:05:36 by mde-sa--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@
 # define SUCCESS 0
 # define ARG_ERROR 1
 # define ARG_MESSAGE "Usage: ./philo [number_of_philosophers] [time_to_die] \
-[time_to_eat] [time_to_sleep] \
-[number_of_times_each_philosopher_must_eat] (optional)\n"
+[time_to_eat] [time_to_sleep] [number_of_times_each_philosopher_must_eat] \
+(optional)\n"
 # define MALLOC_ERROR 2
 # define THREAD_ERROR 3
 
