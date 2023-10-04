@@ -6,7 +6,7 @@
 /*   By: mde-sa-- <mde-sa--@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 09:33:22 by mde-sa--          #+#    #+#             */
-/*   Updated: 2023/10/04 22:25:22 by mde-sa--         ###   ########.fr       */
+/*   Updated: 2023/10/04 22:43:36 by mde-sa--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,18 @@ int	check_args(int argc, char **argv)
 	int	i;
 
 	if (argc < 5 || argc > 6)
+	{
+		ft_printf(ARG_MESSAGE);
 		return (ARG_ERROR);
+	}
 	i = 1;
 	while (argv[i] && *argv[i] != 0)
 	{
 		if (!ft_isdigit(*argv[i++]))
+		{
+			ft_printf(ARG_MESSAGE);
 			return (ARG_ERROR);
+		}
 	}
 	return (SUCCESS);
 }

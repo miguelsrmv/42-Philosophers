@@ -6,7 +6,7 @@
 /*   By: mde-sa-- <mde-sa--@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 15:59:16 by mde-sa--          #+#    #+#             */
-/*   Updated: 2023/10/04 22:29:58 by mde-sa--         ###   ########.fr       */
+/*   Updated: 2023/10/04 22:46:37 by mde-sa--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,9 @@
 // Error Codes
 # define SUCCESS 0
 # define ARG_ERROR 1
+# define ARG_MESSAGE "Usage: ./philo [number_of_philosophers] [time_to_die] \
+[time_to_eat] [time_to_sleep] \
+[number_of_times_each_philosopher_must_eat] (optional)\n"
 # define MALLOC_ERROR 2
 # define THREAD_ERROR 3
 
@@ -47,16 +50,16 @@ typedef struct s_args {
 
 // Function declarations
 /// main.c
-int     main(int argc, char **argv);
+int		main(int argc, char **argv);
 void	*routine(void *arg);
 
 /// arg_check.c
-int     check_args(int argc, char **argv);
-void    init_args(t_args *args, int argc, char **argv);
-void    print_args(t_args *args);
+int		check_args(int argc, char **argv);
+void	init_args(t_args *args, int argc, char **argv);
+void	print_args(t_args *args);
 
 /// thread_management.c
-int     create_threads(t_args *args);
-int     join_threads(t_args *args);
+int		create_threads(t_args *args);
+int		join_threads(t_args *args);
 
 #endif
