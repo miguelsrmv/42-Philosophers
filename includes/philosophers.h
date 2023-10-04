@@ -6,7 +6,7 @@
 /*   By: mde-sa-- <mde-sa--@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 15:59:16 by mde-sa--          #+#    #+#             */
-/*   Updated: 2023/10/04 22:46:37 by mde-sa--         ###   ########.fr       */
+/*   Updated: 2023/10/04 23:04:23 by mde-sa--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@
 
 // Argument struct
 typedef struct s_args {
-	int				philo_num;
+	int				number_of_philos;
 	int				time_to_die;
 	int				time_to_eat;
 	int				time_to_sleep;

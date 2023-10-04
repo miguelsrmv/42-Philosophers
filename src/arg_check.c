@@ -6,7 +6,7 @@
 /*   By: mde-sa-- <mde-sa--@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 09:33:22 by mde-sa--          #+#    #+#             */
-/*   Updated: 2023/10/04 22:43:36 by mde-sa--         ###   ########.fr       */
+/*   Updated: 2023/10/04 23:04:52 by mde-sa--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	check_args(int argc, char **argv)
 
 void	init_args(t_args *args, int argc, char **argv)
 {
-	args->philo_num = ft_atoi(argv[1]);
+	args->number_of_philos = ft_atoi(argv[1]);
 	args->time_to_die = ft_atoi(argv[2]);
 	args->time_to_eat = ft_atoi(argv[3]);
 	args->time_to_sleep = ft_atoi(argv[4]);
@@ -49,7 +49,7 @@ void	init_args(t_args *args, int argc, char **argv)
 // Helper function, delete at end
 void	print_args(t_args *args)
 {
-	ft_printf("1. Number of Philosophers: %i\n", args->philo_num);
+	ft_printf("1. Number of Philosophers: %i\n", args->number_of_philos);
 	ft_printf("2. Time to die: %i\n", args->time_to_die);
 	ft_printf("3. Time_to_eat: %i\n", args->time_to_eat);
 	ft_printf("4. Time_to_sleep: %i\n", args->time_to_sleep);

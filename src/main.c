@@ -6,7 +6,7 @@
 /*   By: mde-sa-- <mde-sa--@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 15:58:36 by mde-sa--          #+#    #+#             */
-/*   Updated: 2023/10/04 22:50:13 by mde-sa--         ###   ########.fr       */
+/*   Updated: 2023/10/04 23:04:33 by mde-sa--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	main(int argc, char **argv)
 	if (check_args(argc, argv) == ARG_ERROR)
 		return (ARG_ERROR);
 	init_args(&args, argc, argv);
-	args.philo = (pthread_t *)malloc(sizeof(pthread_t) * args.philo_num);
+	args.philo = (pthread_t *)malloc(sizeof(pthread_t) * args.number_of_philos);
 	if (!args.philo)
 		return (MALLOC_ERROR);
 	if (create_threads(&args) == THREAD_ERROR)
