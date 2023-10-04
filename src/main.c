@@ -6,7 +6,7 @@
 /*   By: mde-sa-- <mde-sa--@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 15:58:36 by mde-sa--          #+#    #+#             */
-/*   Updated: 2023/10/04 22:38:44 by mde-sa--         ###   ########.fr       */
+/*   Updated: 2023/10/04 22:50:13 by mde-sa--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void	*routine(void *arg)
 	i = *(((t_args *)arg)->philo_id);
 	sleep(3 * i);
 	ft_printf("HELLO FROM PHILOSOPHER NUMBER %i!\n", i);
+	// free (((t_args *)arg)->philo_id); is missing!
 	return (NULL);
 }
 
