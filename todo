@@ -1,3 +1,9 @@
+#1 
 Turn in files Makefile, *.h, *.c, in directory philo!! 
 
-Tirar usleep de thread_management.c
+#2 
+update_philo_state passar de int a void e tirar values?
+Ou adaptar programa?
+
+#3
+retirar comentários

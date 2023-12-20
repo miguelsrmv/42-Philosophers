@@ -6,7 +6,7 @@
 /*   By: mde-sa-- <mde-sa--@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 09:48:10 by mde-sa--          #+#    #+#             */
-/*   Updated: 2023/12/20 22:08:22 by mde-sa--         ###   ########.fr       */
+/*   Updated: 2023/12/20 22:44:03 by mde-sa--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ void	*routine(void *arg)
 	return (NULL);
 }
 
+// Rever caso de sucesso, são TODOS os filósofos que têem que comer X vezes!
 void	simulation_stop_at_success(t_args *arg, int thread_id, int start_time)
 {
 	while (1)
@@ -63,7 +64,7 @@ void	simulation_stop_at_death(t_args *arg, int thread_id, int start_time)
 			sleep_routine(arg, thread_id, start_time, get_current_time());
 		if (!(arg->death_count))
 			think_routine(arg, thread_id, start_time, get_current_time());
-		else
+		if (arg->death_count)
 			break ;
 	}
 	return ;

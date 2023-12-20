@@ -6,7 +6,7 @@
 /*   By: mde-sa-- <mde-sa--@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 09:33:22 by mde-sa--          #+#    #+#             */
-/*   Updated: 2023/12/20 21:57:09 by mde-sa--         ###   ########.fr       */
+/*   Updated: 2023/12/20 22:51:07 by mde-sa--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void	init_mutexes(t_args *args)
 	i = 0;
 	while (i < args->number_of_philos)
 	{
-		args->philo_state[i] = START_STATE;
+		args->philo_state[i] = AVAILABLE_FOR_EATING_2_FORK_LEFT;
 		pthread_mutex_init(&args->forks_mutex[i++], NULL);
 	}
 	pthread_mutex_init(&(args->philo_id_mutex), NULL);

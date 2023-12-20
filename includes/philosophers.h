@@ -6,7 +6,7 @@
 /*   By: mde-sa-- <mde-sa--@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 15:59:16 by mde-sa--          #+#    #+#             */
-/*   Updated: 2023/12/20 21:50:23 by mde-sa--         ###   ########.fr       */
+/*   Updated: 2023/12/20 22:54:23 by mde-sa--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,7 @@ enum e_PhiloState {
 	AVAILABLE_FOR_EATING_2_FORK_LEFT,
 	AVAILABLE_FOR_EATING_1_FORK_LEFT,
 	EATING,
-	AVAILABLE_FOR_THINKING,
 	THINKING,
-	AVAILABLE_FOR_SLEEPING,
 	SLEEPING,
 	DEAD
 };
@@ -148,5 +146,6 @@ char				*concatenate_str_with_space(char *left_string,
 void				print_args(t_args *args);
 void				print_message_helper(t_args *args, int thread_id,
 						char *message);
+void				print_state(t_args *arg, int thread_id);
 
 #endif
