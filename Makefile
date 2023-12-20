@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mde-sa-- <mde-sa--@student.42.fr>          +#+  +:+       +#+         #
+#    By: mde-sa-- <mde-sa--@student.42porto.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/23 09:55:46 by mde-sa--          #+#    #+#              #
-#    Updated: 2023/10/03 11:32:05 by mde-sa--         ###   ########.fr        #
+#    Updated: 2023/12/20 12:04:31 by mde-sa--         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,9 @@ LIBS	=   -L$(LIBFTDIR) -lft
 
 INCFLAGS =  -I $(INCDIR) -I $(LIBFTDIR)
 
-SRC		=	main.c arg_check.c thread_management.c
+SRC		=	main.c arg_check.c thread_management.c helper_functions.c \
+			time_functions.c routine.c eat_think_sleep.c update_mutex.c \
+			print_message.c
 
 OBJS	= 	$(addprefix $(SRCDIR)/, $(SRC:.c=.o))
 
@@ -55,3 +57,6 @@ fclean: clean
 re: fclean all
 
 .PHONY: all clean fclean re libft
+
+test:
+	./philosophers 4 10 10 10

@@ -1,29 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   time_functions.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mde-sa-- <mde-sa--@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/29 15:58:36 by mde-sa--          #+#    #+#             */
-/*   Updated: 2023/12/20 09:48:09 by mde-sa--         ###   ########.fr       */
+/*   Created: 2023/12/20 10:37:15 by mde-sa--          #+#    #+#             */
+/*   Updated: 2023/12/20 10:37:25 by mde-sa--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-int	main(int argc, char **argv)
+long long	get_current_time(void)
 {
-	t_args			args;
+	struct timeval	start_time;
+	struct timezone	time_zone;
 
-	if (check_args(argc, argv) == ARG_ERROR)
-		return (ARG_ERROR);
-	if (init_args(&args, argc, argv) == MALLOC_ERROR)
-		return (MALLOC_ERROR);
-	if (create_threads(&args) == THREAD_ERROR)
-		return (THREAD_ERROR);
-	if (join_threads(&args) == THREAD_ERROR)
-		return (THREAD_ERROR);
-	clear_args(&args);
-	return (SUCCESS);
+	gettimeofday(&start_time, &time_zone);
+	return(start_time.tv_sec);
+}
+
+long long	get_time_diff(long long start_time, long long end_time)
+{
+	long long	time_diff;
+
+	time_diff = end_time - start_time;
+	return (time_diff * 1000);
 }
