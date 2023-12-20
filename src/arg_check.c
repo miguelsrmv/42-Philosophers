@@ -6,7 +6,7 @@
 /*   By: mde-sa-- <mde-sa--@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 09:33:22 by mde-sa--          #+#    #+#             */
-/*   Updated: 2023/12/20 12:53:46 by mde-sa--         ###   ########.fr       */
+/*   Updated: 2023/12/20 21:57:09 by mde-sa--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,9 @@ int	check_args(int argc, char **argv)
 int	init_args(t_args *args, int argc, char **argv)
 {
 	args->number_of_philos = ft_atoi(argv[1]);
-	args->time_to_die = ft_atoi(argv[2]);
-	args->time_to_eat = ft_atoi(argv[3]);
-	args->time_to_sleep = ft_atoi(argv[4]);
+	args->time_to_die = ft_atoi(argv[2]) * 10000;
+	args->time_to_eat = ft_atoi(argv[3]) * 10000;
+	args->time_to_sleep = ft_atoi(argv[4]) * 10000;
 	if (argc == 6)
 		args->number_of_times_each_philosopher_must_eat = ft_atoi(argv[5]);
 	else

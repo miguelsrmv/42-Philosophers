@@ -6,7 +6,7 @@
 /*   By: mde-sa-- <mde-sa--@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 15:59:16 by mde-sa--          #+#    #+#             */
-/*   Updated: 2023/12/20 14:34:54 by mde-sa--         ###   ########.fr       */
+/*   Updated: 2023/12/20 21:50:23 by mde-sa--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,8 @@ enum e_PhiloState {
 };
 
 enum e_ForkState {
-	AVAILABLE,
-	TAKEN
+	TAKEN,
+	AVAILABLE
 };
 
 // Error Messages
@@ -111,20 +111,22 @@ void				simulation_stop_at_death(t_args *arg,
 
 /// eat_think_sleep.c
 void				eat_routine(t_args *arg, int thread_id,
-						int time_last_action, int start_time);
-void				take_left_fork(t_args *arg, int thread_id);
-void				take_right_fork(t_args *arg, int thread_id);
+						int time_last_meal, int start_time);
+void				take_left_fork(t_args *arg, int thread_id,
+						int time_last_meal, int start_time);
+void				take_right_fork(t_args *arg, int thread_id,
+						int time_last_meal, int start_time);
 void				sleep_routine(t_args *arg, int thread_id,
-						int time_last_action, int start_time);
+						int time_last_meal, int start_time);
 void				think_routine(t_args *arg, int thread_id,
-						int time_last_action, int start_time);
+						int time_last_meal, int start_time);
 
 /// update_mutex.c
 void				update_count(int *count, pthread_mutex_t *count_mutex);
-void				update_philo_state(t_args *arg, int thread_id,
-						int current_time);
+int					update_philo_state(t_args *arg, int thread_id,
+						int time_last_meal, int current_time);
 int					check_death(t_args *arg, int thread_id,
-						int time_last_action, int start_time);
+						int time_last_meal, int current_time);
 
 /// time_functions.c
 long long			get_current_time(void);

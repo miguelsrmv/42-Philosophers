@@ -6,7 +6,7 @@
 /*   By: mde-sa-- <mde-sa--@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 09:48:10 by mde-sa--          #+#    #+#             */
-/*   Updated: 2023/12/20 15:18:08 by mde-sa--         ###   ########.fr       */
+/*   Updated: 2023/12/20 22:08:22 by mde-sa--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,10 +64,7 @@ void	simulation_stop_at_death(t_args *arg, int thread_id, int start_time)
 		if (!(arg->death_count))
 			think_routine(arg, thread_id, start_time, get_current_time());
 		else
-		{
-			print_message(arg, thread_id, get_current_time());
 			break ;
-		}
 	}
 	return ;
 }
