@@ -6,33 +6,35 @@
 /*   By: mde-sa-- <mde-sa--@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 11:53:07 by mde-sa--          #+#    #+#             */
-/*   Updated: 2023/12/20 20:29:24 by mde-sa--         ###   ########.fr       */
+/*   Updated: 2023/12/21 19:22:33 by mde-sa--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-enum e_ErrorCode	print_message(t_args *arg, int thread_id, long current_time)
+enum e_ErrorCode	print_message(t_args *arg, int thread_id,
+	size_t current_time, size_t epoch_time)
 {
 	char	*message;
 
-	message = get_full_philo_message(arg, thread_id, current_time);
+	message = get_full_philo_message(arg, thread_id, current_time, epoch_time);
 	if (!message)
 		return (MALLOC_ERROR);
 	pthread_mutex_lock(&arg->print_mutex);
-	ft_printf(message);
+	write(STDOUT_FILENO, message, ft_strlen(message));
 	pthread_mutex_unlock(&arg->print_mutex);
 	free(message);
 	return (SUCCESS);
 }
 
-char	*get_full_philo_message(t_args *arg, int thread_id, long current_time)
+char	*get_full_philo_message(t_args *arg, int thread_id,
+	size_t current_time, size_t epoch_time)
 {
 	char	*left_message;
 	char	*right_message;
 	char	*result;
 
-	left_message = left_side_of_str(thread_id, current_time);
+	left_message = left_side_of_str(thread_id, current_time, epoch_time);
 	if (!left_message)
 		return (NULL);
 	right_message = right_side_of_str(arg, thread_id);
@@ -49,13 +51,14 @@ char	*get_full_philo_message(t_args *arg, int thread_id, long current_time)
 	return (result);
 }
 
-char	*left_side_of_str(int thread_id, long current_time)
+char	*left_side_of_str(int thread_id,
+	size_t current_time, size_t epoch_time)
 {
 	char	*left_number;
 	char	*right_number;
 	char	*result;
 
-	left_number = ft_itoa(current_time);
+	left_number = ft_itoa(get_time_diff(epoch_time, current_time));
 	if (!left_number)
 		return (NULL);
 	right_number = ft_itoa(thread_id + 1);
@@ -99,7 +102,8 @@ char	*concatenate_str_with_space(char *left_string, char *right_string)
 	char	*left_message;
 	char	*result;
 
-	left_message = ft_strjoin(left_string, " ");
+	//left_message = ft_strjoin(left_string, " ");
+	left_message = ft_strjoin(left_string, "\t");
 	if (!left_message)
 		return (NULL);
 	result = ft_strjoin(left_message, right_string);

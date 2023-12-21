@@ -6,7 +6,7 @@
 /*   By: mde-sa-- <mde-sa--@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 09:33:22 by mde-sa--          #+#    #+#             */
-/*   Updated: 2023/12/20 22:51:07 by mde-sa--         ###   ########.fr       */
+/*   Updated: 2023/12/21 18:38:22 by mde-sa--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 int	check_args(int argc, char **argv)
 {
 	int	i;
+	int	j;
 
 	if (argc < 5 || argc > 6)
 	{
@@ -22,74 +23,88 @@ int	check_args(int argc, char **argv)
 		return (ARG_ERROR);
 	}
 	i = 1;
-	while (argv[i] && *argv[i] != 0)
+	while (argv[i])
 	{
-		if (!ft_isdigit(*argv[i++]))
+		j = 0;
+		while (argv[i][j])
 		{
-			ft_printf(ARG_MESSAGE);
-			return (ARG_ERROR);
+			if (!ft_isdigit(argv[i][j++]))
+			{
+				ft_printf(ARG_MESSAGE);
+				return (ARG_ERROR);
+			}
 		}
+		i++;
 	}
 	return (SUCCESS);
 }
 
-int	init_args(t_args *args, int argc, char **argv)
+int	init_args(t_args *arg, int argc, char **argv)
 {
-	args->number_of_philos = ft_atoi(argv[1]);
-	args->time_to_die = ft_atoi(argv[2]) * 10000;
-	args->time_to_eat = ft_atoi(argv[3]) * 10000;
-	args->time_to_sleep = ft_atoi(argv[4]) * 10000;
+	arg->number_of_philos = ft_atoi(argv[1]);
+	arg->time_to_die = ft_atoi(argv[2]) * MILISECONDS_TO_MICROSECONDS;
+	arg->time_to_eat = ft_atoi(argv[3]) * MILISECONDS_TO_MICROSECONDS;
+	arg->time_to_sleep = ft_atoi(argv[4]) * MILISECONDS_TO_MICROSECONDS;
 	if (argc == 6)
-		args->number_of_times_each_philosopher_must_eat = ft_atoi(argv[5]);
+		arg->times_each_philosopher_must_eat = ft_atoi(argv[5]);
 	else
-		args->number_of_times_each_philosopher_must_eat = -1;
-	args->threads = (pthread_t *)malloc(args->number_of_philos
-			* sizeof(pthread_t));
-	args->philo_state = (enum e_PhiloState *)malloc(args->number_of_philos
-			* sizeof(enum e_PhiloState));
-	args->forks = (enum e_ForkState *)malloc(args->number_of_philos
-			* sizeof(enum e_ForkState));
-	args->forks_mutex = (pthread_mutex_t *)malloc((args->number_of_philos)
-			* sizeof(pthread_mutex_t));
-	if (!args->threads || !args->philo_state
-		|| !args->forks || !args->forks_mutex)
+		arg->times_each_philosopher_must_eat = -1;
+	arg->philo_id = -1;
+	arg->death_count = 0;
+	arg->success_count = 0;
+	if (init_arrays(arg) == MALLOC_ERROR)
 		return (MALLOC_ERROR);
-	args->philo_id = -1;
-	args->death_count = 0;
-	args->success_count = 0;
-	init_mutexes(args);
 	return (SUCCESS);
 }
 
-void	init_mutexes(t_args *args)
+int	init_arrays(t_args *arg)
 {
 	int	i;
 
-	i = 0;
-	while (i < args->number_of_philos)
+	arg->success_array = (int *)malloc(arg->number_of_philos
+			* sizeof(int));
+	arg->philo_state = (enum e_PhiloState *)malloc(arg->number_of_philos
+			* sizeof(enum e_PhiloState));
+	arg->threads = (pthread_t *)malloc(arg->number_of_philos
+			* sizeof(pthread_t));
+	arg->forks = (pthread_mutex_t *)malloc((arg->number_of_philos)
+			* sizeof(pthread_mutex_t));
+	if (!arg->success_array || !arg->philo_state || !arg->threads
+		|| !arg->forks)
 	{
-		args->philo_state[i] = AVAILABLE_FOR_EATING_2_FORK_LEFT;
-		pthread_mutex_init(&args->forks_mutex[i++], NULL);
+		clear_memory(arg);
+		return (MALLOC_ERROR);
 	}
-	pthread_mutex_init(&(args->philo_id_mutex), NULL);
-	pthread_mutex_init(&(args->death_count_mutex), NULL);
-	pthread_mutex_init(&(args->success_count_mutex), NULL);
-	pthread_mutex_init(&(args->print_mutex), NULL);
+	i = 0;
+	while (i < arg->number_of_philos)
+	{
+		arg->success_array[i] = arg->times_each_philosopher_must_eat;
+		arg->philo_state[i++] = AVAILABLE_FOR_EATING_2_FORK_LEFT;
+	}
+	return (SUCCESS);
 }
 
-void	clear_args(t_args *args)
+int	init_mutexes(t_args *arg)
 {
 	int	i;
+	int	return_value;
 
 	i = 0;
-	while (i < args->number_of_philos)
-		pthread_mutex_destroy(&args->forks_mutex[i++]);
-	pthread_mutex_destroy(&args->philo_id_mutex);
-	pthread_mutex_destroy(&(args->death_count_mutex));
-	pthread_mutex_destroy(&(args->success_count_mutex));
-	pthread_mutex_destroy(&(args->print_mutex));
-	free(args->threads);
-	free(args->philo_state);
-	free(args->forks);
-	free(args->forks_mutex);
+	return_value = SUCCESS;
+	while (i < arg->number_of_philos)
+	{
+		if (pthread_mutex_init(&arg->forks[i++], NULL))
+			return_value = MUTEX_ERROR;
+	}
+	if (pthread_mutex_init(&(arg->philo_id_mutex), NULL))
+		return_value = MUTEX_ERROR;
+	if (pthread_mutex_init(&(arg->death_count_mutex), NULL))
+		return_value = MUTEX_ERROR;
+	if (pthread_mutex_init(&(arg->success_count_mutex), NULL))
+		return_value = MUTEX_ERROR;
+	if (pthread_mutex_init(&(arg->print_mutex), NULL))
+		return_value = MUTEX_ERROR;
+	if (return_value == MUTEX_ERROR)
+		clear_args(arg);
+	return (return_value);
 }
