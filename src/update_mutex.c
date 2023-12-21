@@ -6,7 +6,7 @@
 /*   By: mde-sa-- <mde-sa--@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 11:15:02 by mde-sa--          #+#    #+#             */
-/*   Updated: 2023/12/21 20:24:31 by mde-sa--         ###   ########.fr       */
+/*   Updated: 2023/12/21 20:35:29 by mde-sa--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ int	check_death(t_args *arg, int thread_id,
 		if (arg->death_flag)
 			return (1);
 		arg->philo_state[thread_id] = DEAD;
+		arg->death_flag++;
 		print_message(arg, thread_id, current_time, epoch_time);
 		pthread_mutex_unlock(&arg->death_mutex);
 		return (1);

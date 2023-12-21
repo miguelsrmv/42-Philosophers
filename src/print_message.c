@@ -6,7 +6,7 @@
 /*   By: mde-sa-- <mde-sa--@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 11:53:07 by mde-sa--          #+#    #+#             */
-/*   Updated: 2023/12/21 20:27:49 by mde-sa--         ###   ########.fr       */
+/*   Updated: 2023/12/21 20:38:21 by mde-sa--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,15 +30,19 @@ void	print_message(t_args *arg, int thread_id,
 	char	*message;
 
 	pthread_mutex_lock(&arg->print_mutex);
-	if (arg->philo_state[thread_id] == DEAD)
-		arg->death_flag++;
+	if (arg->death_flag && arg->philo_state[thread_id] != DEAD)
+	{
+		pthread_mutex_unlock(&arg->print_mutex);
+		return ;
+	}
 	timestamp = ft_itoa(current_time - epoch_time);
 	philo_no = ft_itoa(thread_id + 1);
 	message = right_side_of_str(arg, thread_id);
+	//ft_usleep(5);
 	write(STDOUT_FILENO, timestamp, ft_strlen(timestamp));
-	write(STDOUT_FILENO, " ", 1);
+	write(STDOUT_FILENO, "\t", 1);
 	write(STDOUT_FILENO, philo_no, ft_strlen(philo_no));
-	write(STDOUT_FILENO, " ", 1);
+	write(STDOUT_FILENO, "\t", 1);
 	write(STDOUT_FILENO, message, ft_strlen(message));
 	free(timestamp);
 	free(philo_no);
