@@ -6,7 +6,7 @@
 /*   By: mde-sa-- <mde-sa--@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 09:48:10 by mde-sa--          #+#    #+#             */
-/*   Updated: 2023/12/21 19:11:49 by mde-sa--         ###   ########.fr       */
+/*   Updated: 2023/12/21 20:14:03 by mde-sa--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,16 +39,16 @@ void	simulation_stop_at_success_or_death(t_args *arg, int thread_id,
 {
 	while (1)
 	{
-		if (!(arg->death_count) && arg->success_count
+		if (!(arg->death_flag) && arg->success_count
 			< arg->times_each_philosopher_must_eat)
 		{
 			eat_routine(arg, thread_id, start_time, epoch_time);
 			start_time = get_current_time();
 		}
-		if (!(arg->death_count) && arg->success_count
+		if (!(arg->death_flag) && arg->success_count
 			< arg->times_each_philosopher_must_eat)
 			sleep_routine(arg, thread_id, start_time, epoch_time);
-		if (!(arg->death_count) && arg->success_count
+		if (!(arg->death_flag) && arg->success_count
 			< arg->times_each_philosopher_must_eat)
 			think_routine(arg, thread_id, start_time, epoch_time);
 		else
@@ -62,16 +62,16 @@ void	simulation_stop_at_death(t_args *arg, int thread_id,
 {
 	while (1)
 	{
-		if (!(arg->death_count))
+		if (!(arg->death_flag))
 		{
 			eat_routine(arg, thread_id, start_time, epoch_time);
 			start_time = get_current_time();
 		}
-		if (!(arg->death_count))
+		if (!(arg->death_flag))
 			sleep_routine(arg, thread_id, start_time, epoch_time);
-		if (!(arg->death_count))
+		if (!(arg->death_flag))
 			think_routine(arg, thread_id, start_time, epoch_time);
-		if (arg->death_count)
+		else
 			break ;
 	}
 	return ;

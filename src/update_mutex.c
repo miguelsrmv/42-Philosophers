@@ -6,7 +6,7 @@
 /*   By: mde-sa-- <mde-sa--@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 11:15:02 by mde-sa--          #+#    #+#             */
-/*   Updated: 2023/12/21 19:21:43 by mde-sa--         ###   ########.fr       */
+/*   Updated: 2023/12/21 20:24:31 by mde-sa--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,14 +54,16 @@ int	check_death(t_args *arg, int thread_id,
 
 	current_time = get_current_time();
 	// Verificar esta condição
-	if (arg->times_each_philosopher_must_eat < 0
-		&& arg->death_count > 0)
+	if (arg->death_flag)
 		return (1);
 	else if (get_time_diff(time_last_meal, current_time) > arg->time_to_die)
 	{
-		update_count(&arg->death_count, &arg->death_count_mutex);
+		pthread_mutex_lock(&arg->death_mutex);
+		if (arg->death_flag)
+			return (1);
 		arg->philo_state[thread_id] = DEAD;
 		print_message(arg, thread_id, current_time, epoch_time);
+		pthread_mutex_unlock(&arg->death_mutex);
 		return (1);
 	}
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: mde-sa-- <mde-sa--@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 09:33:22 by mde-sa--          #+#    #+#             */
-/*   Updated: 2023/12/21 18:38:22 by mde-sa--         ###   ########.fr       */
+/*   Updated: 2023/12/21 20:26:26 by mde-sa--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,15 +42,15 @@ int	check_args(int argc, char **argv)
 int	init_args(t_args *arg, int argc, char **argv)
 {
 	arg->number_of_philos = ft_atoi(argv[1]);
-	arg->time_to_die = ft_atoi(argv[2]) * MILISECONDS_TO_MICROSECONDS;
-	arg->time_to_eat = ft_atoi(argv[3]) * MILISECONDS_TO_MICROSECONDS;
-	arg->time_to_sleep = ft_atoi(argv[4]) * MILISECONDS_TO_MICROSECONDS;
+	arg->time_to_die = ft_atoi(argv[2]);
+	arg->time_to_eat = ft_atoi(argv[3]);
+	arg->time_to_sleep = ft_atoi(argv[4]);
 	if (argc == 6)
 		arg->times_each_philosopher_must_eat = ft_atoi(argv[5]);
 	else
 		arg->times_each_philosopher_must_eat = -1;
 	arg->philo_id = -1;
-	arg->death_count = 0;
+	arg->death_flag = 0;
 	arg->success_count = 0;
 	if (init_arrays(arg) == MALLOC_ERROR)
 		return (MALLOC_ERROR);
@@ -86,24 +86,24 @@ int	init_arrays(t_args *arg)
 
 int	init_mutexes(t_args *arg)
 {
-	int	i;
 	int	return_value;
+	int	i;
 
-	i = 0;
 	return_value = SUCCESS;
+	if (pthread_mutex_init(&(arg->print_mutex), NULL))
+		return_value = MUTEX_ERROR;
+	if (pthread_mutex_init(&(arg->success_count_mutex), NULL))
+		return_value = MUTEX_ERROR;
+	if (pthread_mutex_init(&(arg->death_mutex), NULL))
+		return_value = MUTEX_ERROR;
+	if (pthread_mutex_init(&(arg->philo_id_mutex), NULL))
+		return_value = MUTEX_ERROR;
+	i = 0;
 	while (i < arg->number_of_philos)
 	{
 		if (pthread_mutex_init(&arg->forks[i++], NULL))
 			return_value = MUTEX_ERROR;
 	}
-	if (pthread_mutex_init(&(arg->philo_id_mutex), NULL))
-		return_value = MUTEX_ERROR;
-	if (pthread_mutex_init(&(arg->death_count_mutex), NULL))
-		return_value = MUTEX_ERROR;
-	if (pthread_mutex_init(&(arg->success_count_mutex), NULL))
-		return_value = MUTEX_ERROR;
-	if (pthread_mutex_init(&(arg->print_mutex), NULL))
-		return_value = MUTEX_ERROR;
 	if (return_value == MUTEX_ERROR)
 		clear_args(arg);
 	return (return_value);

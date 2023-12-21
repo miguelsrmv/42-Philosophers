@@ -6,7 +6,7 @@
 /*   By: mde-sa-- <mde-sa--@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 11:08:23 by mde-sa--          #+#    #+#             */
-/*   Updated: 2023/12/21 19:23:50 by mde-sa--         ###   ########.fr       */
+/*   Updated: 2023/12/21 19:31:07 by mde-sa--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@ void	eat_routine(t_args *arg, int thread_id,
 		take_right_fork(arg, thread_id, time_last_meal, epoch_time);
 		take_left_fork(arg, thread_id, time_last_meal, epoch_time);
 	}
-	//ft_usleep(arg->time_to_eat);
-	usleep(arg->time_to_eat);
+	ft_usleep(arg->time_to_eat);
+	//usleep(arg->time_to_eat);
 	decrement_array(arg, thread_id);
 	update_philo_state(arg, thread_id, time_last_meal, epoch_time);
 //	print_message_helper(arg, thread_id, "Finished eating!\n");
@@ -68,11 +68,11 @@ void	sleep_routine(t_args *arg, int thread_id,
 	update_philo_state(arg, thread_id, time_last_meal, epoch_time);
 	remaining_time = arg->time_to_die - (get_current_time() - time_last_meal);
 	if (arg->time_to_sleep < remaining_time)
-		usleep(arg->time_to_sleep);
-		//ft_usleep(arg->time_to_sleep);
+		//usleep(arg->time_to_sleep);
+		ft_usleep(arg->time_to_sleep);
 	else
-		usleep(remaining_time);
-		//ft_usleep(remaining_time);
+		//usleep(remaining_time);
+		ft_usleep(remaining_time);
 }
 
 void	think_routine(t_args *arg, int thread_id,

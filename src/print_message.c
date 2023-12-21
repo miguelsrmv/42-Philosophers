@@ -6,16 +6,16 @@
 /*   By: mde-sa-- <mde-sa--@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 11:53:07 by mde-sa--          #+#    #+#             */
-/*   Updated: 2023/12/21 19:22:33 by mde-sa--         ###   ########.fr       */
+/*   Updated: 2023/12/21 20:27:49 by mde-sa--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-enum e_ErrorCode	print_message(t_args *arg, int thread_id,
+void	print_message(t_args *arg, int thread_id,
 	size_t current_time, size_t epoch_time)
 {
-	char	*message;
+/* 	char	*message;
 
 	message = get_full_philo_message(arg, thread_id, current_time, epoch_time);
 	if (!message)
@@ -24,7 +24,26 @@ enum e_ErrorCode	print_message(t_args *arg, int thread_id,
 	write(STDOUT_FILENO, message, ft_strlen(message));
 	pthread_mutex_unlock(&arg->print_mutex);
 	free(message);
-	return (SUCCESS);
+	return (SUCCESS); */
+	char	*timestamp;
+	char	*philo_no;
+	char	*message;
+
+	pthread_mutex_lock(&arg->print_mutex);
+	if (arg->philo_state[thread_id] == DEAD)
+		arg->death_flag++;
+	timestamp = ft_itoa(current_time - epoch_time);
+	philo_no = ft_itoa(thread_id + 1);
+	message = right_side_of_str(arg, thread_id);
+	write(STDOUT_FILENO, timestamp, ft_strlen(timestamp));
+	write(STDOUT_FILENO, " ", 1);
+	write(STDOUT_FILENO, philo_no, ft_strlen(philo_no));
+	write(STDOUT_FILENO, " ", 1);
+	write(STDOUT_FILENO, message, ft_strlen(message));
+	free(timestamp);
+	free(philo_no);
+	free(message);
+	pthread_mutex_unlock(&arg->print_mutex);
 }
 
 char	*get_full_philo_message(t_args *arg, int thread_id,
@@ -96,14 +115,13 @@ char	*right_side_of_str(t_args *arg, int thread_id)
 	return (result);
 }
 
-
 char	*concatenate_str_with_space(char *left_string, char *right_string)
 {
 	char	*left_message;
 	char	*result;
 
-	//left_message = ft_strjoin(left_string, " ");
-	left_message = ft_strjoin(left_string, "\t");
+	left_message = ft_strjoin(left_string, " ");
+	//left_message = ft_strjoin(left_string, "\t");
 	if (!left_message)
 		return (NULL);
 	result = ft_strjoin(left_message, right_string);

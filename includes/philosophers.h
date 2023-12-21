@@ -6,7 +6,7 @@
 /*   By: mde-sa-- <mde-sa--@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 15:59:16 by mde-sa--          #+#    #+#             */
-/*   Updated: 2023/12/21 19:18:40 by mde-sa--         ###   ########.fr       */
+/*   Updated: 2023/12/21 20:26:16 by mde-sa--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,6 @@
 # include <stdio.h>
 # include <pthread.h>
 # include <sys/time.h>
-
-# define MILISECONDS_TO_MICROSECONDS 1000
 
 // Error Codes
 enum e_ErrorCode {
@@ -59,12 +57,14 @@ typedef struct s_args {
 	size_t				time_to_sleep;
 	int					times_each_philosopher_must_eat;
 
+	pthread_mutex_t		print_mutex;
+
 	int					*success_array;
 	int					success_count;
 	pthread_mutex_t		success_count_mutex;
 
-	int					death_count;
-	pthread_mutex_t		death_count_mutex;
+	int					death_flag;
+	pthread_mutex_t		death_mutex;
 
 	int					philo_id;
 	enum e_PhiloState	*philo_state;
@@ -73,7 +73,8 @@ typedef struct s_args {
 
 	pthread_mutex_t		*forks;
 
-	pthread_mutex_t		print_mutex;
+
+
 }	t_args;
 
 // Function declarations
@@ -130,7 +131,7 @@ int					ft_usleep(size_t milliseconds);
 /* int					get_timestamp(t_args *arg); */
 
 /// print_message.c
-enum e_ErrorCode	print_message(t_args *arg, int thread_id,
+void				print_message(t_args *arg, int thread_id,
 						size_t current_time, size_t epoch_time);
 char				*get_full_philo_message(t_args *arg, int thread_id,
 						size_t current_time, size_t epoch_time);
