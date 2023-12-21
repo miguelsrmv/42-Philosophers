@@ -6,7 +6,7 @@
 /*   By: mde-sa-- <mde-sa--@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 09:48:10 by mde-sa--          #+#    #+#             */
-/*   Updated: 2023/12/21 22:47:49 by mde-sa--         ###   ########.fr       */
+/*   Updated: 2023/12/21 23:09:05 by mde-sa--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,17 +39,17 @@ void	simulation_stop_at_success_or_death(t_args *arg, int thread_id,
 {
 	while (1)
 	{
-		if (!(arg->death_flag) && arg->success_count
-			< arg->times_each_philosopher_must_eat)
+		if (!(arg->death_flag))
 		{
 			eat_routine(arg, thread_id, start_time, epoch_time);
 			start_time = get_current_time();
+			update_success(arg, thread_id);
+			if (arg->success_count == arg->number_of_philos)
+				return ;
 		}
-		if (!(arg->death_flag) && arg->success_count
-			< arg->times_each_philosopher_must_eat)
+		if (!(arg->death_flag))
 			sleep_routine(arg, thread_id, start_time, epoch_time);
-		if (!(arg->death_flag) && arg->success_count
-			< arg->times_each_philosopher_must_eat)
+		if (!(arg->death_flag))
 			think_routine(arg, thread_id, start_time, epoch_time);
 		else
 			break ;

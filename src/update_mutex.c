@@ -6,13 +6,13 @@
 /*   By: mde-sa-- <mde-sa--@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 11:15:02 by mde-sa--          #+#    #+#             */
-/*   Updated: 2023/12/21 22:35:36 by mde-sa--         ###   ########.fr       */
+/*   Updated: 2023/12/21 23:05:34 by mde-sa--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-void	decrement_array(t_args *arg, int thread_id)
+void	update_success(t_args *arg, int thread_id)
 {
 	arg->success_array[thread_id]--;
 	if (arg->success_array[thread_id] == 0)

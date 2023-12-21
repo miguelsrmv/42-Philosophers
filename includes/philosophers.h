@@ -6,7 +6,7 @@
 /*   By: mde-sa-- <mde-sa--@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 15:59:16 by mde-sa--          #+#    #+#             */
-/*   Updated: 2023/12/21 22:35:51 by mde-sa--         ###   ########.fr       */
+/*   Updated: 2023/12/21 22:52:52 by mde-sa--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,7 @@ void				think_routine(t_args *arg, int thread_id,
 						size_t time_last_meal, size_t start_time);
 
 /// update_mutex.c
-void				decrement_array(t_args *arg, int thread_id);
+void				update_success(t_args *arg, int thread_id);
 void				update_count(int *count, pthread_mutex_t *count_mutex);
 int					update_philo_state(t_args *arg, int thread_id,
 						size_t time_last_meal, size_t epoch_time);
