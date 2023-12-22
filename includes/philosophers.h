@@ -6,7 +6,7 @@
 /*   By: mde-sa-- <mde-sa--@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 15:59:16 by mde-sa--          #+#    #+#             */
-/*   Updated: 2023/12/22 18:50:51 by mde-sa--         ###   ########.fr       */
+/*   Updated: 2023/12/22 19:37:54 by mde-sa--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,10 +106,8 @@ int					join_threads(t_args *arg);
 
 /// routine.c
 void				*routine(void *arg);
-void				simulation_stop_at_success_or_death(t_args *arg,
-						int thread_id, size_t start_time, size_t epoch_time);
-void				simulation_stop_at_death(t_args *arg,
-						int thread_id, size_t start_time, size_t epoch_time);
+void				simulation(t_args *arg, int thread_id, size_t start_time,
+						size_t epoch_time);
 void				printing_thread(t_args *arg);
 
 /// eat_think_sleep.c
@@ -127,7 +125,7 @@ void				think_routine(t_args *arg, int thread_id,
 /// update_mutex.c
 void				update_success(t_args *arg, int thread_id);
 void				update_count(int *count, pthread_mutex_t *count_mutex);
-int					update_philo_state(t_args *arg, int thread_id,
+void				update_philo_state(t_args *arg, int thread_id,
 						size_t time_last_meal, size_t epoch_time);
 enum e_PhiloState	check_death(t_args *arg, int thread_id,
 						size_t time_last_meal, size_t epoch_time);
@@ -138,7 +136,7 @@ size_t				get_time_diff(size_t start_time, size_t end_time);
 int					ft_usleep(size_t milliseconds);
 
 /// print_message.c
-void				print_message(t_args *arg, int thread_id,
+enum e_ErrorCode	create_print_message(t_args *arg, int thread_id,
 						size_t current_time, size_t epoch_time);
 char				*get_full_philo_message(t_args *arg, int thread_id,
 						size_t current_time, size_t epoch_time);

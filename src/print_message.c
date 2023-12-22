@@ -6,27 +6,25 @@
 /*   By: mde-sa-- <mde-sa--@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 11:53:07 by mde-sa--          #+#    #+#             */
-/*   Updated: 2023/12/22 19:04:06 by mde-sa--         ###   ########.fr       */
+/*   Updated: 2023/12/22 19:34:43 by mde-sa--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-void	print_message(t_args *arg, int thread_id,
+enum e_ErrorCode	create_print_message(t_args *arg, int thread_id,
 	size_t current_time, size_t epoch_time)
 {
 	char	*message;
 
 	if (arg->death_flag && arg->philo_state[thread_id] != DEAD)
-		return ;
+		return (SUCCESS);
 	message = get_full_philo_message(arg, thread_id, current_time, epoch_time);
 	if (!message)
-		 // Que erro por neste caso??? Igual a add_to_buffered_output?
-		return ;
-/* 	char *message2 = ft_strjoin(ft_itoa(current_time - epoch_time), "\n");
-	write(open("list_test", O_WRONLY | O_APPEND), message2, ft_strlen(message2));		// Log check */
-	add_to_buffered_output(arg, message);
-
+		return (MALLOC_ERROR);
+	if (add_to_buffered_output(arg, message) == MALLOC_ERROR)
+		return (MALLOC_ERROR);
+	return (SUCCESS);
 }
 
 char	*get_full_philo_message(t_args *arg, int thread_id,

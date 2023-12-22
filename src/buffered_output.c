@@ -6,7 +6,7 @@
 /*   By: mde-sa-- <mde-sa--@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/22 09:41:26 by mde-sa--          #+#    #+#             */
-/*   Updated: 2023/12/22 18:01:25 by mde-sa--         ###   ########.fr       */
+/*   Updated: 2023/12/22 19:42:23 by mde-sa--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ enum e_ErrorCode	add_to_buffered_output(t_args *arg, char *string)
 	t_list	*new_node;
 
 	new_node = ft_lstnew((void *)string);
-	// Introduzir solução de erro aqui. Talvez por dead para parar o programa.
 	if (!new_node)
 		return (MALLOC_ERROR);
 	if (!arg->output)

@@ -9,11 +9,12 @@ Ou adaptar programa?
 retirar comentários
 
 #
-Argcheck passar de ATOI a ATOL
-
-#
 Remover
 
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
+
+Valgrinds !!! 
+
+Mensagens de erro se problemas com memórias

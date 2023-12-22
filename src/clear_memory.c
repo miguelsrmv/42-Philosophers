@@ -6,7 +6,7 @@
 /*   By: mde-sa-- <mde-sa--@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/21 17:00:23 by mde-sa--          #+#    #+#             */
-/*   Updated: 2023/12/22 10:01:14 by mde-sa--         ###   ########.fr       */
+/*   Updated: 2023/12/22 20:00:47 by mde-sa--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,6 @@ void	clear_args(t_args *arg)
 
 void	clear_memory(t_args *arg)
 {
-	t_list	*current;
-	t_list	*temp;
-
 	if (arg->threads)
 		free(arg->threads);
 	if (arg->philo_state)
@@ -31,13 +28,17 @@ void	clear_memory(t_args *arg)
 		free(arg->forks);
 	if (arg->success_array)
 		free(arg->success_array);
-	current = arg->output;
-	while (current)
+	if (arg->output)
 	{
-		temp = current;
-		free(current->content);
-		current = current->next;
-		free(temp);
+		free(arg->output->content);
+		free(arg->output);
+	}
+	if (arg->head)
+		free(arg->head);
+	if (arg->end)
+	{
+		free(arg->end->content);
+		free(arg->end);
 	}
 }
 

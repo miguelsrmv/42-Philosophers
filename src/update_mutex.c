@@ -6,7 +6,7 @@
 /*   By: mde-sa-- <mde-sa--@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 11:15:02 by mde-sa--          #+#    #+#             */
-/*   Updated: 2023/12/22 18:59:03 by mde-sa--         ###   ########.fr       */
+/*   Updated: 2023/12/22 19:37:38 by mde-sa--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,26 +26,19 @@ void	update_count(int *count, pthread_mutex_t *count_mutex)
 	pthread_mutex_unlock(count_mutex);
 }
 
-int	update_philo_state(t_args *arg, int thread_id, size_t time_last_meal,
+void	update_philo_state(t_args *arg, int thread_id, size_t time_last_meal,
 	size_t epoch_time)
 {
 	pthread_mutex_lock(&arg->death_mutex);
 	if (check_death(arg, thread_id, time_last_meal, epoch_time) == DEAD)
 	{
 		pthread_mutex_unlock(&arg->death_mutex);
-		return (0);
+		return ;
 	}
 	pthread_mutex_lock(&arg->print_mutex);
-/* 	size_t	current_time = get_current_time();
-	char *message2 = (size_t_to_str(current_time));
-	char *message3 = (size_t_to_str(epoch_time));
-	write(open("write_test", O_WRONLY | O_APPEND), "Current time: ", 15);
-	write(open("write_test", O_WRONLY | O_APPEND), message2, ft_strlen(message2));
-	write(open("write_test", O_WRONLY | O_APPEND), "\n", 1);
-	write(open("write_test", O_WRONLY | O_APPEND), "Epoch time: ", 13);
-	write(open("write_test", O_WRONLY | O_APPEND), message3, ft_strlen(message3));
-	write(open("write_test", O_WRONLY | O_APPEND), "\n\n", 2); */
-	print_message(arg, thread_id, get_current_time(), epoch_time);
+	if (create_print_message(arg, thread_id, get_current_time(), epoch_time)
+		!= SUCCESS)
+		arg->death_flag++;
 	pthread_mutex_unlock(&arg->print_mutex);
 	pthread_mutex_unlock(&arg->death_mutex);
 	if (arg->philo_state[thread_id] == AVAILABLE_FOR_EATING_2_FORK_LEFT)
@@ -58,7 +51,6 @@ int	update_philo_state(t_args *arg, int thread_id, size_t time_last_meal,
 		arg->philo_state[thread_id] = THINKING;
 	else if (arg->philo_state[thread_id] == THINKING)
 		arg->philo_state[thread_id] = AVAILABLE_FOR_EATING_2_FORK_LEFT;
-	return (1);
 }
 
 enum e_PhiloState	check_death(t_args *arg, int thread_id,
@@ -76,7 +68,7 @@ enum e_PhiloState	check_death(t_args *arg, int thread_id,
 		pthread_mutex_lock(&arg->print_mutex);
 		arg->death_flag++;
 		arg->philo_state[thread_id] = DEAD;
-		print_message(arg, thread_id, get_current_time(), epoch_time);
+		create_print_message(arg, thread_id, get_current_time(), epoch_time);
 		pthread_mutex_unlock(&arg->print_mutex);
 		return_value = DEAD;
 	}
