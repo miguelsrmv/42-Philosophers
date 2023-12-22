@@ -6,7 +6,7 @@
 /*   By: mde-sa-- <mde-sa--@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 09:33:22 by mde-sa--          #+#    #+#             */
-/*   Updated: 2023/12/21 20:26:26 by mde-sa--         ###   ########.fr       */
+/*   Updated: 2023/12/22 17:17:43 by mde-sa--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,12 +52,15 @@ int	init_args(t_args *arg, int argc, char **argv)
 	arg->philo_id = -1;
 	arg->death_flag = 0;
 	arg->success_count = 0;
-	if (init_arrays(arg) == MALLOC_ERROR)
+	arg->output = NULL;
+	arg->head = NULL;
+	arg->end = NULL;
+	if (init_mem_alloc(arg) == MALLOC_ERROR)
 		return (MALLOC_ERROR);
 	return (SUCCESS);
 }
 
-int	init_arrays(t_args *arg)
+int	init_mem_alloc(t_args *arg)
 {
 	int	i;
 
@@ -65,7 +68,7 @@ int	init_arrays(t_args *arg)
 			* sizeof(int));
 	arg->philo_state = (enum e_PhiloState *)malloc(arg->number_of_philos
 			* sizeof(enum e_PhiloState));
-	arg->threads = (pthread_t *)malloc(arg->number_of_philos
+	arg->threads = (pthread_t *)malloc((arg->number_of_philos + 1)
 			* sizeof(pthread_t));
 	arg->forks = (pthread_mutex_t *)malloc((arg->number_of_philos)
 			* sizeof(pthread_mutex_t));

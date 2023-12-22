@@ -6,7 +6,7 @@
 /*   By: mde-sa-- <mde-sa--@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 09:48:10 by mde-sa--          #+#    #+#             */
-/*   Updated: 2023/12/21 23:09:05 by mde-sa--         ###   ########.fr       */
+/*   Updated: 2023/12/22 19:13:32 by mde-sa--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,43 @@ void	*routine(void *arg)
 	start_time = get_current_time();
 	if (!start_time)
 		return (NULL);
-	if (((t_args *)arg)->times_each_philosopher_must_eat >= 0)
+	if (thread_id == ((t_args *)arg)->number_of_philos)
+		printing_thread((t_args *)arg);
+	else
 		simulation_stop_at_success_or_death((t_args *)arg,
-			thread_id, start_time, start_time);
+			thread_id, start_time, ((t_args *)arg)->epoch_time);
+/* 	else if (((t_args *)arg)->times_each_philosopher_must_eat >= 0)
+		simulation_stop_at_success_or_death((t_args *)arg,
+			thread_id, start_time, ((t_args *)arg)->epoch_time);
 	else
 		simulation_stop_at_death((t_args *)arg, thread_id, start_time,
-			start_time);
+			((t_args *)arg)->epoch_time); */
 	return (NULL);
+}
+
+void	printing_thread(t_args *arg)
+{
+	char	*message;
+
+	while (1)
+	{
+		while (arg->output == NULL)
+			ft_usleep(50);
+		message = (char *)arg->output->content;
+		if (message != NULL)
+		{
+/* 			write(open("list_test", O_WRONLY | O_APPEND), message, ft_strlen(message)); */
+			write(STDOUT_FILENO, message, ft_strlen(message));
+			arg->head = arg->output;
+			arg->output = arg->output->next;
+			free(message);
+		}
+		ft_usleep(10);
+		if ((arg->death_flag || arg->success_count == arg->number_of_philos)
+			&& !arg->head->next)
+			break ;
+		free(arg->head);
+	}
 }
 
 // Rever caso de sucesso, são TODOS os filósofos que têem que comer X vezes!

@@ -6,7 +6,7 @@
 /*   By: mde-sa-- <mde-sa--@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 11:53:07 by mde-sa--          #+#    #+#             */
-/*   Updated: 2023/12/21 22:26:49 by mde-sa--         ###   ########.fr       */
+/*   Updated: 2023/12/22 19:04:06 by mde-sa--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,15 +18,15 @@ void	print_message(t_args *arg, int thread_id,
 	char	*message;
 
 	if (arg->death_flag && arg->philo_state[thread_id] != DEAD)
-	{
-		pthread_mutex_unlock(&arg->print_mutex);
 		return ;
-	}
 	message = get_full_philo_message(arg, thread_id, current_time, epoch_time);
-	//message = ft_strjoin(ft_itoa(current_time - epoch_time), "\n"); Gets timestamps only
-	write(STDOUT_FILENO, message, ft_strlen(message));
-	free(message);
-	pthread_mutex_unlock(&arg->print_mutex);
+	if (!message)
+		 // Que erro por neste caso??? Igual a add_to_buffered_output?
+		return ;
+/* 	char *message2 = ft_strjoin(ft_itoa(current_time - epoch_time), "\n");
+	write(open("list_test", O_WRONLY | O_APPEND), message2, ft_strlen(message2));		// Log check */
+	add_to_buffered_output(arg, message);
+
 }
 
 char	*get_full_philo_message(t_args *arg, int thread_id,
@@ -103,8 +103,8 @@ char	*concatenate_str_with_space(char *left_string, char *right_string)
 	char	*left_message;
 	char	*result;
 
-	//left_message = ft_strjoin(left_string, " ");
-	left_message = ft_strjoin(left_string, "\t");
+	left_message = ft_strjoin(left_string, " ");
+	//left_message = ft_strjoin(left_string, "\t");
 	if (!left_message)
 		return (NULL);
 	result = ft_strjoin(left_message, right_string);

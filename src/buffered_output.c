@@ -1,46 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   thread_management.c                                :+:      :+:    :+:   */
+/*   buffered_output.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mde-sa-- <mde-sa--@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/03 11:29:17 by mde-sa--          #+#    #+#             */
-/*   Updated: 2023/12/22 18:48:55 by mde-sa--         ###   ########.fr       */
+/*   Created: 2023/12/22 09:41:26 by mde-sa--          #+#    #+#             */
+/*   Updated: 2023/12/22 18:01:25 by mde-sa--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-int	create_threads(t_args *arg)
+enum e_ErrorCode	add_to_buffered_output(t_args *arg, char *string)
 {
-	int	i;
+	t_list	*new_node;
 
-	arg->epoch_time = get_current_time();
-	i = 0;
-	while (i <= arg->number_of_philos)
+	new_node = ft_lstnew((void *)string);
+	// Introduzir solução de erro aqui. Talvez por dead para parar o programa.
+	if (!new_node)
+		return (MALLOC_ERROR);
+	if (!arg->output)
 	{
-		if (pthread_create(&(arg->threads[i++]), NULL, &routine, arg) != 0)
-		{
-			clear_args(arg);
-			return (THREAD_ERROR);
-		}
+		arg->output = new_node;
+		arg->end = arg->output;
 	}
-	return (SUCCESS);
-}
-
-int	join_threads(t_args *arg)
-{
-	int	i;
-
-	i = 0;
-	while (i <= arg->number_of_philos)
+	else
 	{
-		if (pthread_join(arg->threads[i++], NULL) != 0)
-		{
-			clear_args(arg);
-			return (THREAD_ERROR);
-		}
+		arg->end->next = new_node;
+		arg->end = arg->end->next;
 	}
 	return (SUCCESS);
 }

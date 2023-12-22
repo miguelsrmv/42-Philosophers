@@ -6,7 +6,7 @@
 /*   By: mde-sa-- <mde-sa--@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 15:58:36 by mde-sa--          #+#    #+#             */
-/*   Updated: 2023/12/21 17:09:41 by mde-sa--         ###   ########.fr       */
+/*   Updated: 2023/12/22 11:46:07 by mde-sa--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ int	main(int argc, char **argv)
 		return (THREAD_ERROR);
 	if (join_threads(&arg) == THREAD_ERROR)
 		return (THREAD_ERROR);
+//	print_output(&arg);
 	clear_args(&arg);
 	return (SUCCESS);
 }

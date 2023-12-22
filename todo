@@ -10,3 +10,10 @@ retirar comentários
 
 #
 Argcheck passar de ATOI a ATOL
+
+#
+Remover
+
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>

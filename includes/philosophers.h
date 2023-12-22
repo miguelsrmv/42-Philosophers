@@ -6,7 +6,7 @@
 /*   By: mde-sa-- <mde-sa--@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 15:59:16 by mde-sa--          #+#    #+#             */
-/*   Updated: 2023/12/21 22:52:52 by mde-sa--         ###   ########.fr       */
+/*   Updated: 2023/12/22 18:50:51 by mde-sa--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,9 @@
 # include <stdio.h>
 # include <pthread.h>
 # include <sys/time.h>
+# include <sys/types.h>
+# include <sys/stat.h>
+# include <fcntl.h>
 
 // Error Codes
 enum e_ErrorCode {
@@ -37,9 +40,9 @@ enum e_PhiloState {
 	EATING,
 	THINKING,
 	SLEEPING,
-	DEAD
+	DEAD,
+	ALIVE
 };
-
 
 // Error Messages
 # define ARG_MESSAGE "Usage: ./philo [number_of_philosophers] [time_to_die] \
@@ -59,6 +62,8 @@ typedef struct s_args {
 
 	pthread_mutex_t		print_mutex;
 
+	size_t				epoch_time;
+
 	int					*success_array;
 	int					success_count;
 	pthread_mutex_t		success_count_mutex;
@@ -73,7 +78,9 @@ typedef struct s_args {
 
 	pthread_mutex_t		*forks;
 
-
+	t_list				*output;
+	t_list				*head;
+	t_list				*end;
 
 }	t_args;
 
@@ -84,7 +91,7 @@ int					main(int argc, char **argv);
 /// arg_check.c
 int					check_args(int argc, char **argv);
 int					init_args(t_args *arg, int argc, char **argv);
-int					init_arrays(t_args *arg);
+int					init_mem_alloc(t_args *arg);
 int					init_mutexes(t_args *arg);
 
 
@@ -103,6 +110,7 @@ void				simulation_stop_at_success_or_death(t_args *arg,
 						int thread_id, size_t start_time, size_t epoch_time);
 void				simulation_stop_at_death(t_args *arg,
 						int thread_id, size_t start_time, size_t epoch_time);
+void				printing_thread(t_args *arg);
 
 /// eat_think_sleep.c
 void				eat_routine(t_args *arg, int thread_id,
@@ -121,14 +129,13 @@ void				update_success(t_args *arg, int thread_id);
 void				update_count(int *count, pthread_mutex_t *count_mutex);
 int					update_philo_state(t_args *arg, int thread_id,
 						size_t time_last_meal, size_t epoch_time);
-int					check_death(t_args *arg, int thread_id,
+enum e_PhiloState	check_death(t_args *arg, int thread_id,
 						size_t time_last_meal, size_t epoch_time);
 
 /// time_functions.c
 size_t				get_current_time(void);
 size_t				get_time_diff(size_t start_time, size_t end_time);
 int					ft_usleep(size_t milliseconds);
-/* int					get_timestamp(t_args *arg); */
 
 /// print_message.c
 void				print_message(t_args *arg, int thread_id,
@@ -141,6 +148,11 @@ char				*right_side_of_str(t_args *arg,
 						int thread_id);
 char				*concatenate_str_with_space(char *left_string,
 						char *right_string);
+
+/// buffered_output.c
+enum e_ErrorCode	add_to_buffered_output(t_args *arg, char *string);
+void				print_output(t_args *arg);
+
 
 /// helper_functions.c
 void				print_args(t_args *arg);
