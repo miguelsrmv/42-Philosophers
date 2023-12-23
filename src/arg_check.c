@@ -6,7 +6,7 @@
 /*   By: mde-sa-- <mde-sa--@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 09:33:22 by mde-sa--          #+#    #+#             */
-/*   Updated: 2023/12/22 17:17:43 by mde-sa--         ###   ########.fr       */
+/*   Updated: 2023/12/23 17:48:26 by mde-sa--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,8 @@ int	init_mutexes(t_args *arg)
 	if (pthread_mutex_init(&(arg->death_mutex), NULL))
 		return_value = MUTEX_ERROR;
 	if (pthread_mutex_init(&(arg->philo_id_mutex), NULL))
+		return_value = MUTEX_ERROR;
+	if (pthread_mutex_init(&(arg->linked_list_mutex), NULL))
 		return_value = MUTEX_ERROR;
 	i = 0;
 	while (i < arg->number_of_philos)

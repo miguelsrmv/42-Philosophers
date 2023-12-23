@@ -6,7 +6,7 @@
 /*   By: mde-sa-- <mde-sa--@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 09:48:10 by mde-sa--          #+#    #+#             */
-/*   Updated: 2023/12/22 19:23:48 by mde-sa--         ###   ########.fr       */
+/*   Updated: 2023/12/23 19:13:50 by mde-sa--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ void	*routine(void *arg)
 
 	pthread_mutex_lock(&(((t_args *)arg)->philo_id_mutex));
 	(((t_args *)arg)->philo_id)++;
-	pthread_mutex_unlock(&(((t_args *)arg)->philo_id_mutex));
 	thread_id = (((t_args *)arg)->philo_id);
+	pthread_mutex_unlock(&(((t_args *)arg)->philo_id_mutex));
 	start_time = get_current_time();
 	if (!start_time)
 		return (NULL);
@@ -32,27 +32,43 @@ void	*routine(void *arg)
 	return (NULL);
 }
 
-void	printing_thread(t_args *arg)
+void	wait_for_print_buffer(t_args *arg, t_list **print)
 {
-	char	*message;
-
+	ft_usleep(500);
 	while (1)
 	{
-		while (arg->output == NULL)
-			ft_usleep(50);
-		message = (char *)arg->output->content;
-		if (message != NULL)
+		pthread_mutex_lock(&arg->linked_list_mutex);
+		if (arg->output == NULL || arg->output->next == NULL)
 		{
-			write(STDOUT_FILENO, message, ft_strlen(message));
-			arg->head = arg->output;
-			arg->output = arg->output->next;
-			free(message);
+			pthread_mutex_unlock(&arg->linked_list_mutex);
+			ft_usleep(500);
 		}
-		ft_usleep(10);
-		if ((arg->death_flag || arg->success_count == arg->number_of_philos)
-			&& !arg->head->next)
+		else
+		{
+			*print = arg->output;
+			pthread_mutex_unlock(&arg->linked_list_mutex);
 			break ;
-		free(arg->head);
+		}
+	}
+}
+
+void	printing_thread(t_args *arg)
+{
+	t_list	*print;
+
+	wait_for_print_buffer(arg, &print);
+	while (print)
+	{
+		pthread_mutex_lock(&arg->linked_list_mutex);
+		write(STDOUT_FILENO, print->content, ft_strlen(print->content));
+		pthread_mutex_unlock(&arg->linked_list_mutex);
+		if (check_end_of_simulation(arg) == STOP_SIMULATION
+			&& !print->next)
+			break ;
+		ft_usleep(100);
+		pthread_mutex_lock(&arg->linked_list_mutex);
+		print = print->next;
+		pthread_mutex_unlock(&arg->linked_list_mutex);
 	}
 }
 
@@ -61,20 +77,34 @@ void	simulation(t_args *arg, int thread_id,
 {
 	while (1)
 	{
-		if (!(arg->death_flag))
+		if (check_end_of_simulation(arg) == CONTINUE)
 		{
 			eat_routine(arg, thread_id, start_time, epoch_time);
 			start_time = get_current_time();
 			update_success(arg, thread_id);
-			if (arg->success_count == arg->number_of_philos)
-				return ;
 		}
-		if (!(arg->death_flag))
+		if (check_end_of_simulation(arg) == CONTINUE)
 			sleep_routine(arg, thread_id, start_time, epoch_time);
-		if (!(arg->death_flag))
+		if (check_end_of_simulation(arg) == CONTINUE)
 			think_routine(arg, thread_id, start_time, epoch_time);
 		else
 			break ;
 	}
 	return ;
+}
+
+enum e_SimState	check_end_of_simulation(t_args *arg)
+{
+	int	simulation_state;
+
+	simulation_state = CONTINUE;
+	pthread_mutex_lock(&arg->death_mutex);
+	if (arg->death_flag)
+		simulation_state = STOP_SIMULATION;
+	pthread_mutex_unlock(&arg->death_mutex);
+	pthread_mutex_lock(&arg->success_count_mutex);
+	if (arg->success_count == arg->number_of_philos)
+		simulation_state = STOP_SIMULATION;
+	pthread_mutex_unlock(&arg->success_count_mutex);
+	return (simulation_state);
 }

@@ -6,7 +6,7 @@
 /*   By: mde-sa-- <mde-sa--@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 15:59:16 by mde-sa--          #+#    #+#             */
-/*   Updated: 2023/12/22 19:37:54 by mde-sa--         ###   ########.fr       */
+/*   Updated: 2023/12/23 18:29:35 by mde-sa--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,6 @@
 # include <stdio.h>
 # include <pthread.h>
 # include <sys/time.h>
-# include <sys/types.h>
-# include <sys/stat.h>
-# include <fcntl.h>
 
 // Error Codes
 enum e_ErrorCode {
@@ -30,6 +27,12 @@ enum e_ErrorCode {
 	MUTEX_ERROR,
 	MALLOC_ERROR,
 	THREAD_ERROR
+};
+
+// State of simulation
+enum e_SimState {
+	CONTINUE,
+	STOP_SIMULATION
 };
 
 // Philosopher States
@@ -82,6 +85,8 @@ typedef struct s_args {
 	t_list				*head;
 	t_list				*end;
 
+	pthread_mutex_t		linked_list_mutex;
+
 }	t_args;
 
 // Function declarations
@@ -93,7 +98,6 @@ int					check_args(int argc, char **argv);
 int					init_args(t_args *arg, int argc, char **argv);
 int					init_mem_alloc(t_args *arg);
 int					init_mutexes(t_args *arg);
-
 
 /// clean_memory.c
 void				clear_args(t_args *arg);
@@ -109,6 +113,8 @@ void				*routine(void *arg);
 void				simulation(t_args *arg, int thread_id, size_t start_time,
 						size_t epoch_time);
 void				printing_thread(t_args *arg);
+enum e_SimState		check_end_of_simulation(t_args *arg);
+void				wait_for_print_buffer(t_args *arg, t_list **print);
 
 /// eat_think_sleep.c
 void				eat_routine(t_args *arg, int thread_id,
@@ -142,15 +148,13 @@ char				*get_full_philo_message(t_args *arg, int thread_id,
 						size_t current_time, size_t epoch_time);
 char				*left_side_of_str(int thread_id, size_t current_time,
 						size_t epoch_time);
-char				*right_side_of_str(t_args *arg,
-						int thread_id);
+char				*right_side_of_str(t_args *arg, int thread_id);
 char				*concatenate_str_with_space(char *left_string,
 						char *right_string);
 
 /// buffered_output.c
 enum e_ErrorCode	add_to_buffered_output(t_args *arg, char *string);
 void				print_output(t_args *arg);
-
 
 /// helper_functions.c
 void				print_args(t_args *arg);

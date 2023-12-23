@@ -6,7 +6,7 @@
 /*   By: mde-sa-- <mde-sa--@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 11:53:07 by mde-sa--          #+#    #+#             */
-/*   Updated: 2023/12/22 19:34:43 by mde-sa--         ###   ########.fr       */
+/*   Updated: 2023/12/23 18:48:02 by mde-sa--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,8 +91,6 @@ char	*right_side_of_str(t_args *arg, int thread_id)
 		result = ft_strdup("is thinking\n");
 	else if (arg->philo_state[thread_id] == DEAD)
 		result = ft_strdup("died\n");
-	if (!result)
-		return (NULL);
 	return (result);
 }
 
@@ -102,7 +100,6 @@ char	*concatenate_str_with_space(char *left_string, char *right_string)
 	char	*result;
 
 	left_message = ft_strjoin(left_string, " ");
-	//left_message = ft_strjoin(left_string, "\t");
 	if (!left_message)
 		return (NULL);
 	result = ft_strjoin(left_message, right_string);
