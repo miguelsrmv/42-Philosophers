@@ -6,7 +6,7 @@
 /*   By: mde-sa-- <mde-sa--@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/21 17:00:23 by mde-sa--          #+#    #+#             */
-/*   Updated: 2023/12/23 19:09:29 by mde-sa--         ###   ########.fr       */
+/*   Updated: 2023/12/29 19:00:55 by mde-sa--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ void	clear_memory(t_args *arg)
 		free(arg->forks);
 	if (arg->success_array)
 		free(arg->success_array);
+	if (arg->fork_status)
+		free(arg->fork_status);
 	while (arg->head)
 	{
 		temp = arg->head;
@@ -51,5 +53,8 @@ void	clear_mutexes(t_args *arg)
 	pthread_mutex_destroy(&arg->linked_list_mutex);
 	i = 0;
 	while (i < arg->number_of_philos)
+	{
+		pthread_mutex_destroy(&arg->fork_status_mutex[i]);
 		pthread_mutex_destroy(&arg->forks[i++]);
+	}
 }

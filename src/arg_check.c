@@ -6,7 +6,7 @@
 /*   By: mde-sa-- <mde-sa--@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 09:33:22 by mde-sa--          #+#    #+#             */
-/*   Updated: 2023/12/23 17:48:26 by mde-sa--         ###   ########.fr       */
+/*   Updated: 2023/12/29 22:34:08 by mde-sa--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,6 @@ int	init_args(t_args *arg, int argc, char **argv)
 
 int	init_mem_alloc(t_args *arg)
 {
-	int	i;
-
 	arg->success_array = (int *)malloc(arg->number_of_philos
 			* sizeof(int));
 	arg->philo_state = (enum e_PhiloState *)malloc(arg->number_of_philos
@@ -72,19 +70,31 @@ int	init_mem_alloc(t_args *arg)
 			* sizeof(pthread_t));
 	arg->forks = (pthread_mutex_t *)malloc((arg->number_of_philos)
 			* sizeof(pthread_mutex_t));
+	arg->fork_status = (enum e_ForkStatus *)malloc(arg->number_of_philos
+			* sizeof(enum e_ForkStatus));
+	arg->fork_status_mutex = (pthread_mutex_t *)malloc(arg->number_of_philos
+			* sizeof(pthread_mutex_t));
 	if (!arg->success_array || !arg->philo_state || !arg->threads
-		|| !arg->forks)
+		|| !arg->forks || !arg->fork_status || !arg->fork_status_mutex)
 	{
 		clear_memory(arg);
 		return (MALLOC_ERROR);
 	}
+	fill_in_args_arrays(arg);
+	return (SUCCESS);
+}
+
+void	fill_in_args_arrays(t_args *arg)
+{
+	int	i;
+
 	i = 0;
 	while (i < arg->number_of_philos)
 	{
 		arg->success_array[i] = arg->times_each_philosopher_must_eat;
+		arg->fork_status[i] = AVAILABLE;
 		arg->philo_state[i++] = AVAILABLE_FOR_EATING_2_FORK_LEFT;
 	}
-	return (SUCCESS);
 }
 
 int	init_mutexes(t_args *arg)
@@ -106,7 +116,9 @@ int	init_mutexes(t_args *arg)
 	i = 0;
 	while (i < arg->number_of_philos)
 	{
-		if (pthread_mutex_init(&arg->forks[i++], NULL))
+		if (pthread_mutex_init(&arg->forks[i], NULL))
+			return_value = MUTEX_ERROR;
+		if (pthread_mutex_init(&arg->fork_status_mutex[i++], NULL))
 			return_value = MUTEX_ERROR;
 	}
 	if (return_value == MUTEX_ERROR)

@@ -6,7 +6,7 @@
 /*   By: mde-sa-- <mde-sa--@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 11:08:23 by mde-sa--          #+#    #+#             */
-/*   Updated: 2023/12/23 18:34:14 by mde-sa--         ###   ########.fr       */
+/*   Updated: 2023/12/29 22:26:01 by mde-sa--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ void	eat_routine(t_args *arg, int thread_id,
 	if (arg->number_of_philos > 1)
 	{
 		ft_usleep(arg->time_to_eat);
-		update_philo_state(arg, thread_id, get_current_time(), epoch_time);
 		pthread_mutex_unlock
 			(&arg->forks[(thread_id + 1) % arg->number_of_philos]);
 	}
@@ -38,19 +37,46 @@ void	eat_routine(t_args *arg, int thread_id,
 void	take_left_fork(t_args *arg, int thread_id,
 			size_t time_last_meal, size_t epoch_time)
 {
-	pthread_mutex_lock(&arg->forks[thread_id]);
+	while (1)
+	{
+		if (check_fork_availability(arg, thread_id) == AVAILABLE)
+		{
+			pthread_mutex_lock(&arg->forks[thread_id]);
+			break ;
+		}
+		if (check_death(arg, thread_id, time_last_meal, epoch_time) == DEAD)
+			return ;
+	}
 	update_philo_state(arg, thread_id, time_last_meal, epoch_time);
+	update_fork_availability(&arg, thread_id);
 }
 
 void	take_right_fork(t_args *arg, int thread_id,
 			size_t time_last_meal, size_t epoch_time)
 {
 	if (arg->number_of_philos == 1)
+	{
 		ft_usleep(arg->time_to_die);
+		check_death(arg, thread_id, time_last_meal, epoch_time);
+		return ;
+	}
 	else
-		pthread_mutex_lock
-			(&arg->forks[((thread_id + 1) % arg->number_of_philos)]);
+	{
+		while (1)
+		{
+			if (check_fork_availability(arg,
+					((thread_id + 1) % arg->number_of_philos)) == AVAILABLE)
+			{
+				pthread_mutex_lock
+					(&arg->forks[((thread_id + 1) % arg->number_of_philos)]);
+				break ;
+			}
+			if (check_death(arg, thread_id, time_last_meal, epoch_time) == DEAD)
+				return ;
+		}
+	}
 	update_philo_state(arg, thread_id, time_last_meal, epoch_time);
+	update_fork_availability(&arg, thread_id);
 }
 
 void	sleep_routine(t_args *arg, int thread_id,
@@ -58,6 +84,11 @@ void	sleep_routine(t_args *arg, int thread_id,
 {
 	size_t	remaining_time;
 
+	update_fork_availability(&arg, thread_id);
+	update_fork_availability(&arg,
+		((thread_id + 1) % arg->number_of_philos));
+	if (check_death(arg, thread_id, time_last_meal, epoch_time) == DEAD)
+		return ;
 	update_philo_state(arg, thread_id, time_last_meal, epoch_time);
 	remaining_time = arg->time_to_die - (get_current_time() - time_last_meal);
 	if (arg->time_to_sleep < remaining_time)
@@ -69,5 +100,7 @@ void	sleep_routine(t_args *arg, int thread_id,
 void	think_routine(t_args *arg, int thread_id,
 	size_t time_last_meal, size_t epoch_time)
 {
+	if (check_death(arg, thread_id, time_last_meal, epoch_time) == DEAD)
+		return ;
 	update_philo_state(arg, thread_id, time_last_meal, epoch_time);
 }

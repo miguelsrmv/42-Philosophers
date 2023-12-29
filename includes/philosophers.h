@@ -6,7 +6,7 @@
 /*   By: mde-sa-- <mde-sa--@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 15:59:16 by mde-sa--          #+#    #+#             */
-/*   Updated: 2023/12/23 18:29:35 by mde-sa--         ###   ########.fr       */
+/*   Updated: 2023/12/29 22:33:50 by mde-sa--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,11 @@ enum e_PhiloState {
 	ALIVE
 };
 
+enum e_ForkStatus {
+	AVAILABLE,
+	TAKEN
+};
+
 // Error Messages
 # define ARG_MESSAGE "Usage: ./philo [number_of_philosophers] [time_to_die] \
 [time_to_eat] [time_to_sleep] [number_of_times_each_philosopher_must_eat] \
@@ -79,6 +84,9 @@ typedef struct s_args {
 	pthread_t			*threads;
 	pthread_mutex_t		philo_id_mutex;
 
+	enum e_ForkStatus	*fork_status;
+	pthread_mutex_t		*fork_status_mutex;
+
 	pthread_mutex_t		*forks;
 
 	t_list				*output;
@@ -97,6 +105,7 @@ int					main(int argc, char **argv);
 int					check_args(int argc, char **argv);
 int					init_args(t_args *arg, int argc, char **argv);
 int					init_mem_alloc(t_args *arg);
+void				fill_in_args_arrays(t_args *arg);
 int					init_mutexes(t_args *arg);
 
 /// clean_memory.c
@@ -136,6 +145,10 @@ void				update_philo_state(t_args *arg, int thread_id,
 enum e_PhiloState	check_death(t_args *arg, int thread_id,
 						size_t time_last_meal, size_t epoch_time);
 
+/// update_forks.c
+enum e_ForkStatus	check_fork_availability(t_args *arg, int fork_position);
+void				update_fork_availability(t_args **arg, int fork_position);
+
 /// time_functions.c
 size_t				get_current_time(void);
 size_t				get_time_diff(size_t start_time, size_t end_time);
@@ -156,11 +169,7 @@ char				*concatenate_str_with_space(char *left_string,
 enum e_ErrorCode	add_to_buffered_output(t_args *arg, char *string);
 void				print_output(t_args *arg);
 
-/// helper_functions.c
-void				print_args(t_args *arg);
-void				print_message_helper(t_args *arg, int thread_id,
-						char *message);
-void				print_state(t_args *arg, int thread_id);
-char				*size_t_to_str(size_t value);
+/* void				print_help(t_args *arg, int thread_id, int epoch_time,
+						char *string); */
 
 #endif

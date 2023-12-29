@@ -6,7 +6,7 @@
 /*   By: mde-sa-- <mde-sa--@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 11:15:02 by mde-sa--          #+#    #+#             */
-/*   Updated: 2023/12/23 19:00:44 by mde-sa--         ###   ########.fr       */
+/*   Updated: 2023/12/29 22:34:23 by mde-sa--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,17 +29,16 @@ void	update_count(int *count, pthread_mutex_t *count_mutex)
 void	update_philo_state(t_args *arg, int thread_id, size_t time_last_meal,
 	size_t epoch_time)
 {
+	(void)time_last_meal;
+	(void)epoch_time;
 	pthread_mutex_lock(&arg->death_mutex);
-	if (check_death(arg, thread_id, time_last_meal, epoch_time) == DEAD)
+	if (create_print_message(arg, thread_id, get_current_time(), epoch_time)
+		!= SUCCESS)
 	{
+		arg->death_flag++;
 		pthread_mutex_unlock(&arg->death_mutex);
 		return ;
 	}
-	pthread_mutex_lock(&arg->print_mutex);
-	if (create_print_message(arg, thread_id, get_current_time(), epoch_time)
-		!= SUCCESS)
-		arg->death_flag++;
-	pthread_mutex_unlock(&arg->print_mutex);
 	pthread_mutex_unlock(&arg->death_mutex);
 	if (arg->philo_state[thread_id] == AVAILABLE_FOR_EATING_2_FORK_LEFT)
 		arg->philo_state[thread_id] = AVAILABLE_FOR_EATING_1_FORK_LEFT;
@@ -61,16 +60,17 @@ enum e_PhiloState	check_death(t_args *arg, int thread_id,
 
 	return_value = ALIVE;
 	current_time = get_current_time();
+	pthread_mutex_lock(&arg->death_mutex);
 	if (arg->death_flag)
 		return_value = DEAD;
 	else if (get_time_diff(time_last_meal, current_time) >= arg->time_to_die)
 	{
-		pthread_mutex_lock(&arg->print_mutex);
 		arg->death_flag++;
 		arg->philo_state[thread_id] = DEAD;
 		create_print_message(arg, thread_id, get_current_time(), epoch_time);
-		pthread_mutex_unlock(&arg->print_mutex);
 		return_value = DEAD;
 	}
+	pthread_mutex_unlock(&arg->death_mutex);
 	return (return_value);
+	(void)epoch_time;
 }

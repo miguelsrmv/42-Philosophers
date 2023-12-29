@@ -6,7 +6,7 @@
 /*   By: mde-sa-- <mde-sa--@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 10:37:15 by mde-sa--          #+#    #+#             */
-/*   Updated: 2023/12/21 20:03:15 by mde-sa--         ###   ########.fr       */
+/*   Updated: 2023/12/29 18:00:37 by mde-sa--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ size_t	get_current_time(void)
 		write(2, "gettimeofday() error\n", 22);
 		return (0);
 	}
-	return (time.tv_sec * 1000 + time.tv_usec / 1000);
+	return ((size_t)time.tv_sec * 1000 + (size_t)time.tv_usec / 1000);
 }
 
 size_t	get_time_diff(size_t start_time, size_t end_time)

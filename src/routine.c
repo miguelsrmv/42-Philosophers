@@ -6,7 +6,7 @@
 /*   By: mde-sa-- <mde-sa--@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 09:48:10 by mde-sa--          #+#    #+#             */
-/*   Updated: 2023/12/23 19:13:50 by mde-sa--         ###   ########.fr       */
+/*   Updated: 2023/12/29 20:00:49 by mde-sa--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	*routine(void *arg)
 
 void	wait_for_print_buffer(t_args *arg, t_list **print)
 {
-	ft_usleep(500);
+	ft_usleep(10);
 	while (1)
 	{
 		pthread_mutex_lock(&arg->linked_list_mutex);
