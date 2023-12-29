@@ -6,7 +6,7 @@
 /*   By: mde-sa-- <mde-sa--@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 11:08:23 by mde-sa--          #+#    #+#             */
-/*   Updated: 2023/12/29 22:26:01 by mde-sa--         ###   ########.fr       */
+/*   Updated: 2023/12/29 22:52:58 by mde-sa--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,18 +19,22 @@ void	eat_routine(t_args *arg, int thread_id,
 	{
 		take_left_fork(arg, thread_id, time_last_meal, epoch_time);
 		take_right_fork(arg, thread_id, time_last_meal, epoch_time);
+		if (check_death(arg, thread_id, time_last_meal, epoch_time) == DEAD)
+			pthread_mutex_unlock(&arg->forks[thread_id]);
 	}
 	else
 	{
 		take_right_fork(arg, thread_id, time_last_meal, epoch_time);
 		take_left_fork(arg, thread_id, time_last_meal, epoch_time);
+		if (check_death(arg, thread_id, time_last_meal, epoch_time) == DEAD)
+			pthread_mutex_unlock(&arg->forks[(thread_id + 1)
+				% arg->number_of_philos]);
 	}
-	if (arg->number_of_philos > 1)
-	{
-		ft_usleep(arg->time_to_eat);
-		pthread_mutex_unlock
-			(&arg->forks[(thread_id + 1) % arg->number_of_philos]);
-	}
+	if (check_death(arg, thread_id, time_last_meal, epoch_time) == DEAD)
+		return ;
+	ft_usleep(arg->time_to_eat);
+	pthread_mutex_unlock
+		(&arg->forks[(thread_id + 1) % arg->number_of_philos]);
 	pthread_mutex_unlock(&arg->forks[thread_id]);
 }
 
