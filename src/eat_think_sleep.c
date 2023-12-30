@@ -6,7 +6,7 @@
 /*   By: mde-sa-- <mde-sa--@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 11:08:23 by mde-sa--          #+#    #+#             */
-/*   Updated: 2023/12/30 19:45:59 by mde-sa--         ###   ########.fr       */
+/*   Updated: 2023/12/30 19:59:53 by mde-sa--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,5 +83,6 @@ void	think_routine(t_args *arg, int thread_id,
 	if (check_death(arg, thread_id, time_last_meal, epoch_time) == DEAD)
 		return ;
 	update_philo_state(arg, thread_id, time_last_meal, epoch_time);
-	ft_usleep(5);
+	if (thread_id % 2 == 0)
+		ft_usleep(2);
 }
