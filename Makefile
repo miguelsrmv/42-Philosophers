@@ -6,7 +6,7 @@
 #    By: mde-sa-- <mde-sa--@student.42porto.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/23 09:55:46 by mde-sa--          #+#    #+#              #
-#    Updated: 2023/12/29 19:08:27 by mde-sa--         ###   ########.fr        #
+#    Updated: 2023/12/30 19:50:42 by mde-sa--         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,9 +26,9 @@ LIBS	=   -L$(LIBFTDIR) -lft
 
 INCFLAGS =  -I $(INCDIR) -I $(LIBFTDIR)
 
-SRC		=	main.c arg_check.c thread_management.c time_functions.c routine.c \
-			eat_think_sleep.c update_mutex.c update_forks.c print_message.c \
-			buffered_output.c clear_memory.c helper_functions.c
+SRC		=	main.c arg_check.c arg_init.c thread_management.c time_functions.c \
+			routine.c update_forks.c eat_think_sleep.c update_mutex.c \
+			print_message.c buffered_output.c clear_memory.c
 
 OBJS	= 	$(addprefix $(SRCDIR)/, $(SRC:.c=.o))
 

@@ -6,7 +6,7 @@
 /*   By: mde-sa-- <mde-sa--@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 15:59:16 by mde-sa--          #+#    #+#             */
-/*   Updated: 2023/12/29 22:33:50 by mde-sa--         ###   ########.fr       */
+/*   Updated: 2023/12/30 19:50:51 by mde-sa--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,6 @@ typedef struct s_args {
 	size_t				time_to_sleep;
 	int					times_each_philosopher_must_eat;
 
-	pthread_mutex_t		print_mutex;
-
 	size_t				epoch_time;
 
 	int					*success_array;
@@ -85,16 +83,22 @@ typedef struct s_args {
 	pthread_mutex_t		philo_id_mutex;
 
 	enum e_ForkStatus	*fork_status;
+	int					*fork_holder;
 	pthread_mutex_t		*fork_status_mutex;
 
 	pthread_mutex_t		*forks;
 
 	t_list				*output;
-	t_list				*head;
-	t_list				*end;
-
+	t_list				*output_head;
+	t_list				*output_end;
 	pthread_mutex_t		linked_list_mutex;
 
+	t_list				*next_to_eat;
+	t_list				*next_to_eat_head;
+	t_list				*next_to_eat_end;
+	pthread_mutex_t		next_to_eat_mutex;
+
+	pthread_mutex_t		cleanup_mutex;
 }	t_args;
 
 // Function declarations
@@ -103,6 +107,8 @@ int					main(int argc, char **argv);
 
 /// arg_check.c
 int					check_args(int argc, char **argv);
+
+/// arg_init.c
 int					init_args(t_args *arg, int argc, char **argv);
 int					init_mem_alloc(t_args *arg);
 void				fill_in_args_arrays(t_args *arg);
@@ -110,8 +116,9 @@ int					init_mutexes(t_args *arg);
 
 /// clean_memory.c
 void				clear_args(t_args *arg);
-void				clear_memory(t_args *arg);
+void				clear_mallocs(t_args *arg);
 void				clear_mutexes(t_args *arg);
+void				clear_linkedlists(t_args *arg);
 
 /// thread_management.c
 int					create_threads(t_args *arg);
@@ -125,12 +132,19 @@ void				printing_thread(t_args *arg);
 enum e_SimState		check_end_of_simulation(t_args *arg);
 void				wait_for_print_buffer(t_args *arg, t_list **print);
 
-/// eat_think_sleep.c
-void				eat_routine(t_args *arg, int thread_id,
-						size_t time_last_meal, size_t start_time);
+/// update_forks.c
 void				take_left_fork(t_args *arg, int thread_id,
 						size_t time_last_meal, size_t start_time);
 void				take_right_fork(t_args *arg, int thread_id,
+						size_t time_last_meal, size_t start_time);
+enum e_ForkStatus	check_fork(t_args *arg, int fork_position);
+void				update_fork(t_args **arg, int fork_position, int thread_id);
+void				cleanup_forks(t_args *arg, int thread_id);
+
+/// eat_think_sleep.c
+void				take_forks(t_args *arg, int thread_id,
+						size_t time_last_meal, size_t epoch_time);
+void				eat_routine(t_args *arg, int thread_id,
 						size_t time_last_meal, size_t start_time);
 void				sleep_routine(t_args *arg, int thread_id,
 						size_t time_last_meal, size_t start_time);
@@ -144,10 +158,6 @@ void				update_philo_state(t_args *arg, int thread_id,
 						size_t time_last_meal, size_t epoch_time);
 enum e_PhiloState	check_death(t_args *arg, int thread_id,
 						size_t time_last_meal, size_t epoch_time);
-
-/// update_forks.c
-enum e_ForkStatus	check_fork_availability(t_args *arg, int fork_position);
-void				update_fork_availability(t_args **arg, int fork_position);
 
 /// time_functions.c
 size_t				get_current_time(void);
@@ -168,8 +178,5 @@ char				*concatenate_str_with_space(char *left_string,
 /// buffered_output.c
 enum e_ErrorCode	add_to_buffered_output(t_args *arg, char *string);
 void				print_output(t_args *arg);
-
-/* void				print_help(t_args *arg, int thread_id, int epoch_time,
-						char *string); */
 
 #endif

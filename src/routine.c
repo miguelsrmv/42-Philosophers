@@ -6,7 +6,7 @@
 /*   By: mde-sa-- <mde-sa--@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 09:48:10 by mde-sa--          #+#    #+#             */
-/*   Updated: 2023/12/29 20:00:49 by mde-sa--         ###   ########.fr       */
+/*   Updated: 2023/12/30 19:37:56 by mde-sa--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	wait_for_print_buffer(t_args *arg, t_list **print)
 		if (arg->output == NULL || arg->output->next == NULL)
 		{
 			pthread_mutex_unlock(&arg->linked_list_mutex);
-			ft_usleep(500);
+			ft_usleep(100);
 		}
 		else
 		{
@@ -65,7 +65,7 @@ void	printing_thread(t_args *arg)
 		if (check_end_of_simulation(arg) == STOP_SIMULATION
 			&& !print->next)
 			break ;
-		ft_usleep(100);
+		ft_usleep(50);
 		pthread_mutex_lock(&arg->linked_list_mutex);
 		print = print->next;
 		pthread_mutex_unlock(&arg->linked_list_mutex);
@@ -78,13 +78,21 @@ void	simulation(t_args *arg, int thread_id,
 	while (1)
 	{
 		if (check_end_of_simulation(arg) == CONTINUE)
+			take_forks(arg, thread_id, start_time, epoch_time);
+		if (check_end_of_simulation(arg) == CONTINUE)
 		{
-			eat_routine(arg, thread_id, start_time, epoch_time);
 			start_time = get_current_time();
-			update_success(arg, thread_id);
+			eat_routine(arg, thread_id, start_time, epoch_time);
+		}
+		else
+		{
+			cleanup_forks(arg, thread_id);
+			break ;
 		}
 		if (check_end_of_simulation(arg) == CONTINUE)
 			sleep_routine(arg, thread_id, start_time, epoch_time);
+		else
+			cleanup_forks(arg, thread_id);
 		if (check_end_of_simulation(arg) == CONTINUE)
 			think_routine(arg, thread_id, start_time, epoch_time);
 		else

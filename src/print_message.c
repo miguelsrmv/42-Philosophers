@@ -6,7 +6,7 @@
 /*   By: mde-sa-- <mde-sa--@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 11:53:07 by mde-sa--          #+#    #+#             */
-/*   Updated: 2023/12/29 20:14:45 by mde-sa--         ###   ########.fr       */
+/*   Updated: 2023/12/30 17:06:19 by mde-sa--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,13 @@ enum e_ErrorCode	create_print_message(t_args *arg, int thread_id,
 
 	if (arg->death_flag && arg->philo_state[thread_id] != DEAD)
 		return (SUCCESS);
+	pthread_mutex_lock(&arg->success_count_mutex);
+	if (arg->success_count == arg->number_of_philos)
+	{
+		pthread_mutex_unlock(&arg->success_count_mutex);
+		return (SUCCESS);
+	}
+	pthread_mutex_unlock(&arg->success_count_mutex);
 	message = get_full_philo_message(arg, thread_id, current_time, epoch_time);
 	if (!message)
 		return (MALLOC_ERROR);
