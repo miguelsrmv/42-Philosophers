@@ -6,7 +6,7 @@
 #    By: mde-sa-- <mde-sa--@student.42porto.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/23 09:55:46 by mde-sa--          #+#    #+#              #
-#    Updated: 2023/12/30 19:50:42 by mde-sa--         ###   ########.fr        #
+#    Updated: 2023/12/31 07:44:04 by mde-sa--         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME	=   philosophers
 
 CC      = 	cc
 
-CFLAGS   =  -Wall -Wextra -Werror -g -pthread
+CFLAGS   =  -Wall -Wextra -Werror -pthread -g
 
 SRCDIR	=	src
 
@@ -44,7 +44,7 @@ $(SRCDIR)/%.o: $(SRCDIR)/%.c $(INCDIR)/*.h
 	@ $(CC) $(CFLAGS) $(INCFLAGS) -c $< -o $@
 
 libft:
-	@ cd $(LIBFTDIR) && make -s && make -s clean
+	@ cd $(LIBFTDIR) && make -s
 
 clean:
 	@ $(MAKE) -sC $(LIBFTDIR) clean
@@ -57,6 +57,3 @@ fclean: clean
 re: fclean all
 
 .PHONY: all clean fclean re libft
-
-test:
-	./philosophers 4 10 10 10
