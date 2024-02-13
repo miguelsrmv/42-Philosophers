@@ -6,7 +6,7 @@
 /*   By: mde-sa-- <mde-sa--@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 09:48:10 by mde-sa--          #+#    #+#             */
-/*   Updated: 2023/12/30 19:37:56 by mde-sa--         ###   ########.fr       */
+/*   Updated: 2024/02/13 17:21:46 by mde-sa--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,15 +34,12 @@ void	*routine(void *arg)
 
 void	wait_for_print_buffer(t_args *arg, t_list **print)
 {
-	ft_usleep(10);
 	while (1)
 	{
+		ft_usleep(50);
 		pthread_mutex_lock(&arg->linked_list_mutex);
 		if (arg->output == NULL || arg->output->next == NULL)
-		{
 			pthread_mutex_unlock(&arg->linked_list_mutex);
-			ft_usleep(100);
-		}
 		else
 		{
 			*print = arg->output;
@@ -52,7 +49,7 @@ void	wait_for_print_buffer(t_args *arg, t_list **print)
 	}
 }
 
-void	printing_thread(t_args *arg)
+/* void	printing_thread(t_args *arg)
 {
 	t_list	*print;
 
@@ -70,6 +67,22 @@ void	printing_thread(t_args *arg)
 		print = print->next;
 		pthread_mutex_unlock(&arg->linked_list_mutex);
 	}
+} */
+
+// Mudado o usleep. Por vezes dava fail 
+void	printing_thread(t_args *arg)
+{
+	t_list	*print;
+
+	wait_for_print_buffer(arg, &print);
+	while (print)
+	{
+		ft_usleep(50);
+		pthread_mutex_lock(&arg->linked_list_mutex);
+		write(STDOUT_FILENO, (char *)print->content, ft_strlen(print->content));
+		pthread_mutex_unlock(&arg->linked_list_mutex);
+		print = print->next;
+	}
 }
 
 void	simulation(t_args *arg, int thread_id,
@@ -79,11 +92,9 @@ void	simulation(t_args *arg, int thread_id,
 	{
 		if (check_end_of_simulation(arg) == CONTINUE)
 			take_forks(arg, thread_id, start_time, epoch_time);
+		start_time = get_current_time();
 		if (check_end_of_simulation(arg) == CONTINUE)
-		{
-			start_time = get_current_time();
 			eat_routine(arg, thread_id, start_time, epoch_time);
-		}
 		else
 		{
 			cleanup_forks(arg, thread_id);

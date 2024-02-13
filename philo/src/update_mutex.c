@@ -6,7 +6,7 @@
 /*   By: mde-sa-- <mde-sa--@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 11:15:02 by mde-sa--          #+#    #+#             */
-/*   Updated: 2023/12/30 16:27:05 by mde-sa--         ###   ########.fr       */
+/*   Updated: 2024/02/13 17:08:18 by mde-sa--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ void	update_philo_state(t_args *arg, int thread_id, size_t time_last_meal,
 	size_t epoch_time)
 {
 	(void)time_last_meal;
-	(void)epoch_time;
 	pthread_mutex_lock(&arg->death_mutex);
 	if (create_print_message(arg, thread_id, get_current_time(), epoch_time)
 		!= SUCCESS)
