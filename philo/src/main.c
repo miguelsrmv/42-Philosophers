@@ -6,7 +6,7 @@
 /*   By: mde-sa-- <mde-sa--@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 15:58:36 by mde-sa--          #+#    #+#             */
-/*   Updated: 2023/12/30 13:56:07 by mde-sa--         ###   ########.fr       */
+/*   Updated: 2024/02/13 17:46:42 by mde-sa--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,11 @@ int	main(int argc, char **argv)
 
 	if (check_args(argc, argv) == ARG_ERROR)
 		return (ARG_ERROR);
+	if (argc == 6)
+	{
+		if (ft_atoi(argv[5]) == 0)
+			return (SUCCESS);
+	}
 	if (init_args(&arg, argc, argv) == MALLOC_ERROR)
 		return (MALLOC_ERROR);
 	if (init_mutexes(&arg) == MUTEX_ERROR)

@@ -6,7 +6,7 @@
 /*   By: mde-sa-- <mde-sa--@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 11:29:17 by mde-sa--          #+#    #+#             */
-/*   Updated: 2023/12/30 15:14:23 by mde-sa--         ###   ########.fr       */
+/*   Updated: 2024/02/13 17:36:46 by mde-sa--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 int	create_threads(t_args *arg)
 {
 	int	i;
-
 	arg->epoch_time = get_current_time();
 	i = 0;
 	while (i <= arg->number_of_philos)
