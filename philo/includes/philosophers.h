@@ -6,7 +6,7 @@
 /*   By: mde-sa-- <mde-sa--@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 15:59:16 by mde-sa--          #+#    #+#             */
-/*   Updated: 2023/12/30 19:50:51 by mde-sa--         ###   ########.fr       */
+/*   Updated: 2024/03/26 18:41:09 by mde-sa--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,12 @@
 # include <stdio.h>
 # include <pthread.h>
 # include <sys/time.h>
+# include <stdbool.h>
+# include <limits.h>
 
 // Error Codes
-enum e_ErrorCode {
+enum e_ErrorCode
+{
 	SUCCESS,
 	ARG_ERROR,
 	MUTEX_ERROR,
@@ -30,13 +33,15 @@ enum e_ErrorCode {
 };
 
 // State of simulation
-enum e_SimState {
+enum e_SimState
+{
 	CONTINUE,
 	STOP_SIMULATION
 };
 
 // Philosopher States
-enum e_PhiloState {
+enum e_PhiloState
+{
 	START_STATE,
 	AVAILABLE_FOR_EATING_2_FORK_LEFT,
 	AVAILABLE_FOR_EATING_1_FORK_LEFT,
@@ -47,7 +52,8 @@ enum e_PhiloState {
 	ALIVE
 };
 
-enum e_ForkStatus {
+enum e_ForkStatus
+{
 	AVAILABLE,
 	TAKEN
 };
@@ -61,7 +67,8 @@ enum e_ForkStatus {
 # define THREAD_MESSAGE "Thread error\n"
 
 // Argument struct
-typedef struct s_args {
+typedef struct s_args
+{
 	int					number_of_philos;
 	size_t				time_to_die;
 	size_t				time_to_eat;
@@ -107,6 +114,9 @@ int					main(int argc, char **argv);
 
 /// arg_check.c
 int					check_args(int argc, char **argv);
+bool				is_argc_inadequate(int argc);
+bool				arg_has_non_digit_chars(char **argv);
+bool				is_arg_larger_than_int(char **argv);
 
 /// arg_init.c
 int					init_args(t_args *arg, int argc, char **argv);
