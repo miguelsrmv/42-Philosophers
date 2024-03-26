@@ -38,21 +38,21 @@ RM      = 	rm -rf
 all: libft $(NAME)
 
 $(NAME): $(OBJS) 
-	@ $(CC) $(CFLAGS) $(OBJS) $(LIBS) -o $(NAME) 
+	$(CC) $(CFLAGS) $(OBJS) $(LIBS) -o $(NAME) 
 
 $(SRCDIR)/%.o: $(SRCDIR)/%.c $(INCDIR)/*.h
-	@ $(CC) $(CFLAGS) $(INCFLAGS) -c $< -o $@
+	$(CC) $(CFLAGS) $(INCFLAGS) -c $< -o $@
 
 libft:
 	@ cd $(LIBFTDIR) && make -s
 
 clean:
-	@ $(MAKE) -sC $(LIBFTDIR) clean
-	@ $(RM) $(OBJS)
+	$(MAKE) -sC $(LIBFTDIR) clean
+	$(RM) $(OBJS)
 
 fclean: clean
-	@ $(MAKE) -sC $(LIBFTDIR) fclean
-	@ $(RM) $(NAME)
+	$(MAKE) -sC $(LIBFTDIR) fclean
+	$(RM) $(NAME)
 
 re: fclean all
 
