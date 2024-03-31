@@ -6,7 +6,7 @@
 /*   By: mde-sa-- <mde-sa--@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 09:33:22 by mde-sa--          #+#    #+#             */
-/*   Updated: 2024/03/31 23:03:28 by mde-sa--         ###   ########.fr       */
+/*   Updated: 2024/03/31 23:51:56 by mde-sa--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,5 +72,17 @@ bool	is_arg_larger_than_int(char **argv)
 			return (true);
 		i++;
 	}
+	return (false);
+}
+
+// Special cases:
+/// #1 If simulation ends with 0 meals taken
+/// #2 If there are no philos
+bool	is_special_case(int argc, char **argv)
+{
+	if (argc == 6 && (ft_atoi(argv[5]) == 0))
+		return (true);
+	else if (ft_atoi(argv[1]) == 0)
+		return (true);
 	return (false);
 }

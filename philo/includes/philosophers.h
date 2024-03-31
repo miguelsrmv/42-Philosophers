@@ -6,7 +6,7 @@
 /*   By: mde-sa-- <mde-sa--@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 15:59:16 by mde-sa--          #+#    #+#             */
-/*   Updated: 2024/03/31 23:33:03 by mde-sa--         ###   ########.fr       */
+/*   Updated: 2024/03/31 23:53:04 by mde-sa--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,6 +147,7 @@ t_ErrorCode			check_args(int argc, char **argv);
 bool				is_argc_inadequate(int argc);
 bool				arg_has_non_digit_chars(char **argv);
 bool				is_arg_larger_than_int(char **argv);
+bool				is_special_case(int argc, char **argv);
 
 /// arg_init.c
 t_ErrorCode			init_table(t_table *table, int argc, char **argv);
@@ -172,8 +173,6 @@ size_t				get_time_diff(size_t start_time, size_t now);
 void				ft_usleep(size_t milliseconds);
 
 /// special_cases.c
-bool				is_special_case(int argc, char **argv);
-void				one_philo_sim(int time_to_die);
 
 /// clean_data.c
 void				clean_data(t_table *table);
@@ -184,7 +183,7 @@ void				list_clear(t_message *message_head);
 /// mutex_utils_getter.c
 bool				get_bool(pthread_mutex_t *mutex, bool *value);
 int					get_int(pthread_mutex_t *mutex, int *value);
-size_t 				get_size_t(pthread_mutex_t *mutex, size_t *value);
+size_t				get_size_t(pthread_mutex_t *mutex, size_t *value);
 
 /// mutex_utils_setter.c
 void				set_bool(pthread_mutex_t *mutex, bool *target,

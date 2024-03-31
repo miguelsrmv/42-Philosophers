@@ -6,7 +6,7 @@
 #    By: mde-sa-- <mde-sa--@student.42porto.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/23 09:55:46 by mde-sa--          #+#    #+#              #
-#    Updated: 2024/03/31 23:34:06 by mde-sa--         ###   ########.fr        #
+#    Updated: 2024/03/31 23:52:39 by mde-sa--         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,9 +26,8 @@ LIBS	=   -L$(LIBFTDIR) -lft
 
 INCFLAGS =  -I $(INCDIR) -I $(LIBFTDIR)
 
-SRC		=	main.c arg_check.c arg_init.c clean_data.c manage_threads.c helpers.c \
-			special_cases.c routines.c mutex_utils_getter.c mutex_utils_setter.c \
-			time_utils.c
+SRC		=	main.c arg_check.c arg_init.c  manage_threads.c routines.c \
+			mutex_utils_getter.c mutex_utils_setter.c time_utils.c clean_data.c \
 
 OBJS	= 	$(addprefix $(SRCDIR)/, $(SRC:.c=.o))
 
@@ -55,8 +54,5 @@ fclean: clean
 	$(RM) $(NAME)
 
 re: fclean all
-
-test:
-	valgrind -q --leak-check=full --show-leak-kinds=all ./philo 5 100 100 100
 
 .PHONY: all clean fclean re libft

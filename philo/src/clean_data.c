@@ -6,7 +6,7 @@
 /*   By: mde-sa-- <mde-sa--@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 15:26:07 by mde-sa--          #+#    #+#             */
-/*   Updated: 2024/03/31 23:06:03 by mde-sa--         ###   ########.fr       */
+/*   Updated: 2024/03/31 23:52:52 by mde-sa--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	clean_mallocs(t_table *table)
 {
 	free(table->forks);
 	free(table->philos);
- 	if (table->message_head)
+	if (table->message_head)
 		list_clear(table->message_head);
 }
 
