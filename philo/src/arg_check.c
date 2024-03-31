@@ -6,12 +6,13 @@
 /*   By: mde-sa-- <mde-sa--@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 09:33:22 by mde-sa--          #+#    #+#             */
-/*   Updated: 2024/03/31 19:06:31 by mde-sa--         ###   ########.fr       */
+/*   Updated: 2024/03/31 23:03:28 by mde-sa--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
+// Checks for correct arg usage
 t_ErrorCode	check_args(int argc, char **argv)
 {
 	if (is_argc_inadequate(argc) == true)
@@ -23,6 +24,7 @@ t_ErrorCode	check_args(int argc, char **argv)
 	return (SUCCESS);
 }
 
+// Checks if argc is correct
 bool	is_argc_inadequate(int argc)
 {
 	if (argc < 5 || argc > 6)
@@ -33,6 +35,7 @@ bool	is_argc_inadequate(int argc)
 	return (false);
 }
 
+// Checks if there are non-digit chars in args
 bool	arg_has_non_digit_chars(char **argv)
 {
 	int	i;
@@ -55,6 +58,7 @@ bool	arg_has_non_digit_chars(char **argv)
 	return (false);
 }
 
+// Checks if all args are lower than INT_MAX
 bool	is_arg_larger_than_int(char **argv)
 {
 	int	i;

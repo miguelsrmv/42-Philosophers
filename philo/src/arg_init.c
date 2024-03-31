@@ -6,12 +6,13 @@
 /*   By: mde-sa-- <mde-sa--@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 19:46:08 by mde-sa--          #+#    #+#             */
-/*   Updated: 2024/03/31 22:54:20 by mde-sa--         ###   ########.fr       */
+/*   Updated: 2024/03/31 23:05:49 by mde-sa--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
+// Initializes table struct
 t_ErrorCode	init_table(t_table *table, int argc, char **argv)
 {
 	table->number_of_philos = ft_atoi(argv[1]);
@@ -38,6 +39,7 @@ t_ErrorCode	init_table(t_table *table, int argc, char **argv)
 	return (SUCCESS);
 }
 
+// Allocates data for fork and philo array of structs
 t_ErrorCode	malloc_table_data(t_table *table)
 {
 	table->forks = (t_forks *)malloc((table->number_of_philos)
@@ -49,6 +51,7 @@ t_ErrorCode	malloc_table_data(t_table *table)
 	return (SUCCESS);
 }
 
+// Initializes philo data for each philo
 void	init_philo_data(t_table *table)
 {
 	int			i;
@@ -78,6 +81,7 @@ void	init_philo_data(t_table *table)
 	}
 }
 
+// Initializes fork data for each fork
 void	init_fork_data(t_table *table)
 {
 	int			i;
@@ -93,6 +97,7 @@ void	init_fork_data(t_table *table)
 	}
 }
 
+// Initiates mutexes
 t_ErrorCode	init_mutexes(t_table *table)
 {
 	int			i;

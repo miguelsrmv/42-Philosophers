@@ -1,17 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   time.c                                             :+:      :+:    :+:   */
+/*   time_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mde-sa-- <mde-sa--@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 18:15:15 by mde-sa--          #+#    #+#             */
-/*   Updated: 2024/03/31 19:04:56 by mde-sa--         ###   ########.fr       */
+/*   Updated: 2024/03/31 23:08:32 by mde-sa--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
+// Gets current time, in milliseconds
 size_t	get_current_time(void)
 {
 	struct timeval	time;
@@ -24,11 +25,13 @@ size_t	get_current_time(void)
 	return ((size_t)time.tv_sec * 1000 + (size_t)time.tv_usec / 1000);
 }
 
-size_t	get_time_diff(size_t start_time, size_t end_time)
+// Gets time-difference between now and start_time, in milliseconds
+size_t	get_time_diff(size_t start_time, size_t now)
 {
-	return (end_time - start_time);
+	return (now - start_time);
 }
 
+// Re-worked usleep function for more precision
 void	ft_usleep(size_t milliseconds)
 {
 	size_t	start;

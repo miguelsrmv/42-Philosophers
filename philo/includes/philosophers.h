@@ -6,7 +6,7 @@
 /*   By: mde-sa-- <mde-sa--@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 15:59:16 by mde-sa--          #+#    #+#             */
-/*   Updated: 2024/03/31 22:58:05 by mde-sa--         ###   ########.fr       */
+/*   Updated: 2024/03/31 23:33:03 by mde-sa--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,7 +168,7 @@ void				philo_thread(t_philos *philo);
 
 /// time_utils.c
 size_t				get_current_time(void);
-size_t				get_time_diff(size_t start_time, size_t end_time);
+size_t				get_time_diff(size_t start_time, size_t now);
 void				ft_usleep(size_t milliseconds);
 
 /// special_cases.c
@@ -181,18 +181,20 @@ void				clean_mutexes(t_table *table);
 void				clean_mallocs(t_table *table);
 void				list_clear(t_message *message_head);
 
-/// mutex_utils.c
+/// mutex_utils_getter.c
+bool				get_bool(pthread_mutex_t *mutex, bool *value);
+int					get_int(pthread_mutex_t *mutex, int *value);
+size_t 				get_size_t(pthread_mutex_t *mutex, size_t *value);
+
+/// mutex_utils_setter.c
 void				set_bool(pthread_mutex_t *mutex, bool *target,
 						bool value);
 void				set_int(pthread_mutex_t *mutex, int *target,
 						int value);
-bool				get_bool(pthread_mutex_t *mutex, bool *value);
-int					get_int(pthread_mutex_t *mutex, int *value);
+void				set_size_t(pthread_mutex_t *mutex,
+						size_t *target, size_t value);
 
-
-
-
-////// Helpers
+/// Helpers
 void				print_philo(t_philos philo);
 
 #endif

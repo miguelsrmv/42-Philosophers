@@ -6,7 +6,7 @@
 #    By: mde-sa-- <mde-sa--@student.42porto.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/23 09:55:46 by mde-sa--          #+#    #+#              #
-#    Updated: 2024/03/31 22:51:27 by mde-sa--         ###   ########.fr        #
+#    Updated: 2024/03/31 23:34:06 by mde-sa--         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,8 @@ LIBS	=   -L$(LIBFTDIR) -lft
 INCFLAGS =  -I $(INCDIR) -I $(LIBFTDIR)
 
 SRC		=	main.c arg_check.c arg_init.c clean_data.c manage_threads.c helpers.c \
-			special_cases.c routines.c mutex_utils.c time_utils.c
+			special_cases.c routines.c mutex_utils_getter.c mutex_utils_setter.c \
+			time_utils.c
 
 OBJS	= 	$(addprefix $(SRCDIR)/, $(SRC:.c=.o))
 

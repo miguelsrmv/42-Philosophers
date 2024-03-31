@@ -6,18 +6,20 @@
 /*   By: mde-sa-- <mde-sa--@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 15:26:07 by mde-sa--          #+#    #+#             */
-/*   Updated: 2024/03/31 22:54:04 by mde-sa--         ###   ########.fr       */
+/*   Updated: 2024/03/31 23:06:03 by mde-sa--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
+// Cleans all mutexes and alloc'd data
 void	clean_data(t_table *table)
 {
 	clean_mutexes(table);
 	clean_mallocs(table);
 }
 
+// Cleans mutexes
 void	clean_mutexes(t_table *table)
 {
 	int		i;
@@ -36,6 +38,7 @@ void	clean_mutexes(t_table *table)
 	}
 }
 
+// Cleans alloc'd data
 void	clean_mallocs(t_table *table)
 {
 	free(table->forks);
@@ -44,6 +47,7 @@ void	clean_mallocs(t_table *table)
 		list_clear(table->message_head);
 }
 
+// Cleans list of messages
 void	list_clear(t_message *message_head)
 {
 	t_message	*temp;

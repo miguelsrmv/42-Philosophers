@@ -1,0 +1,1 @@
+Implementar Lone-philo como thread
