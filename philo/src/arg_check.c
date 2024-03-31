@@ -6,13 +6,13 @@
 /*   By: mde-sa-- <mde-sa--@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 09:33:22 by mde-sa--          #+#    #+#             */
-/*   Updated: 2024/03/26 18:41:23 by mde-sa--         ###   ########.fr       */
+/*   Updated: 2024/03/31 19:06:31 by mde-sa--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-int	check_args(int argc, char **argv)
+t_ErrorCode	check_args(int argc, char **argv)
 {
 	if (is_argc_inadequate(argc) == true)
 		return (ARG_ERROR);

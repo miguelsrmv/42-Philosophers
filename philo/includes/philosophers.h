@@ -6,7 +6,7 @@
 /*   By: mde-sa-- <mde-sa--@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 15:59:16 by mde-sa--          #+#    #+#             */
-/*   Updated: 2024/03/31 18:16:04 by mde-sa--         ###   ########.fr       */
+/*   Updated: 2024/03/31 22:58:05 by mde-sa--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,11 +50,19 @@ typedef enum e_PhiloState
 	DEAD,
 }	t_PhiloState;
 
+// Fork Status
 typedef enum e_ForkStatus
 {
 	AVAILABLE,
 	TAKEN
 }	t_ForkStatus;
+
+// Mutex actions
+typedef enum e_MutexAction
+{
+	LOCK,
+	UNLOCK
+}	t_MutexAction;
 
 // Error Messages
 # define ARG_MESSAGE "Usage: ./philo [number_of_philosophers] [time_to_die] \
@@ -64,7 +72,17 @@ typedef enum e_ForkStatus
 # define MALLOC_MESSAGE "Malloc error\n"
 # define THREAD_MESSAGE "Thread error\n"
 
+// String outputs
+# define TOOK_A_FORK " has taken a fork\n"
+# define IS_EATING " is eating\n"
+# define IS_THINKING " is thinking\n"
+# define IS_SLEEPING " is sleeping\n"
+# define DIED " died\n"
+
 // Struct
+
+typedef struct s_table	t_table;
+
 typedef struct s_forks
 {
 	int					fork_id;
@@ -80,6 +98,7 @@ typedef struct s_philos
 	t_forks				*second_fork;
 	t_PhiloState		state;
 	bool				full;
+	t_table				*table;
 }	t_philos;
 
 typedef struct s_message
@@ -90,7 +109,7 @@ typedef struct s_message
 	struct s_message		*next;
 }	t_message;
 
-typedef struct s_table
+struct s_table
 {
 	int					number_of_philos;
 	int					time_to_die;
@@ -106,6 +125,9 @@ typedef struct s_table
 	bool				death_flag;
 	pthread_mutex_t		death_mutex;
 
+	bool				simulation_run;
+	pthread_mutex_t		simulation_mutex;
+
 	t_forks				*forks;
 
 	t_philos			*philos;
@@ -114,32 +136,44 @@ typedef struct s_table
 	t_message			*message_end;
 	pthread_mutex_t		message_mutex;
 
-}	t_table;
+};
 
 // Function declarations
 /// main.c
 int					main(int argc, char **argv);
 
 /// arg_check.c
-int					check_args(int argc, char **argv);
+t_ErrorCode			check_args(int argc, char **argv);
 bool				is_argc_inadequate(int argc);
 bool				arg_has_non_digit_chars(char **argv);
 bool				is_arg_larger_than_int(char **argv);
 
 /// arg_init.c
-int					init_table(t_table *table, int argc, char **argv);
-int					malloc_table_data(t_table *table);
-void				init_malloc_data(t_table *table);
-int					init_mutexes(t_table *table);
+t_ErrorCode			init_table(t_table *table, int argc, char **argv);
+t_ErrorCode			malloc_table_data(t_table *table);
+void				init_philo_data(t_table *table);
+void				init_fork_data(t_table *table);
+t_ErrorCode			init_mutexes(t_table *table);
 
 /// manage_threads.c
-int					init_threads(t_table *table);
+t_ErrorCode			init_threads(t_table *table);
+void				sync_threads(t_table *table);
+void				wait_for_threads(t_table *table);
+t_ErrorCode			end_threads(t_table *table);
 
 /// routines.c
-void				*routine(void *table);
+void				*routine(void *current_philo);
+void				printing_thread(t_philos *philo);
+void				philo_thread(t_philos *philo);
 
-/// time.c
-int					get_current_time();
+/// time_utils.c
+size_t				get_current_time(void);
+size_t				get_time_diff(size_t start_time, size_t end_time);
+void				ft_usleep(size_t milliseconds);
+
+/// special_cases.c
+bool				is_special_case(int argc, char **argv);
+void				one_philo_sim(int time_to_die);
 
 /// clean_data.c
 void				clean_data(t_table *table);
@@ -147,9 +181,18 @@ void				clean_mutexes(t_table *table);
 void				clean_mallocs(t_table *table);
 void				list_clear(t_message *message_head);
 
+/// mutex_utils.c
+void				set_bool(pthread_mutex_t *mutex, bool *target,
+						bool value);
+void				set_int(pthread_mutex_t *mutex, int *target,
+						int value);
+bool				get_bool(pthread_mutex_t *mutex, bool *value);
+int					get_int(pthread_mutex_t *mutex, int *value);
+
+
+
 
 ////// Helpers
-void	print_philo(t_philos philo);
-
+void				print_philo(t_philos philo);
 
 #endif
