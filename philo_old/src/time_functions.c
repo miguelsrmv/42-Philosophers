@@ -6,7 +6,7 @@
 /*   By: mde-sa-- <mde-sa--@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 10:37:15 by mde-sa--          #+#    #+#             */
-/*   Updated: 2023/12/29 18:00:37 by mde-sa--         ###   ########.fr       */
+/*   Updated: 2024/03/31 11:10:09 by mde-sa--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,6 @@ size_t	get_time_diff(size_t start_time, size_t end_time)
 {
 	return (end_time - start_time);
 }
-/* 
-int	get_timestamp(t_args *arg)
-{
-	return (get_time_diff(arg->my_epoch, get_current_time()));
-}
- */
 
 int	ft_usleep(size_t milliseconds)
 {
