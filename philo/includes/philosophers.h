@@ -6,7 +6,7 @@
 /*   By: mde-sa-- <mde-sa--@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 15:59:16 by mde-sa--          #+#    #+#             */
-/*   Updated: 2024/04/01 15:55:52 by mde-sa--         ###   ########.fr       */
+/*   Updated: 2024/04/01 16:15:17 by mde-sa--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ typedef struct s_philos
 	size_t				time_to_eat;
 	size_t				time_to_sleep;
 	size_t				times_each_philosopher_must_eat;
-	size_t				time_since_last_meal;
+	size_t				time_last_meal;
 	t_forks				*first_fork;
 	t_forks				*second_fork;
 	t_PhiloState		state;
@@ -182,6 +182,10 @@ void				think_routine(t_philos *philo,
 						size_t current_time);
 void				sleep_routine(t_philos *philo,
 						size_t current_time);
+
+/// printing_buffer.c
+void				add_message(t_philos *philo,
+						size_t current_time, char *action);
 
 /// end_conditions.c
 bool				stop_simulation(t_table *table);
