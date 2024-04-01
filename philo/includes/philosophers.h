@@ -6,7 +6,7 @@
 /*   By: mde-sa-- <mde-sa--@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 15:59:16 by mde-sa--          #+#    #+#             */
-/*   Updated: 2024/03/31 23:53:04 by mde-sa--         ###   ########.fr       */
+/*   Updated: 2024/04/01 12:17:19 by mde-sa--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,6 +120,7 @@ struct s_table
 	size_t				epoch_time;
 
 	int					success_count;
+	bool				success_flag;
 	pthread_mutex_t		success_mutex;
 
 	bool				death_flag;
@@ -166,6 +167,16 @@ t_ErrorCode			end_threads(t_table *table);
 void				*routine(void *current_philo);
 void				printing_thread(t_philos *philo);
 void				philo_thread(t_philos *philo);
+
+/// fork_eat_think_sleep.c
+void				take_first_fork_routine(t_philos *philo);
+void				take_second_fork_routine(t_philos *philo);
+void				eat_routine(t_philos *philo);
+void				think_routine(t_philos *philo);
+void				sleep_routine(t_philos *philo);
+
+/// monitor_print_thread.c
+bool				stop_simulation(t_table *table);
 
 /// time_utils.c
 size_t				get_current_time(void);
