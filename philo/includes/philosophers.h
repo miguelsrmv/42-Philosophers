@@ -6,7 +6,7 @@
 /*   By: mde-sa-- <mde-sa--@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 15:59:16 by mde-sa--          #+#    #+#             */
-/*   Updated: 2024/04/01 12:17:19 by mde-sa--         ###   ########.fr       */
+/*   Updated: 2024/04/01 12:27:38 by mde-sa--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,7 @@ typedef struct s_philos
 {
 	pthread_t			thread;
 	int					philo_id;
+	size_t				time_since_last_meal;
 	t_forks				*first_fork;
 	t_forks				*second_fork;
 	t_PhiloState		state;
@@ -116,8 +117,6 @@ struct s_table
 	int					time_to_eat;
 	int					time_to_sleep;
 	int					times_each_philosopher_must_eat;
-
-	size_t				epoch_time;
 
 	int					success_count;
 	bool				success_flag;
@@ -169,11 +168,11 @@ void				printing_thread(t_philos *philo);
 void				philo_thread(t_philos *philo);
 
 /// fork_eat_think_sleep.c
-void				take_first_fork_routine(t_philos *philo);
-void				take_second_fork_routine(t_philos *philo);
-void				eat_routine(t_philos *philo);
-void				think_routine(t_philos *philo);
-void				sleep_routine(t_philos *philo);
+void				take_first_fork_routine(t_philos *philo, int current_time);
+void				take_second_fork_routine(t_philos *philo, int current_time);
+void				eat_routine(t_philos *philo, int current_time);
+void				think_routine(t_philos *philo, int current_time);
+void				sleep_routine(t_philos *philo, int current_time);
 
 /// monitor_print_thread.c
 bool				stop_simulation(t_table *table);

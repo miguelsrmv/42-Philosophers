@@ -6,7 +6,7 @@
 /*   By: mde-sa-- <mde-sa--@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 18:12:40 by mde-sa--          #+#    #+#             */
-/*   Updated: 2024/04/01 12:16:08 by mde-sa--         ###   ########.fr       */
+/*   Updated: 2024/04/01 12:27:53 by mde-sa--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,23 +36,20 @@ void	printing_thread(t_philos *philo)
 // Starts Eat-Think-Sleep routine
 void	philo_thread(t_philos *philo)
 {
-	int	current_time;
-
 	wait_for_threads(philo->table);
-	current_time = get_current_time();
-	(void)current_time;
+	philo->time_since_last_meal = get_current_time();
 	while (!stop_simulation(philo->table))
 	{
 		if (!stop_simulation(philo->table))
-			take_first_fork_routine(philo);
+			take_first_fork_routine(philo, get_current_time());
 		if (!stop_simulation(philo->table))
-			take_second_fork_routine(philo);
+			take_second_fork_routine(philo, get_current_time());
 		if (!stop_simulation(philo->table))
-			eat_routine(philo);
+			eat_routine(philo, get_current_time());
 		if (!stop_simulation(philo->table))
-			think_routine(philo);
+			think_routine(philo, get_current_time());
 		if (!stop_simulation(philo->table))
-			sleep_routine(philo);
+			sleep_routine(philo, get_current_time());
 	}
 	return ;
 }

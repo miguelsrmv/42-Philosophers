@@ -6,7 +6,7 @@
 /*   By: mde-sa-- <mde-sa--@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 19:46:08 by mde-sa--          #+#    #+#             */
-/*   Updated: 2024/03/31 23:05:49 by mde-sa--         ###   ########.fr       */
+/*   Updated: 2024/04/01 12:27:23 by mde-sa--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ t_ErrorCode	init_table(t_table *table, int argc, char **argv)
 		table->times_each_philosopher_must_eat = ft_atoi(argv[5]);
 	else
 		table->times_each_philosopher_must_eat = -1;
-	table->epoch_time = 0;
 	table->success_count = 0;
 	table->death_flag = false;
 	table->simulation_run = false;
