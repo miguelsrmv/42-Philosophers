@@ -6,7 +6,7 @@
 #    By: mde-sa-- <mde-sa--@student.42porto.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/23 09:55:46 by mde-sa--          #+#    #+#              #
-#    Updated: 2024/04/01 12:17:07 by mde-sa--         ###   ########.fr        #
+#    Updated: 2024/04/01 14:50:53 by mde-sa--         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,7 @@ LIBS	=   -L$(LIBFTDIR) -lft
 INCFLAGS =  -I $(INCDIR) -I $(LIBFTDIR)
 
 SRC		=	main.c arg_check.c arg_init.c  manage_threads.c \
-			routines.c fork_eat_think_sleep.c monitor_print_threads.c \
+			routines.c fork_eat_think_sleep.c end_conditions.c \
 			mutex_utils_getter.c mutex_utils_setter.c time_utils.c \
 			clean_data.c
 

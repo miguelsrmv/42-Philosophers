@@ -6,7 +6,7 @@
 /*   By: mde-sa-- <mde-sa--@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 19:46:08 by mde-sa--          #+#    #+#             */
-/*   Updated: 2024/04/01 12:27:23 by mde-sa--         ###   ########.fr       */
+/*   Updated: 2024/04/01 14:51:35 by mde-sa--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,8 @@ t_ErrorCode	init_mutexes(t_table *table)
 	if (pthread_mutex_init(&(table->success_mutex), NULL)
 		|| (pthread_mutex_init(&(table->death_mutex), NULL))
 		|| (pthread_mutex_init(&(table->message_mutex), NULL))
-		|| (pthread_mutex_init(&(table->simulation_mutex), NULL)))
+		|| (pthread_mutex_init(&(table->simulation_mutex), NULL))
+		|| (pthread_mutex_init(&(table->time_mutex), NULL)))
 	{
 		clean_data(table);
 		return (MUTEX_ERROR);
