@@ -6,7 +6,7 @@
 /*   By: mde-sa-- <mde-sa--@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 12:13:06 by mde-sa--          #+#    #+#             */
-/*   Updated: 2024/04/01 14:53:39 by mde-sa--         ###   ########.fr       */
+/*   Updated: 2024/04/01 14:59:26 by mde-sa--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	take_first_fork_routine(t_philos *philo, size_t current_time)
 {
-	if (is_dead(philo, current_time))
+	if (is_dead(philo, current_time) || simulation_successful(philo, current_time))
 		return ;
 	(void)current_time;
 	(void)philo;

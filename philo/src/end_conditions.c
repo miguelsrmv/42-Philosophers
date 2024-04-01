@@ -6,7 +6,7 @@
 /*   By: mde-sa-- <mde-sa--@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 12:03:33 by mde-sa--          #+#    #+#             */
-/*   Updated: 2024/04/01 14:53:26 by mde-sa--         ###   ########.fr       */
+/*   Updated: 2024/04/01 14:59:09 by mde-sa--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,4 +47,21 @@ bool	is_dead(t_philos *philo, size_t current_time)
 	}
 	return (false);
 	
+}
+
+bool	simulation_successfull(t_philos *philo, size_t current_time)
+{
+	int	success_count;
+	int	number_of_philos;
+
+	success_count = get_int(&(philo->table->success_mutex,
+		&(philo->table->success_count)));
+	number_of_philos = get_int(&(philo->table->time_mutex),
+		&(philo->table->number_of_philos));
+	if (success_count >= number_of_philos)
+	{
+		set_bool(&(philo->table->success_mutex), &(philo->table->success_flag), true);
+		return (true);
+	}
+	return (false);
 }
