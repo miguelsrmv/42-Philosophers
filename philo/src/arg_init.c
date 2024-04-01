@@ -6,7 +6,7 @@
 /*   By: mde-sa-- <mde-sa--@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 19:46:08 by mde-sa--          #+#    #+#             */
-/*   Updated: 2024/04/01 14:51:35 by mde-sa--         ###   ########.fr       */
+/*   Updated: 2024/04/01 15:55:21 by mde-sa--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,24 +16,14 @@
 t_ErrorCode	init_table(t_table *table, int argc, char **argv)
 {
 	table->number_of_philos = ft_atoi(argv[1]);
-	table->time_to_die = ft_atoi(argv[2]);
-	table->time_to_eat = ft_atoi(argv[3]);
-	table->time_to_sleep = ft_atoi(argv[4]);
-	if (argc == 6)
-		table->times_each_philosopher_must_eat = ft_atoi(argv[5]);
-	else
-		table->times_each_philosopher_must_eat = -1;
 	table->success_count = 0;
 	table->death_flag = false;
 	table->simulation_run = false;
 	table->message_head = NULL;
 	table->message_end = NULL;
 	if (malloc_table_data(table) == MALLOC_ERROR)
-	{
-		clean_mallocs(table);
 		return (MALLOC_ERROR);
-	}
-	init_philo_data(table);
+	init_philo_data(table, argc, argv);
 	init_fork_data(table);
 	return (SUCCESS);
 }
@@ -43,15 +33,20 @@ t_ErrorCode	malloc_table_data(t_table *table)
 {
 	table->forks = (t_forks *)malloc((table->number_of_philos)
 			* sizeof(t_forks));
+	if (!table->forks)
+		return (MALLOC_ERROR);
 	table->philos = (t_philos *)malloc((1 + table->number_of_philos)
 			* sizeof(t_philos));
-	if (!table->forks || !table->philos)
+	if (!table->philos)
+	{
+		free(table->forks);
 		return (MALLOC_ERROR);
+	}
 	return (SUCCESS);
 }
 
 // Initializes philo data for each philo
-void	init_philo_data(t_table *table)
+void	init_philo_data(t_table *table, int argc, char **argv)
 {
 	int			i;
 	t_philos	*philo;
@@ -63,20 +58,32 @@ void	init_philo_data(t_table *table)
 		philo->philo_id = i;
 		philo->state = MISSING_2_FORK;
 		philo->full = false;
-		if (philo->philo_id % 2 != 0)
-		{
-			philo->first_fork
-				= &(table->forks[(i + 1) % table->number_of_philos]);
-			philo->second_fork = &(table->forks[i]);
-		}
+		philo->time_to_die = (size_t)ft_atoi(argv[2]);
+		philo->time_to_eat = (size_t)ft_atoi(argv[3]);
+		philo->time_to_sleep = (size_t)ft_atoi(argv[4]);
+		if (argc == 6)
+			philo->times_each_philosopher_must_eat = (size_t)ft_atoi(argv[5]);
 		else
-		{
-			philo->first_fork = &(table->forks[i]);
-			philo->second_fork
-				= &(table->forks[(i + 1) % table->number_of_philos]);
-		}
+			philo->times_each_philosopher_must_eat = -1;
+		assign_forks(philo, table, i);
 		philo->table = table;
 		i++;
+	}
+}
+
+void	assign_forks(t_philos *philo, t_table *table, int i)
+{
+	if (philo->philo_id % 2 != 0)
+	{
+		philo->first_fork
+			= &(table->forks[(i + 1) % table->number_of_philos]);
+		philo->second_fork = &(table->forks[i]);
+	}
+	else
+	{
+		philo->first_fork = &(table->forks[i]);
+		philo->second_fork
+			= &(table->forks[(i + 1) % table->number_of_philos]);
 	}
 }
 
@@ -94,33 +101,4 @@ void	init_fork_data(t_table *table)
 		fork->fork_status = AVAILABLE;
 		i++;
 	}
-}
-
-// Initiates mutexes
-t_ErrorCode	init_mutexes(t_table *table)
-{
-	int			i;
-	t_forks		*fork;
-
-	if (pthread_mutex_init(&(table->success_mutex), NULL)
-		|| (pthread_mutex_init(&(table->death_mutex), NULL))
-		|| (pthread_mutex_init(&(table->message_mutex), NULL))
-		|| (pthread_mutex_init(&(table->simulation_mutex), NULL))
-		|| (pthread_mutex_init(&(table->time_mutex), NULL)))
-	{
-		clean_data(table);
-		return (MUTEX_ERROR);
-	}
-	i = 0;
-	while (i < table->number_of_philos)
-	{
-		fork = &(table->forks[i]);
-		if (pthread_mutex_init(&(fork->fork_mutex), NULL))
-		{
-			clean_data(table);
-			return (MUTEX_ERROR);
-		}
-		i++;
-	}
-	return (SUCCESS);
 }

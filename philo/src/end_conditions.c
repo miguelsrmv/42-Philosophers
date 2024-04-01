@@ -6,7 +6,7 @@
 /*   By: mde-sa-- <mde-sa--@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 12:03:33 by mde-sa--          #+#    #+#             */
-/*   Updated: 2024/04/01 15:12:03 by mde-sa--         ###   ########.fr       */
+/*   Updated: 2024/04/01 15:56:21 by mde-sa--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,17 +35,13 @@ bool	stop_simulation(t_table *table)
 
 bool	is_dead(t_philos *philo, size_t current_time)
 {
-	size_t	time_to_die;
-
-	time_to_die
-		= (size_t)get_int(&(philo->table->time_mutex),
-			&(philo->table->time_to_die));
-	if ((current_time - philo->time_since_last_meal) > time_to_die)
+	if ((current_time - philo->time_since_last_meal)
+		> philo->time_to_die)
 	{
-		set_bool(&(philo->table->death_mutex), &(philo->table->death_flag), true);
+		set_bool(&(philo->table->death_mutex),
+			&(philo->table->death_flag), true);
 		//add_death_message(philo, current_time, time_to_die);
 		return (true);
 	}
 	return (false);
-	
 }
