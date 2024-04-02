@@ -6,7 +6,7 @@
 /*   By: mde-sa-- <mde-sa--@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 15:59:16 by mde-sa--          #+#    #+#             */
-/*   Updated: 2024/04/02 20:13:36 by mde-sa--         ###   ########.fr       */
+/*   Updated: 2024/04/02 20:27:40 by mde-sa--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -201,8 +201,6 @@ size_t				get_abs_time(void);
 size_t				get_current_time(t_philos *philo);
 size_t				get_time_diff(size_t start_time, size_t now);
 void				ft_usleep(size_t milliseconds);
-
-/// special_cases.c
 
 /// clean_data.c
 void				clean_data(t_table *table);

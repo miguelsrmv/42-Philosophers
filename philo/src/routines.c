@@ -6,7 +6,7 @@
 /*   By: mde-sa-- <mde-sa--@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 18:12:40 by mde-sa--          #+#    #+#             */
-/*   Updated: 2024/04/02 20:14:14 by mde-sa--         ###   ########.fr       */
+/*   Updated: 2024/04/02 20:19:37 by mde-sa--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	*one_philo_routine(void	*time_to_die)
 	current_time = get_abs_time() - start_time;
 	printf("%ld 0 has taken a fork\n", current_time);
 	ft_usleep(waiting_time);
-	current_time = get_abs_time() - start_time;
+	current_time += waiting_time;
 	printf("%ld 0 has died\n", current_time);
 	return (NULL);
 }

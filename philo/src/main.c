@@ -6,7 +6,7 @@
 /*   By: mde-sa-- <mde-sa--@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 15:58:36 by mde-sa--          #+#    #+#             */
-/*   Updated: 2024/04/02 19:45:05 by mde-sa--         ###   ########.fr       */
+/*   Updated: 2024/04/02 20:30:12 by mde-sa--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	main(int argc, char **argv)
 {
 	t_table			table;
 
- 	if (check_args(argc, argv) == ARG_ERROR)
+	if (check_args(argc, argv) == ARG_ERROR)
 		return (ARG_ERROR);
 	if (is_special_case(argc, argv) == true)
 		return (SUCCESS);
