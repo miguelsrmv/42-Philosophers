@@ -6,7 +6,7 @@
 /*   By: mde-sa-- <mde-sa--@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 15:26:07 by mde-sa--          #+#    #+#             */
-/*   Updated: 2024/04/01 15:42:52 by mde-sa--         ###   ########.fr       */
+/*   Updated: 2024/04/02 11:28:18 by mde-sa--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ void	clean_mutexes(t_table *table)
 	pthread_mutex_destroy(&(table->message_mutex));
 	pthread_mutex_destroy(&(table->simulation_mutex));
 	pthread_mutex_destroy(&(table->number_mutex));
+	pthread_mutex_destroy(&(table->success_count_mutex));
 	i = 0;
 	while (i < table->number_of_philos)
 	{

@@ -6,7 +6,7 @@
 /*   By: mde-sa-- <mde-sa--@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 15:59:16 by mde-sa--          #+#    #+#             */
-/*   Updated: 2024/04/01 16:15:17 by mde-sa--         ###   ########.fr       */
+/*   Updated: 2024/04/02 15:41:03 by mde-sa--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,15 @@ typedef enum e_MutexAction
 	UNLOCK
 }	t_MutexAction;
 
+typedef enum e_PhiloAction
+{
+	TOOK_A_FORK,
+	IS_EATING,
+	IS_THINKING,
+	IS_SLEEPING,
+	DIED
+}	t_PhiloAction;
+
 // Error Messages
 # define ARG_MESSAGE "Usage: ./philo [number_of_philosophers] [time_to_die] \
 [time_to_eat] [time_to_sleep] [number_of_times_each_philosopher_must_eat] \
@@ -72,15 +81,7 @@ typedef enum e_MutexAction
 # define MALLOC_MESSAGE "Malloc error\n"
 # define THREAD_MESSAGE "Thread error\n"
 
-// String outputs
-# define TOOK_A_FORK " has taken a fork\n"
-# define IS_EATING " is eating\n"
-# define IS_THINKING " is thinking\n"
-# define IS_SLEEPING " is sleeping\n"
-# define DIED " died\n"
-
-// Struct
-
+// Structs
 typedef struct s_table	t_table;
 
 typedef struct s_forks
@@ -94,24 +95,30 @@ typedef struct s_philos
 {
 	pthread_t			thread;
 	int					philo_id;
+
 	size_t				time_to_die;
 	size_t				time_to_eat;
 	size_t				time_to_sleep;
-	size_t				times_each_philosopher_must_eat;
+	size_t				time_to_think;
 	size_t				time_last_meal;
+	int					times_each_philosopher_must_eat;
+
 	t_forks				*first_fork;
 	t_forks				*second_fork;
 	t_PhiloState		state;
-	bool				full;
+
+	int					eat_count;
+	size_t				start_time;
+
 	t_table				*table;
 }	t_philos;
 
 typedef struct s_message
 {
-	int						time_stamp;
-	int						philo_id;
-	t_PhiloState			philo_state;
-	struct s_message		*next;
+	size_t				time_stamp;
+	int					philo_id;
+	t_PhiloAction		action;
+	struct s_message	*next;
 }	t_message;
 
 struct s_table
@@ -120,6 +127,8 @@ struct s_table
 	pthread_mutex_t		number_mutex;
 
 	int					success_count;
+	pthread_mutex_t		success_count_mutex;
+
 	bool				success_flag;
 	pthread_mutex_t		success_mutex;
 
@@ -152,9 +161,9 @@ bool				is_special_case(int argc, char **argv);
 
 /// arg_init.c
 t_ErrorCode			init_table(t_table *table, int argc, char **argv);
-t_ErrorCode			malloc_table_data(t_table *table);
 void				init_philo_data(t_table *table, int argc, char **argv);
 void				init_fork_data(t_table *table);
+void				setup_philo_times(t_philos *philo, int argc, char **argv);
 void				assign_forks(t_philos *philo, t_table *table, int i);
 
 /// mutexes_init.c
@@ -168,14 +177,11 @@ t_ErrorCode			end_threads(t_table *table);
 
 /// routines.c
 void				*routine(void *current_philo);
-void				printing_thread(t_philos *philo);
 void				philo_thread(t_philos *philo);
 
 /// fork_eat_think_sleep.c
-void				take_first_fork_routine(t_philos *philo,
-						size_t current_time);
-void				take_second_fork_routine(t_philos *philo,
-						size_t current_time);
+void				take_first_fork_routine(t_philos *philo);
+void				take_second_fork_routine(t_philos *philo);
 void				eat_routine(t_philos *philo,
 						size_t current_time);
 void				think_routine(t_philos *philo,
@@ -183,16 +189,26 @@ void				think_routine(t_philos *philo,
 void				sleep_routine(t_philos *philo,
 						size_t current_time);
 
+/// monitoring_printing_thread.c
+void				monitoring_and_printing_thread(t_table *table);
+void				print_philo_action(t_message current);
+void				update_simstate(t_table *table, t_philos *philo,
+						t_PhiloAction action, bool *simulation_run);
+
 /// printing_buffer.c
-void				add_message(t_philos *philo,
-						size_t current_time, char *action);
+void				add_message(t_philos *philo, t_table *table,
+						size_t current_time, t_PhiloAction action);
 
 /// end_conditions.c
 bool				stop_simulation(t_table *table);
-bool				is_dead(t_philos *philo, size_t current_time);
+bool				someone_died(t_table *table);
+bool				waited_too_long(t_philos *philo, size_t current_time);
+void				set_death(t_philos *philo, size_t current_time);
+void				update_eat_count(t_philos *philo, t_table *table);
 
 /// time_utils.c
-size_t				get_current_time(void);
+size_t				get_abs_time(void);
+size_t				get_current_time(t_philos *philo);
 size_t				get_time_diff(size_t start_time, size_t now);
 void				ft_usleep(size_t milliseconds);
 
@@ -208,6 +224,7 @@ void				list_clear(t_message *message_head);
 bool				get_bool(pthread_mutex_t *mutex, bool *value);
 int					get_int(pthread_mutex_t *mutex, int *value);
 size_t				get_size_t(pthread_mutex_t *mutex, size_t *value);
+t_message			get_t_msg(pthread_mutex_t *mutex, t_message *message);
 
 /// mutex_utils_setter.c
 void				set_bool(pthread_mutex_t *mutex, bool *target,
@@ -216,6 +233,8 @@ void				set_int(pthread_mutex_t *mutex, int *target,
 						int value);
 void				set_size_t(pthread_mutex_t *mutex,
 						size_t *target, size_t value);
+void				set_t_msg(pthread_mutex_t *mutex,
+						t_message *target, t_message value);
 
 /// Helpers
 void				print_philo(t_philos philo);
