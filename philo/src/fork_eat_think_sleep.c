@@ -6,7 +6,7 @@
 /*   By: mde-sa-- <mde-sa--@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 12:13:06 by mde-sa--          #+#    #+#             */
-/*   Updated: 2024/04/02 15:29:20 by mde-sa--         ###   ########.fr       */
+/*   Updated: 2024/04/02 19:29:34 by mde-sa--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,13 +90,12 @@ void	sleep_routine(t_philos *philo, size_t current_time)
 void	think_routine(t_philos *philo, size_t current_time)
 {
 	add_message(philo, philo->table, current_time, IS_THINKING);
-	if (philo->time_to_think)
+	if (current_time + philo->time_to_think
+		< philo->time_last_meal + philo->time_to_die)
 	{
-		if (current_time + philo->time_to_think
-			< philo->time_last_meal + philo->time_to_die)
-			ft_usleep(philo->time_to_think);
-		else
-			set_death(philo, current_time);
+		ft_usleep(philo->time_to_think);
 	}
+	else
+		set_death(philo, current_time);
 	return ;
 }

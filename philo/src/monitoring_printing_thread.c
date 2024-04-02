@@ -6,7 +6,7 @@
 /*   By: mde-sa-- <mde-sa--@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 14:41:15 by mde-sa--          #+#    #+#             */
-/*   Updated: 2024/04/02 17:49:12 by mde-sa--         ###   ########.fr       */
+/*   Updated: 2024/04/02 19:41:22 by mde-sa--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,50 +17,50 @@ void	monitoring_and_printing_thread(t_table *table)
 {
 	t_message	*current;
 	t_message	current_copy;
-	bool		simulation_run;
+	bool		simulation_stop;
 
 	current = (void *) NULL;
-	simulation_run = true;
+	simulation_stop = false;
 	wait_for_threads(table);
-	wait_for_element(&current, table->message_head, table);
-	wait_for_element(&current, table->message_head->next, table);
+	wait_for_element(&current, &table->message_head, table);
+	wait_for_element(&current, &table->message_head->next, table);
 	while (true)
 	{
 		current_copy = get_t_msg(&(table->message_mutex), current);
 		print_philo_action(current_copy);
 		update_simstate(table, &table->philos[current_copy.philo_id],
-			current_copy.action, &simulation_run);
-		if (!simulation_run)
+			current_copy.action, &simulation_stop);
+		if (simulation_stop)
 			break ;
 		current = current_copy.next;
-		wait_for_element(&current, current_copy.next, table);
+		wait_for_element(&current, &table->message_end->next, table);
 	}
 	return ;
 }
 
 // ft_usleeps(PRINT_WAIT_TIME) whenever next element is not (yet) available
-void	wait_for_element(t_message **current, t_message *target,
+void	wait_for_element(t_message **current, t_message **target,
 			t_table *table)
 {
 	ft_usleep(PRINT_WAIT_TIME);
 	pthread_mutex_lock(&(table->message_mutex));
-	while (!target)
+	while (!(*current))
 	{
 		pthread_mutex_unlock(&(table->message_mutex));
 		ft_usleep(PRINT_WAIT_TIME);
 		pthread_mutex_lock(&(table->message_mutex));
+		(*current) = (*target);
 	}
-	(*current) = target;
 	pthread_mutex_unlock(&(table->message_mutex));
 }
 
 // Updates simulation_run in case a philosopher dies
 // or [times_each_philosopher_must_eat] is reached
 void	update_simstate(t_table *table, t_philos *philo,
-			t_PhiloAction action, bool *simulation_run)
+			t_PhiloAction action, bool *simulation_stop)
 {
 	if (action == DIED)
-		*simulation_run = false;
+		*simulation_stop = true;
 	else if (action == IS_EATING)
 	{
 		philo->eat_count++;
@@ -69,7 +69,7 @@ void	update_simstate(t_table *table, t_philos *philo,
 			table->success_count++;
 		if (table->success_count
 			== philo->times_each_philosopher_must_eat)
-			*simulation_run = false;
+			*simulation_stop = true;
 	}
 }
 
@@ -88,7 +88,7 @@ void	print_philo_action(t_message current)
 		message = THINKING_MESSAGE;
 	else if (current.action == DIED)
 		message = DEATH_MESSAGE;
-	printf("%ld\t%i %s\n",
+	printf("%ld %i %s\n",
 		current.time_stamp,
 		current.philo_id,
 		message);

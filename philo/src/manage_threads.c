@@ -6,7 +6,7 @@
 /*   By: mde-sa-- <mde-sa--@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 18:07:40 by mde-sa--          #+#    #+#             */
-/*   Updated: 2024/04/02 15:17:09 by mde-sa--         ###   ########.fr       */
+/*   Updated: 2024/04/02 20:13:40 by mde-sa--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,5 +47,32 @@ t_ErrorCode	end_threads(t_table *table)
 		}
 		i++;
 	}
+	return (SUCCESS);
+}
+
+// Waits for simulation_run to be true (spinlock @ thread start)
+void	wait_for_threads(t_table *table)
+{
+	while (!get_bool(&table->simulation_mutex, &table->simulation_run))
+		;
+}
+
+// Waits for all threads to be created, then sets simulation_run to TRUE
+void	sync_threads(t_table *table)
+{
+	ft_usleep(table->number_of_philos * 5);
+	set_bool(&(table->simulation_mutex), &(table->simulation_run), true);
+}
+
+// Starts special case with just 1 thread
+t_ErrorCode	one_philo_simulation(int time_to_die)
+{
+	pthread_t	lone_philo;
+
+	if (pthread_create(&lone_philo, NULL,
+			&one_philo_routine, &time_to_die) != 0)
+		return (THREAD_ERROR);
+	if (pthread_join(lone_philo, NULL) != 0)
+		return (THREAD_ERROR);
 	return (SUCCESS);
 }

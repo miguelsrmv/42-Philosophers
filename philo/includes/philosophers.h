@@ -6,7 +6,7 @@
 /*   By: mde-sa-- <mde-sa--@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 15:59:16 by mde-sa--          #+#    #+#             */
-/*   Updated: 2024/04/02 17:52:45 by mde-sa--         ###   ########.fr       */
+/*   Updated: 2024/04/02 20:13:36 by mde-sa--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,14 +51,19 @@ typedef enum e_PhiloAction
 }	t_PhiloAction;
 
 // Philo Messages
-# define FORK_MESSAGE "fook a fork"
+# define FORK_MESSAGE "has taken a fork"
 # define EATING_MESSAGE "is eating"
 # define SLEEPING_MESSAGE "is sleeping"
 # define THINKING_MESSAGE "is thinking"
 # define DEATH_MESSAGE "died"
 
-// Wait Times
-# define PRINT_WAIT_TIME 100
+// Constants
+# define NUMBER_OF_PHILOSOPHERS 1
+# define TIME_TO_DIE 2
+# define TIME_TO_EAT 3
+# define TIME_TO_SLEEP 4
+# define NUMBER_OF_TIMES_EACH_PHILOSOPHER_MUST_EAT 5
+# define PRINT_WAIT_TIME 25
 
 // Structs
 typedef struct s_table	t_table;
@@ -148,13 +153,15 @@ t_ErrorCode			init_mutexes(t_table *table);
 
 /// manage_threads.c
 t_ErrorCode			init_threads(t_table *table);
-void				sync_threads(t_table *table);
-void				wait_for_threads(t_table *table);
 t_ErrorCode			end_threads(t_table *table);
+void				wait_for_threads(t_table *table);
+void				sync_threads(t_table *table);
+t_ErrorCode			one_philo_simulation(int time_to_die);
 
 /// routines.c
 void				*routine(void *current_philo);
 void				philo_thread(t_philos *philo);
+void				*one_philo_routine(void *time_to_die);
 
 /// fork_eat_think_sleep.c
 void				take_first_fork_routine(t_philos *philo);
@@ -169,8 +176,8 @@ void				sleep_routine(t_philos *philo,
 /// monitoring_printing_thread.c
 void				monitoring_and_printing_thread(t_table *table);
 void				update_simstate(t_table *table, t_philos *philo,
-						t_PhiloAction action, bool *simulation_run);
-void				wait_for_element(t_message **current, t_message *target,
+						t_PhiloAction action, bool *simulation_stop);
+void				wait_for_element(t_message **current, t_message **target,
 						t_table *table);
 void				print_philo_action(t_message current);
 

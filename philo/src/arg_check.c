@@ -6,7 +6,7 @@
 /*   By: mde-sa-- <mde-sa--@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 09:33:22 by mde-sa--          #+#    #+#             */
-/*   Updated: 2024/04/02 16:14:14 by mde-sa--         ###   ########.fr       */
+/*   Updated: 2024/04/02 20:07:57 by mde-sa--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,11 +78,18 @@ bool	is_arg_larger_than_int(char **argv)
 // Special cases:
 /// #1 If simulation ends with 0 meals taken
 /// #2 If there are no philos
+/// #3 If there is just 1 philo
 bool	is_special_case(int argc, char **argv)
 {
-	if (argc == 6 && (ft_atoi(argv[5]) == 0))
+	if (argc == 6
+		&& (ft_atoi(argv[NUMBER_OF_TIMES_EACH_PHILOSOPHER_MUST_EAT]) == 0))
 		return (true);
-	else if (ft_atoi(argv[1]) == 0)
+	else if (ft_atoi(argv[NUMBER_OF_PHILOSOPHERS]) == 0)
 		return (true);
+	else if (ft_atoi(argv[NUMBER_OF_PHILOSOPHERS]) == 1)
+	{
+		one_philo_simulation(ft_atoi(argv[TIME_TO_DIE]));
+		return (true);
+	}
 	return (false);
 }

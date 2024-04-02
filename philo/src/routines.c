@@ -6,7 +6,7 @@
 /*   By: mde-sa-- <mde-sa--@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 18:12:40 by mde-sa--          #+#    #+#             */
-/*   Updated: 2024/04/02 17:17:07 by mde-sa--         ###   ########.fr       */
+/*   Updated: 2024/04/02 20:14:14 by mde-sa--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,16 +43,18 @@ void	philo_thread(t_philos *philo)
 	return ;
 }
 
-// Waits for simulation_run to be true (spinlock @ thread start)
-void	wait_for_threads(t_table *table)
+void	*one_philo_routine(void	*time_to_die)
 {
-	while (!get_bool(&table->simulation_mutex, &table->simulation_run))
-		;
-}
+	size_t	start_time;
+	size_t	current_time;
+	int		waiting_time;
 
-// Waits for all threads to be created, then sets simulation_run to TRUE
-void	sync_threads(t_table *table)
-{
-	ft_usleep(table->number_of_philos * 5);
-	set_bool(&(table->simulation_mutex), &(table->simulation_run), true);
+	waiting_time = *(int *)time_to_die;
+	start_time = get_abs_time();
+	current_time = get_abs_time() - start_time;
+	printf("%ld 0 has taken a fork\n", current_time);
+	ft_usleep(waiting_time);
+	current_time = get_abs_time() - start_time;
+	printf("%ld 0 has died\n", current_time);
+	return (NULL);
 }
