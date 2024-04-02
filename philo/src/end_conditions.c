@@ -6,7 +6,7 @@
 /*   By: mde-sa-- <mde-sa--@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 12:03:33 by mde-sa--          #+#    #+#             */
-/*   Updated: 2024/04/02 22:58:13 by mde-sa--         ###   ########.fr       */
+/*   Updated: 2024/04/03 00:06:57 by mde-sa--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,15 +50,7 @@ bool	someone_died(t_table *table)
 	return (death_flag);
 }
 
-// Checks if fork took too long to be free'd
-bool	waited_too_long(t_philos *philo, size_t current_time)
-{
-	if (current_time > philo->time_last_meal + philo->time_to_die)
-		return (true);
-	return (false);
-}
-
-// Sets death_flag to true, sleeps for appropriate time and adds death message
+// Sleeps for appropriate time, adds death message and sets death_flag to true
 void	set_death(t_philos *philo, size_t wait_time)
 {
 	if (wait_time)

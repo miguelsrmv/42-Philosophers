@@ -6,13 +6,15 @@
 /*   By: mde-sa-- <mde-sa--@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 14:41:15 by mde-sa--          #+#    #+#             */
-/*   Updated: 2024/04/02 23:29:41 by mde-sa--         ###   ########.fr       */
+/*   Updated: 2024/04/03 00:19:59 by mde-sa--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
 // Waits for messages to be created, then prints them
+// Upon printing, death_flag and success_count are updated
+// If an endpoint was reached, no further messages are printed
 void	monitoring_and_printing_thread(t_table *table)
 {
 	t_message	*current;
@@ -75,7 +77,7 @@ void	update_simstate(t_table *table, t_philos *philo,
 	}
 }
 
-// Prints philosopher's action
+// Prints philosopher's action from the node
 void	print_philo_action(t_message current)
 {
 	char	*message;

@@ -6,7 +6,7 @@
 /*   By: mde-sa-- <mde-sa--@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 15:59:16 by mde-sa--          #+#    #+#             */
-/*   Updated: 2024/04/02 23:29:46 by mde-sa--         ###   ########.fr       */
+/*   Updated: 2024/04/03 00:22:47 by mde-sa--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,6 @@ struct s_table
 	pthread_mutex_t		number_mutex;
 
 	int					success_count;
-	pthread_mutex_t		success_count_mutex;
 
 	bool				success_flag;
 	pthread_mutex_t		success_mutex;
@@ -192,14 +191,11 @@ void				add_to_list(t_message *node, t_message **list_head,
 /// end_conditions.c
 bool				stop_simulation(t_table *table);
 bool				someone_died(t_table *table);
-bool				waited_too_long(t_philos *philo, size_t current_time);
 void				set_death(t_philos *philo, size_t wait_time);
-void				update_eat_count(t_philos *philo, t_table *table);
 
 /// time_utils.c
 size_t				get_abs_time(void);
 size_t				get_current_time(t_philos *philo);
-size_t				get_time_diff(size_t start_time, size_t now);
 void				ft_usleep(size_t milliseconds);
 
 /// clean_data.c
@@ -221,7 +217,5 @@ void				set_int(pthread_mutex_t *mutex, int *target,
 						int value);
 void				set_size_t(pthread_mutex_t *mutex,
 						size_t *target, size_t value);
-void				set_t_msg_ptr(pthread_mutex_t *mutex,
-						t_message *target, t_message *value);
 
 #endif

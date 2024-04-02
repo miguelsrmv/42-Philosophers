@@ -6,14 +6,14 @@
 /*   By: mde-sa-- <mde-sa--@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 18:12:40 by mde-sa--          #+#    #+#             */
-/*   Updated: 2024/04/03 00:03:47 by mde-sa--         ###   ########.fr       */
+/*   Updated: 2024/04/03 00:18:30 by mde-sa--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
 // Starts routines for philos 1 to N (threads 1 to N)
-// Routine 0 will be the printing thread
+// Routine 0 will be the monitor/printing thread
 void	*routine(void *current_philo)
 {
 	t_philos	*philo;
@@ -26,7 +26,7 @@ void	*routine(void *current_philo)
 	return (NULL);
 }
 
-// Starts Eat-Think-Sleep routine
+// Starts Eat-Sleep-Think routine
 void	philo_thread(t_philos *philo)
 {
 	wait_for_threads(philo->table);
@@ -43,6 +43,7 @@ void	philo_thread(t_philos *philo)
 	return ;
 }
 
+// Special routine in case there is only 1 philo
 void	*one_philo_routine(void	*time_to_die)
 {
 	size_t	start_time;

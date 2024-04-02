@@ -6,7 +6,7 @@
 /*   By: mde-sa-- <mde-sa--@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 19:46:08 by mde-sa--          #+#    #+#             */
-/*   Updated: 2024/04/02 19:58:39 by mde-sa--         ###   ########.fr       */
+/*   Updated: 2024/04/03 00:14:19 by mde-sa--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ t_ErrorCode	init_table(t_table *table, int argc, char **argv)
 }
 
 // Initializes philo data for each philo
+/// Thread 0 will be Monitor & Printing thread
 void	init_philo_data(t_table *table, int argc, char **argv)
 {
 	int			i;
@@ -61,7 +62,7 @@ void	init_philo_data(t_table *table, int argc, char **argv)
 }
 
 // Sets up times from argv
-// Defines time_to_think depending on argv parameters
+/// Time_to_think is dependant on argv parameters to avoid deadlocks
 void	setup_philo_times(t_philos *philo, int argc, char **argv)
 {
 	philo->time_to_die = (size_t)ft_atoi(argv[TIME_TO_DIE]);
@@ -80,6 +81,7 @@ void	setup_philo_times(t_philos *philo, int argc, char **argv)
 }
 
 // Assigns forks for each philo, depending if odd or even
+/// Alternate priority avoids deadlocks
 void	assign_forks(t_philos *philo, t_table *table, int i)
 {
 	if (philo->philo_id % 2 != 0)

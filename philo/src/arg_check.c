@@ -6,13 +6,17 @@
 /*   By: mde-sa-- <mde-sa--@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 09:33:22 by mde-sa--          #+#    #+#             */
-/*   Updated: 2024/04/02 20:07:57 by mde-sa--         ###   ########.fr       */
+/*   Updated: 2024/04/03 00:12:11 by mde-sa--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
 // Checks for correct arg usage
+/// Args must be positive INTs and cannot have non-digit characters
+/// "Usage: ./philo [number_of_philosophers] [time_to_die]
+/// [time_to_eat] [time_to_sleep] [number_of_times_each_philosopher_must_eat]
+/// (optional)"
 t_ErrorCode	check_args(int argc, char **argv)
 {
 	if (is_argc_inadequate(argc) == true)
@@ -76,9 +80,9 @@ bool	is_arg_larger_than_int(char **argv)
 }
 
 // Special cases:
-/// #1 If simulation ends with 0 meals taken
-/// #2 If there are no philos
-/// #3 If there is just 1 philo
+/// #1 If simulation ends with 0 meals taken	Simulation won't run
+/// #2 If there are no philos					Simulation won't run
+/// #3 If there is just 1 philo					One_philo_simulation
 bool	is_special_case(int argc, char **argv)
 {
 	if (argc == 6

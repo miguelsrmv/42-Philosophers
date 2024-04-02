@@ -6,13 +6,14 @@
 /*   By: mde-sa-- <mde-sa--@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 18:07:40 by mde-sa--          #+#    #+#             */
-/*   Updated: 2024/04/02 20:28:44 by mde-sa--         ###   ########.fr       */
+/*   Updated: 2024/04/03 00:17:59 by mde-sa--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-// Starts multithreaded environment
+// Starts multithreaded environment with N threads
+/// N = Philo + 1 (monitor_and_printing thread)
 t_ErrorCode	init_threads(t_table *table)
 {
 	int	i;
@@ -64,7 +65,8 @@ void	sync_threads(t_table *table)
 	set_bool(&(table->simulation_mutex), &(table->simulation_run), true);
 }
 
-// Starts special case with just 1 thread
+// Special case with just 1 thread
+/// Subject specifies each philo *must* be a thread
 t_ErrorCode	one_philo_simulation(int time_to_die)
 {
 	pthread_t	lone_philo;

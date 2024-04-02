@@ -6,15 +6,14 @@
 /*   By: mde-sa-- <mde-sa--@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 16:05:19 by mde-sa--          #+#    #+#             */
-/*   Updated: 2024/04/03 00:02:17 by mde-sa--         ###   ########.fr       */
+/*   Updated: 2024/04/03 00:20:24 by mde-sa--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
 // Adds message to Linked List buffer
-/// Stops simulation in case other threads have given such a sign
-/// Also stops simulation (and signs other threads) if MALLOC_ERROR
+/// Stops simulation (and signs other threads) if MALLOC_ERROR
 void	add_message(t_philos *philo, t_table *table,
 			size_t current_time, t_PhiloAction action)
 {
