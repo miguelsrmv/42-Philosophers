@@ -6,7 +6,7 @@
 /*   By: mde-sa-- <mde-sa--@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 14:41:15 by mde-sa--          #+#    #+#             */
-/*   Updated: 2024/04/02 23:07:15 by mde-sa--         ###   ########.fr       */
+/*   Updated: 2024/04/02 23:29:41 by mde-sa--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	monitoring_and_printing_thread(t_table *table)
 		update_simstate(table, &table->philos[current_copy.philo_id],
 			current_copy.action, &simulation_stop);
 		if (simulation_stop)
-			break ;
+			return ;
 		current = current_copy.next;
 		wait_for_element(&current, &table->message_end->next, table);
 	}
@@ -41,7 +41,6 @@ void	monitoring_and_printing_thread(t_table *table)
 void	wait_for_element(t_message **current, t_message **target,
 			t_table *table)
 {
-	ft_usleep(PRINT_WAIT_TIME);
 	pthread_mutex_lock(&(table->message_mutex));
 	while (!(*current))
 	{
@@ -67,8 +66,12 @@ void	update_simstate(t_table *table, t_philos *philo,
 			== philo->times_each_philosopher_must_eat)
 			table->success_count++;
 		if (table->success_count
-			== philo->times_each_philosopher_must_eat)
+			== table->number_of_philos)
+		{
 			*simulation_stop = true;
+			set_bool(&(table->success_mutex),
+				&(table->success_flag), true);
+		}
 	}
 }
 

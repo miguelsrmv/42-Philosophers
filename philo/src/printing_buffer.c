@@ -6,7 +6,7 @@
 /*   By: mde-sa-- <mde-sa--@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 16:05:19 by mde-sa--          #+#    #+#             */
-/*   Updated: 2024/04/02 23:03:11 by mde-sa--         ###   ########.fr       */
+/*   Updated: 2024/04/03 00:02:17 by mde-sa--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,7 @@ void	add_message(t_philos *philo, t_table *table,
 	t_message	*message;
 
 	message = NULL;
- 	pthread_mutex_lock(&(table->message_mutex));
-/* 	if (stop_simulation(table))
-	{
-		pthread_mutex_unlock(&(table->message_mutex));
-		return ;
-	} */
+	pthread_mutex_lock(&(table->message_mutex));
 	if (!create_next_node(&message, current_time, philo->philo_id, action))
 	{
 		set_bool(&(table->simulation_mutex), &(table->simulation_run), false);
@@ -34,14 +29,6 @@ void	add_message(t_philos *philo, t_table *table,
 		return ;
 	}
 	add_to_list(message, &(table->message_head), &(table->message_end));
-/* 	char *action_msg[5]
-		= {FORK_MESSAGE,
-			EATING_MESSAGE,
-			SLEEPING_MESSAGE,
-			THINKING_MESSAGE,
-			DEATH_MESSAGE};
-	printf("%li %i %s\n", current_time, philo->philo_id, action_msg[action]);
-	(void)message; */
 	pthread_mutex_unlock(&(table->message_mutex));
 }
 
