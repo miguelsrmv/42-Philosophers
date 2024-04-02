@@ -6,7 +6,7 @@
 /*   By: mde-sa-- <mde-sa--@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 15:59:16 by mde-sa--          #+#    #+#             */
-/*   Updated: 2024/04/02 20:27:40 by mde-sa--         ###   ########.fr       */
+/*   Updated: 2024/04/02 22:57:00 by mde-sa--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -193,7 +193,7 @@ void				add_to_list(t_message *node, t_message **list_head,
 bool				stop_simulation(t_table *table);
 bool				someone_died(t_table *table);
 bool				waited_too_long(t_philos *philo, size_t current_time);
-void				set_death(t_philos *philo, size_t current_time);
+void				set_death(t_philos *philo, size_t wait_time);
 void				update_eat_count(t_philos *philo, t_table *table);
 
 /// time_utils.c

@@ -6,7 +6,7 @@
 /*   By: mde-sa-- <mde-sa--@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 12:13:06 by mde-sa--          #+#    #+#             */
-/*   Updated: 2024/04/02 20:25:00 by mde-sa--         ###   ########.fr       */
+/*   Updated: 2024/04/02 22:59:48 by mde-sa--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,9 @@ void	take_first_fork_routine(t_philos *philo)
 		pthread_mutex_unlock(&(philo->first_fork->fork_mutex));
 		return ;
 	}
-	if (waited_too_long(philo, get_current_time(philo)))
+	if (get_current_time(philo) > philo->time_last_meal + philo->time_to_die)
 	{
-		set_death(philo, get_current_time(philo));
+		set_death(philo, 0);
 		pthread_mutex_unlock(&(philo->first_fork->fork_mutex));
 		return ;
 	}
@@ -37,6 +37,11 @@ void	take_first_fork_routine(t_philos *philo)
 /// If too much time has passed before grabbing the fork, dies
 void	take_second_fork_routine(t_philos *philo)
 {
+	if (someone_died(philo->table))
+	{
+		pthread_mutex_unlock(&(philo->first_fork->fork_mutex));
+		return ;
+	}
 	pthread_mutex_lock(&(philo->second_fork->fork_mutex));
 	if (someone_died(philo->table))
 	{
@@ -44,9 +49,9 @@ void	take_second_fork_routine(t_philos *philo)
 		pthread_mutex_unlock(&(philo->second_fork->fork_mutex));
 		return ;
 	}
-	if (waited_too_long(philo, get_current_time(philo)))
+	if (get_current_time(philo) > philo->time_last_meal + philo->time_to_die)
 	{
-		set_death(philo, get_current_time(philo));
+		set_death(philo, 0);
 		pthread_mutex_unlock(&(philo->first_fork->fork_mutex));
 		pthread_mutex_unlock(&(philo->second_fork->fork_mutex));
 		return ;
@@ -65,7 +70,8 @@ void	eat_routine(t_philos *philo, size_t current_time)
 	if (philo->time_to_eat < philo->time_to_die)
 		ft_usleep(philo->time_to_eat);
 	else
-		set_death(philo, current_time);
+		set_death(philo,
+			(philo->time_to_die) - (current_time - philo->time_last_meal));
 	pthread_mutex_unlock(&(philo->first_fork->fork_mutex));
 	pthread_mutex_unlock(&(philo->second_fork->fork_mutex));
 }
@@ -82,7 +88,8 @@ void	sleep_routine(t_philos *philo, size_t current_time)
 		< philo->time_last_meal + philo->time_to_die)
 		ft_usleep(philo->time_to_sleep);
 	else
-		set_death(philo, current_time);
+		set_death(philo,
+			(philo->time_to_die) - (current_time - philo->time_last_meal));
 	return ;
 }
 
@@ -100,6 +107,7 @@ void	think_routine(t_philos *philo, size_t current_time)
 		ft_usleep(philo->time_to_think);
 	}
 	else
-		set_death(philo, current_time);
+		set_death(philo,
+			(philo->time_to_die) - (current_time - philo->time_last_meal));
 	return ;
 }

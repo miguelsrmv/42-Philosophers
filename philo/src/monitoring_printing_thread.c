@@ -6,7 +6,7 @@
 /*   By: mde-sa-- <mde-sa--@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 14:41:15 by mde-sa--          #+#    #+#             */
-/*   Updated: 2024/04/02 20:22:48 by mde-sa--         ###   ########.fr       */
+/*   Updated: 2024/04/02 23:07:15 by mde-sa--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,9 @@ void	monitoring_and_printing_thread(t_table *table)
 
 	current = (void *) NULL;
 	simulation_stop = false;
-	wait_for_threads(table);
 	wait_for_element(&current, &table->message_head, table);
 	wait_for_element(&current, &table->message_head->next, table);
-	while (true)
+	while (!simulation_stop)
 	{
 		current_copy = get_t_msg(&(table->message_mutex), current);
 		print_philo_action(current_copy);

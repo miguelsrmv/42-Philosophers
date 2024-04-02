@@ -6,7 +6,7 @@
 /*   By: mde-sa-- <mde-sa--@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 12:03:33 by mde-sa--          #+#    #+#             */
-/*   Updated: 2024/04/02 16:04:27 by mde-sa--         ###   ########.fr       */
+/*   Updated: 2024/04/02 22:58:13 by mde-sa--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,9 +59,10 @@ bool	waited_too_long(t_philos *philo, size_t current_time)
 }
 
 // Sets death_flag to true, sleeps for appropriate time and adds death message
-void	set_death(t_philos *philo, size_t current_time)
+void	set_death(t_philos *philo, size_t wait_time)
 {
-	ft_usleep((philo->time_to_die) - (current_time - philo->time_last_meal));
+	if (wait_time)
+		ft_usleep(wait_time);
 	add_message(philo, philo->table, get_current_time(philo), DIED);
 	set_bool(&(philo->table->death_mutex),
 		&(philo->table->death_flag), true);

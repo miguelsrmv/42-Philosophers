@@ -6,7 +6,7 @@
 /*   By: mde-sa-- <mde-sa--@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 18:12:40 by mde-sa--          #+#    #+#             */
-/*   Updated: 2024/04/02 20:19:37 by mde-sa--         ###   ########.fr       */
+/*   Updated: 2024/04/02 23:01:16 by mde-sa--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,8 @@ void	philo_thread(t_philos *philo)
 		take_first_fork_routine(philo);
 		take_second_fork_routine(philo);
 		eat_routine(philo, get_current_time(philo));
-		think_routine(philo, get_current_time(philo));
 		sleep_routine(philo, get_current_time(philo));
+		think_routine(philo, get_current_time(philo));
 	}
 	return ;
 }
