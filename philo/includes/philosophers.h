@@ -6,7 +6,7 @@
 /*   By: mde-sa-- <mde-sa--@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 15:59:16 by mde-sa--          #+#    #+#             */
-/*   Updated: 2024/04/02 15:41:03 by mde-sa--         ###   ########.fr       */
+/*   Updated: 2024/04/02 17:52:45 by mde-sa--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,38 +32,15 @@ typedef enum e_ErrorCode
 	THREAD_ERROR
 }	t_ErrorCode;
 
-// State of simulation
-typedef enum e_SimState
-{
-	CONTINUE,
-	STOP_SIMULATION
-}	t_SimState;
+// Error Messages
+# define ARG_MESSAGE "Usage: ./philo [number_of_philosophers] [time_to_die] \
+[time_to_eat] [time_to_sleep] [number_of_times_each_philosopher_must_eat] \
+(optional)\n"
+# define MUTEX_MESSAGE "Mutex error\n"
+# define MALLOC_MESSAGE "Malloc error\n"
+# define THREAD_MESSAGE "Thread error\n"
 
-// Philosopher States
-typedef enum e_PhiloState
-{
-	MISSING_2_FORK,
-	MISSING_1_FORK,
-	EATING,
-	THINKING,
-	SLEEPING,
-	DEAD,
-}	t_PhiloState;
-
-// Fork Status
-typedef enum e_ForkStatus
-{
-	AVAILABLE,
-	TAKEN
-}	t_ForkStatus;
-
-// Mutex actions
-typedef enum e_MutexAction
-{
-	LOCK,
-	UNLOCK
-}	t_MutexAction;
-
+// Philosopher actions
 typedef enum e_PhiloAction
 {
 	TOOK_A_FORK,
@@ -73,13 +50,15 @@ typedef enum e_PhiloAction
 	DIED
 }	t_PhiloAction;
 
-// Error Messages
-# define ARG_MESSAGE "Usage: ./philo [number_of_philosophers] [time_to_die] \
-[time_to_eat] [time_to_sleep] [number_of_times_each_philosopher_must_eat] \
-(optional)\n"
-# define MUTEX_MESSAGE "Mutex error\n"
-# define MALLOC_MESSAGE "Malloc error\n"
-# define THREAD_MESSAGE "Thread error\n"
+// Philo Messages
+# define FORK_MESSAGE "fook a fork"
+# define EATING_MESSAGE "is eating"
+# define SLEEPING_MESSAGE "is sleeping"
+# define THINKING_MESSAGE "is thinking"
+# define DEATH_MESSAGE "died"
+
+// Wait Times
+# define PRINT_WAIT_TIME 100
 
 // Structs
 typedef struct s_table	t_table;
@@ -87,7 +66,6 @@ typedef struct s_table	t_table;
 typedef struct s_forks
 {
 	int					fork_id;
-	t_ForkStatus		fork_status;
 	pthread_mutex_t		fork_mutex;
 }	t_forks;
 
@@ -105,7 +83,6 @@ typedef struct s_philos
 
 	t_forks				*first_fork;
 	t_forks				*second_fork;
-	t_PhiloState		state;
 
 	int					eat_count;
 	size_t				start_time;
@@ -191,13 +168,19 @@ void				sleep_routine(t_philos *philo,
 
 /// monitoring_printing_thread.c
 void				monitoring_and_printing_thread(t_table *table);
-void				print_philo_action(t_message current);
 void				update_simstate(t_table *table, t_philos *philo,
 						t_PhiloAction action, bool *simulation_run);
+void				wait_for_element(t_message **current, t_message *target,
+						t_table *table);
+void				print_philo_action(t_message current);
 
 /// printing_buffer.c
 void				add_message(t_philos *philo, t_table *table,
 						size_t current_time, t_PhiloAction action);
+bool				create_next_node(t_message **message, size_t current_time,
+						int philo_id, t_PhiloAction action);
+void				add_to_list(t_message *node, t_message **list_head,
+						t_message **list_end);
 
 /// end_conditions.c
 bool				stop_simulation(t_table *table);
@@ -233,10 +216,7 @@ void				set_int(pthread_mutex_t *mutex, int *target,
 						int value);
 void				set_size_t(pthread_mutex_t *mutex,
 						size_t *target, size_t value);
-void				set_t_msg(pthread_mutex_t *mutex,
-						t_message *target, t_message value);
-
-/// Helpers
-void				print_philo(t_philos philo);
+void				set_t_msg_ptr(pthread_mutex_t *mutex,
+						t_message *target, t_message *value);
 
 #endif

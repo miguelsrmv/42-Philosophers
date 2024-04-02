@@ -6,7 +6,7 @@
 /*   By: mde-sa-- <mde-sa--@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 22:41:10 by mde-sa--          #+#    #+#             */
-/*   Updated: 2024/04/02 12:04:25 by mde-sa--         ###   ########.fr       */
+/*   Updated: 2024/04/02 16:01:44 by mde-sa--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,11 @@ void	set_size_t(pthread_mutex_t *mutex, size_t *target, size_t value)
 	pthread_mutex_unlock(mutex);
 }
 
-// Sets mutex-protected t_message to target value
-void	set_t_msg(pthread_mutex_t *mutex, t_message *target, t_message value)
+// Sets mutex-protected t_message to target pointer
+void	set_t_msg_ptr(pthread_mutex_t *mutex, t_message *target,
+			t_message *value)
 {
 	pthread_mutex_lock(mutex);
-	*target = value;
+	*target = *value;
 	pthread_mutex_unlock(mutex);
 }

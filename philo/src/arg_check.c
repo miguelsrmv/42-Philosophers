@@ -6,7 +6,7 @@
 /*   By: mde-sa-- <mde-sa--@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 09:33:22 by mde-sa--          #+#    #+#             */
-/*   Updated: 2024/03/31 23:51:56 by mde-sa--         ###   ########.fr       */
+/*   Updated: 2024/04/02 16:14:14 by mde-sa--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ bool	is_argc_inadequate(int argc)
 {
 	if (argc < 5 || argc > 6)
 	{
-		ft_printf(ARG_MESSAGE);
+		printf(ARG_MESSAGE);
 		return (true);
 	}
 	return (false);
@@ -49,7 +49,7 @@ bool	arg_has_non_digit_chars(char **argv)
 		{
 			if (!ft_isdigit(argv[i][j++]))
 			{
-				ft_printf(ARG_MESSAGE);
+				printf(ARG_MESSAGE);
 				return (true);
 			}
 		}

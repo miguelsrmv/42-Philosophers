@@ -6,7 +6,7 @@
 /*   By: mde-sa-- <mde-sa--@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 18:12:40 by mde-sa--          #+#    #+#             */
-/*   Updated: 2024/04/02 15:53:29 by mde-sa--         ###   ########.fr       */
+/*   Updated: 2024/04/02 17:17:07 by mde-sa--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@ void	*routine(void *current_philo)
 // Starts Eat-Think-Sleep routine
 void	philo_thread(t_philos *philo)
 {
-	philo->start_time = get_abs_time();
 	wait_for_threads(philo->table);
+	philo->start_time = get_abs_time();
 	philo->time_last_meal = get_current_time(philo);
 	while (!stop_simulation(philo->table))
 	{

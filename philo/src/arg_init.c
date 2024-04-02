@@ -6,7 +6,7 @@
 /*   By: mde-sa-- <mde-sa--@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 19:46:08 by mde-sa--          #+#    #+#             */
-/*   Updated: 2024/04/02 15:37:46 by mde-sa--         ###   ########.fr       */
+/*   Updated: 2024/04/02 17:50:13 by mde-sa--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,6 @@ void	init_philo_data(t_table *table, int argc, char **argv)
 		philo->table = table;
 		if (i)
 		{
-			philo->state = MISSING_2_FORK;
 			philo->eat_count = 0;
 			setup_philo_times(philo, argc, argv);
 			assign_forks(philo, table, i);
@@ -108,7 +107,6 @@ void	init_fork_data(t_table *table)
 	{
 		fork = &(table->forks[i - 1]);
 		fork->fork_id = i;
-		fork->fork_status = AVAILABLE;
 		i++;
 	}
 }
