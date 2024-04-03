@@ -6,7 +6,7 @@
 /*   By: mde-sa-- <mde-sa--@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 09:33:22 by mde-sa--          #+#    #+#             */
-/*   Updated: 2024/04/03 00:12:11 by mde-sa--         ###   ########.fr       */
+/*   Updated: 2024/04/03 00:52:13 by mde-sa--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ t_ErrorCode	check_args(int argc, char **argv)
 		return (ARG_ERROR);
 	if (is_arg_larger_than_int(argv) == true)
 		return (ARG_ERROR);
+	warning(argv);
 	return (SUCCESS);
 }
 

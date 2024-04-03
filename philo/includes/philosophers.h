@@ -6,7 +6,7 @@
 /*   By: mde-sa-- <mde-sa--@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 15:59:16 by mde-sa--          #+#    #+#             */
-/*   Updated: 2024/04/03 00:22:47 by mde-sa--         ###   ########.fr       */
+/*   Updated: 2024/04/03 00:59:26 by mde-sa--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,11 @@ typedef enum e_ErrorCode
 # define MUTEX_MESSAGE "Mutex error\n"
 # define MALLOC_MESSAGE "Malloc error\n"
 # define THREAD_MESSAGE "Thread error\n"
+# define PHILO_NO_MESSAGE "(Evaluation sheet states: \
+'Do not test with more than 200 philosophers.')\n\n"
+# define TIME_ERROR_MESSAGE "(Evaluation sheet states: \
+'Do not test time_to_die or time_to_eat or time_to_sleep \
+set to values lower than 60ms')\n\n"
 
 // Philosopher actions
 typedef enum e_PhiloAction
@@ -217,5 +222,8 @@ void				set_int(pthread_mutex_t *mutex, int *target,
 						int value);
 void				set_size_t(pthread_mutex_t *mutex,
 						size_t *target, size_t value);
+
+/// warning.c
+void				warning(char **argv);
 
 #endif
