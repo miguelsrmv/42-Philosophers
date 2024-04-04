@@ -6,7 +6,7 @@
 /*   By: mde-sa-- <mde-sa--@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 14:41:15 by mde-sa--          #+#    #+#             */
-/*   Updated: 2024/04/03 00:19:59 by mde-sa--         ###   ########.fr       */
+/*   Updated: 2024/04/04 13:00:21 by mde-sa--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ void	monitoring_and_printing_thread(t_table *table)
 	while (!simulation_stop)
 	{
 		current_copy = get_t_msg(&(table->message_mutex), current);
+		//ft_usleep(table->number_of_philos / PHILO_NO_WAIT_TIME);
 		print_philo_action(current_copy);
 		update_simstate(table, &table->philos[current_copy.philo_id],
 			current_copy.action, &simulation_stop);
@@ -47,7 +48,7 @@ void	wait_for_element(t_message **current, t_message **target,
 	while (!(*current))
 	{
 		pthread_mutex_unlock(&(table->message_mutex));
-		ft_usleep(PRINT_WAIT_TIME);
+		ft_usleep(LIST_WAIT_TIME);
 		pthread_mutex_lock(&(table->message_mutex));
 		(*current) = (*target);
 	}
@@ -80,20 +81,15 @@ void	update_simstate(t_table *table, t_philos *philo,
 // Prints philosopher's action from the node
 void	print_philo_action(t_message current)
 {
-	char	*message;
+	char	*actions[5];
 
-	if (current.action == TOOK_A_FORK)
-		message = FORK_MESSAGE;
-	else if (current.action == IS_EATING)
-		message = EATING_MESSAGE;
-	else if (current.action == IS_SLEEPING)
-		message = SLEEPING_MESSAGE;
-	else if (current.action == IS_THINKING)
-		message = THINKING_MESSAGE;
-	else if (current.action == DIED)
-		message = DEATH_MESSAGE;
+	actions[0] = FORK_MESSAGE;
+	actions[1] = EATING_MESSAGE;
+	actions[2] = SLEEPING_MESSAGE;
+	actions[3] = THINKING_MESSAGE;
+	actions[4] = DEATH_MESSAGE;
 	printf("%ld %i %s\n",
 		current.time_stamp,
 		current.philo_id,
-		message);
+		actions[current.action]);
 }

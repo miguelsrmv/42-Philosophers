@@ -6,7 +6,7 @@
 /*   By: mde-sa-- <mde-sa--@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 15:59:16 by mde-sa--          #+#    #+#             */
-/*   Updated: 2024/04/03 00:59:26 by mde-sa--         ###   ########.fr       */
+/*   Updated: 2024/04/04 13:00:01 by mde-sa--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,8 @@ typedef enum e_PhiloAction
 # define TIME_TO_EAT 3
 # define TIME_TO_SLEEP 4
 # define NUMBER_OF_TIMES_EACH_PHILOSOPHER_MUST_EAT 5
-# define PRINT_WAIT_TIME 20
+# define PHILO_NO_WAIT_TIME 100
+# define LIST_WAIT_TIME 20
 
 // Structs
 typedef struct s_table	t_table;
@@ -187,11 +188,9 @@ void				print_philo_action(t_message current);
 
 /// printing_buffer.c
 void				add_message(t_philos *philo, t_table *table,
-						size_t current_time, t_PhiloAction action);
-bool				create_next_node(t_message **message, size_t current_time,
-						int philo_id, t_PhiloAction action);
-void				add_to_list(t_message *node, t_message **list_head,
-						t_message **list_end);
+						t_PhiloAction action);
+void				add_node_to_list(t_philos *philo, t_table *table,
+						t_PhiloAction action);
 
 /// end_conditions.c
 bool				stop_simulation(t_table *table);

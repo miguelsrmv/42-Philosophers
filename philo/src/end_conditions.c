@@ -6,7 +6,7 @@
 /*   By: mde-sa-- <mde-sa--@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 12:03:33 by mde-sa--          #+#    #+#             */
-/*   Updated: 2024/04/03 00:06:57 by mde-sa--         ###   ########.fr       */
+/*   Updated: 2024/04/04 12:51:25 by mde-sa--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	set_death(t_philos *philo, size_t wait_time)
 {
 	if (wait_time)
 		ft_usleep(wait_time);
-	add_message(philo, philo->table, get_current_time(philo), DIED);
+	add_message(philo, philo->table, DIED);
 	set_bool(&(philo->table->death_mutex),
 		&(philo->table->death_flag), true);
 }
