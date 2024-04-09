@@ -6,7 +6,7 @@
 /*   By: mde-sa-- <mde-sa--@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 15:59:16 by mde-sa--          #+#    #+#             */
-/*   Updated: 2024/04/09 21:43:16 by mde-sa--         ###   ########.fr       */
+/*   Updated: 2024/04/09 22:06:43 by mde-sa--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,17 @@ typedef enum e_ErrorCode
 'Do not test time_to_die or time_to_eat or time_to_sleep \
 set to values lower than 60ms')\n\n"
 
+// Program arguments (argv)
+enum e_CommandLineArgs
+{
+	PHILO_PLACEHOLDER,
+	NUMBER_OF_PHILOSOPHERS,
+	TIME_TO_DIE,
+	TIME_TO_EAT,
+	TIME_TO_SLEEP,
+	NUMBER_OF_TIMES_EACH_PHILOSOPHER_MUST_EAT
+};
+
 // Philosopher actions
 typedef enum e_PhiloAction
 {
@@ -62,12 +73,7 @@ typedef enum e_PhiloAction
 # define THINKING_MESSAGE "is thinking"
 # define DEATH_MESSAGE "died"
 
-// Constants
-# define NUMBER_OF_PHILOSOPHERS 1
-# define TIME_TO_DIE 2
-# define TIME_TO_EAT 3
-# define TIME_TO_SLEEP 4
-# define NUMBER_OF_TIMES_EACH_PHILOSOPHER_MUST_EAT 5
+// Wait constants
 # define PHILO_NO_WAIT_TIME 25
 # define LIST_WAIT_TIME 20
 # define BEGINNING_WAIT_BUFFER 10

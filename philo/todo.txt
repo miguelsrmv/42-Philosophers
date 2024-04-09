@@ -1,5 +1,7 @@
-./philo 200 200 200 200
+Get current time não dá race?? Já que vão buscar tudo ao mesmo data point?
 
-./philo 10 200 200 200
-»»» Thread sanitize: competição em message mutex locks na verificação de proxima mensagem...
-»»»»» Criar função específica para início de lista e depois modificar mutexes???
+Se sim, criar um mutex para proteger a variável global OU copiar data para uma variável local e depois fazer as contas.
+
+
+
+Correr Valgrind com Helgrind

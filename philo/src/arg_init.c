@@ -6,7 +6,7 @@
 /*   By: mde-sa-- <mde-sa--@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 19:46:08 by mde-sa--          #+#    #+#             */
-/*   Updated: 2024/04/09 21:17:56 by mde-sa--         ###   ########.fr       */
+/*   Updated: 2024/04/09 22:05:02 by mde-sa--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 // Initializes table struct
 t_ErrorCode	init_table(t_table *table, int argc, char **argv)
 {
-	table->number_of_philos = ft_atoi(argv[1]);
+	table->number_of_philos = ft_atoi(argv[NUMBER_OF_PHILOSOPHERS]);
 	table->success_count = 0;
 	table->death_flag = false;
 	table->success_flag = false;
