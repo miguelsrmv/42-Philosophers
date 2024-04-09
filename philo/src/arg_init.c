@@ -6,7 +6,7 @@
 /*   By: mde-sa-- <mde-sa--@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 19:46:08 by mde-sa--          #+#    #+#             */
-/*   Updated: 2024/04/03 10:10:01 by mde-sa--         ###   ########.fr       */
+/*   Updated: 2024/04/09 12:43:23 by mde-sa--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ t_ErrorCode	init_table(t_table *table, int argc, char **argv)
 		free(table->forks);
 		return (MALLOC_ERROR);
 	}
+	table->table_start_time = get_abs_time();
 	init_philo_data(table, argc, argv);
 	init_fork_data(table);
 	return (SUCCESS);

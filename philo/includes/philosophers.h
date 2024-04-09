@@ -6,7 +6,7 @@
 /*   By: mde-sa-- <mde-sa--@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 15:59:16 by mde-sa--          #+#    #+#             */
-/*   Updated: 2024/04/04 13:00:01 by mde-sa--         ###   ########.fr       */
+/*   Updated: 2024/04/09 12:43:02 by mde-sa--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ typedef enum e_PhiloAction
 # define TIME_TO_EAT 3
 # define TIME_TO_SLEEP 4
 # define NUMBER_OF_TIMES_EACH_PHILOSOPHER_MUST_EAT 5
-# define PHILO_NO_WAIT_TIME 100
+# define PHILO_NO_WAIT_TIME 25
 # define LIST_WAIT_TIME 20
 
 // Structs
@@ -128,6 +128,8 @@ struct s_table
 	t_forks				*forks;
 
 	t_philos			*philos;
+
+	size_t				table_start_time;
 
 	t_message			*message_head;
 	t_message			*message_end;

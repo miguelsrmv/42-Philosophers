@@ -6,7 +6,7 @@
 /*   By: mde-sa-- <mde-sa--@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 18:15:15 by mde-sa--          #+#    #+#             */
-/*   Updated: 2024/04/03 00:21:04 by mde-sa--         ###   ########.fr       */
+/*   Updated: 2024/04/09 12:43:46 by mde-sa--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ size_t	get_abs_time(void)
 // Gets current time, in milliseconds, counting from threads' start time
 size_t	get_current_time(t_philos *philo)
 {
-	return (get_abs_time() - philo->start_time);
+	return (get_abs_time() - philo->table->table_start_time);
 }
 
 // Re-worked usleep function for more precision
