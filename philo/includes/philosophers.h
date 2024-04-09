@@ -6,7 +6,7 @@
 /*   By: mde-sa-- <mde-sa--@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 15:59:16 by mde-sa--          #+#    #+#             */
-/*   Updated: 2024/04/09 22:06:43 by mde-sa--         ###   ########.fr       */
+/*   Updated: 2024/04/09 22:07:43 by mde-sa--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,7 @@ set to values lower than 60ms')\n\n"
 // Program arguments (argv)
 enum e_CommandLineArgs
 {
-	PHILO_PLACEHOLDER,
-	NUMBER_OF_PHILOSOPHERS,
+	NUMBER_OF_PHILOSOPHERS = 1,
 	TIME_TO_DIE,
 	TIME_TO_EAT,
 	TIME_TO_SLEEP,
