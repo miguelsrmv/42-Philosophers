@@ -6,7 +6,7 @@
 #    By: mde-sa-- <mde-sa--@student.42porto.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/23 09:55:46 by mde-sa--          #+#    #+#              #
-#    Updated: 2024/04/03 00:57:59 by mde-sa--         ###   ########.fr        #
+#    Updated: 2024/04/09 21:13:14 by mde-sa--         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME	=   philo
 
 CC      = 	cc
 
-CFLAGS   =  -Wall -Wextra -Werror -pthread -g
+CFLAGS   =  -Wall -Wextra -Werror -pthread
 
 SRCDIR	=	src
 
@@ -41,6 +41,9 @@ all: libft $(NAME)
 
 $(NAME): $(OBJS) 
 	$(CC) $(CFLAGS) $(OBJS) $(LIBS) -o $(NAME) 
+
+thread: $(OBJS) 
+	$(CC) $(CFLAGS) -g -fsanitize=thread $(OBJS) $(LIBS) -o $(NAME) 
 
 $(SRCDIR)/%.o: $(SRCDIR)/%.c $(INCDIR)/*.h
 	$(CC) $(CFLAGS) $(INCFLAGS) -c $< -o $@

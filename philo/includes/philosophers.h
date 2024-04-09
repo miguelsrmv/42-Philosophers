@@ -6,7 +6,7 @@
 /*   By: mde-sa-- <mde-sa--@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 15:59:16 by mde-sa--          #+#    #+#             */
-/*   Updated: 2024/04/09 12:43:02 by mde-sa--         ###   ########.fr       */
+/*   Updated: 2024/04/09 21:43:16 by mde-sa--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ typedef enum e_PhiloAction
 # define NUMBER_OF_TIMES_EACH_PHILOSOPHER_MUST_EAT 5
 # define PHILO_NO_WAIT_TIME 25
 # define LIST_WAIT_TIME 20
+# define BEGINNING_WAIT_BUFFER 10
 
 // Structs
 typedef struct s_table	t_table;
@@ -96,7 +97,6 @@ typedef struct s_philos
 	t_forks				*second_fork;
 
 	int					eat_count;
-	size_t				start_time;
 
 	t_table				*table;
 }	t_philos;
@@ -171,21 +171,21 @@ void				philo_thread(t_philos *philo);
 void				*one_philo_routine(void *time_to_die);
 
 /// fork_eat_think_sleep.c
-void				take_first_fork_routine(t_philos *philo);
-void				take_second_fork_routine(t_philos *philo);
-void				eat_routine(t_philos *philo,
+bool				take_first_fork_routine(t_philos *philo);
+bool				take_second_fork_routine(t_philos *philo);
+bool				eat_routine(t_philos *philo,
 						size_t current_time);
-void				think_routine(t_philos *philo,
+bool				think_routine(t_philos *philo,
 						size_t current_time);
-void				sleep_routine(t_philos *philo,
+bool				sleep_routine(t_philos *philo,
 						size_t current_time);
 
 /// monitoring_printing_thread.c
 void				monitoring_and_printing_thread(t_table *table);
 void				update_simstate(t_table *table, t_philos *philo,
 						t_PhiloAction action, bool *simulation_stop);
-void				wait_for_element(t_message **current, t_message **target,
-						t_table *table);
+void				wait_for_first_element(t_message **current, t_table *table);
+void				wait_for_next_element(t_message **current, t_table *table);
 void				print_philo_action(t_message current);
 
 /// printing_buffer.c

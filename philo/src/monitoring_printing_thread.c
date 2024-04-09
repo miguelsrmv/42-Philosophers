@@ -6,7 +6,7 @@
 /*   By: mde-sa-- <mde-sa--@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 14:41:15 by mde-sa--          #+#    #+#             */
-/*   Updated: 2024/04/09 12:37:25 by mde-sa--         ###   ########.fr       */
+/*   Updated: 2024/04/09 19:42:27 by mde-sa--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,28 +23,46 @@ void	monitoring_and_printing_thread(t_table *table)
 
 	current = (void *) NULL;
 	simulation_stop = false;
-	wait_for_element(&current, &table->message_head, table);
-	wait_for_element(&current, &table->message_head->next, table);
+	wait_for_first_element(&current, table);
 	while (!simulation_stop)
 	{
 		current_copy = get_t_msg(&(table->message_mutex), current);
-		//ft_usleep(table->number_of_philos / PHILO_NO_WAIT_TIME);
 		print_philo_action(current_copy);
 		update_simstate(table, &table->philos[current_copy.philo_id],
 			current_copy.action, &simulation_stop);
 		if (simulation_stop)
 			return ;
 		current = current_copy.next;
-		wait_for_element(&current, &table->message_end->next, table);
+		wait_for_next_element(&current, table);
 	}
 	return ;
 }
 
-// ft_usleeps(PRINT_WAIT_TIME) whenever next element is not (yet) available
-void	wait_for_element(t_message **current, t_message **target,
-			t_table *table)
+// ft_usleeps(PRINT_WAIT_TIME) whenever first list element is not available
+void	wait_for_first_element(t_message **current, t_table *table)
 {
+	t_message	**target;
+
 	pthread_mutex_lock(&(table->message_mutex));
+	target = &table->message_head;
+	while (!(*current))
+	{
+		pthread_mutex_unlock(&(table->message_mutex));
+		ft_usleep(LIST_WAIT_TIME);
+		pthread_mutex_lock(&(table->message_mutex));
+		(*current) = (*target);
+	}
+	pthread_mutex_unlock(&(table->message_mutex));
+}
+
+// ft_usleeps(PRINT_WAIT_TIME) whenever next element is not available
+/// Not refactored so as to not have so many "ifs".
+void	wait_for_next_element(t_message **current, t_table *table)
+{
+	t_message	**target;
+
+	pthread_mutex_lock(&(table->message_mutex));
+	target = &table->message_end->next;
 	while (!(*current))
 	{
 		pthread_mutex_unlock(&(table->message_mutex));

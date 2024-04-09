@@ -1,1 +1,5 @@
 ./philo 200 200 200 200
+
+./philo 10 200 200 200
+»»» Thread sanitize: competição em message mutex locks na verificação de proxima mensagem...
+»»»»» Criar função específica para início de lista e depois modificar mutexes???

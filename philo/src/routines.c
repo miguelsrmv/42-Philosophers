@@ -6,7 +6,7 @@
 /*   By: mde-sa-- <mde-sa--@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 18:12:40 by mde-sa--          #+#    #+#             */
-/*   Updated: 2024/04/09 12:41:12 by mde-sa--         ###   ########.fr       */
+/*   Updated: 2024/04/09 21:43:00 by mde-sa--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,15 +30,19 @@ void	*routine(void *current_philo)
 void	philo_thread(t_philos *philo)
 {
 	wait_for_threads(philo->table);
-	//philo->start_time = get_abs_time();
 	philo->time_last_meal = get_current_time(philo);
 	while (!stop_simulation(philo->table))
 	{
-		take_first_fork_routine(philo);
-		take_second_fork_routine(philo);
-		eat_routine(philo, get_current_time(philo));
-		sleep_routine(philo, get_current_time(philo));
-		think_routine(philo, get_current_time(philo));
+		if (!take_first_fork_routine(philo))
+			break ;
+		if (!take_second_fork_routine(philo))
+			break ;
+		if (!eat_routine(philo, get_current_time(philo)))
+			break ;
+		if (!sleep_routine(philo, get_current_time(philo)))
+			break ;
+		if (!think_routine(philo, get_current_time(philo)))
+			break ;
 	}
 	return ;
 }

@@ -6,38 +6,26 @@
 /*   By: mde-sa-- <mde-sa--@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 12:03:33 by mde-sa--          #+#    #+#             */
-/*   Updated: 2024/04/04 12:51:25 by mde-sa--         ###   ########.fr       */
+/*   Updated: 2024/04/09 21:10:36 by mde-sa--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
 // Checks for any flag that should stop the simulation
-/// Simulation_run allows for fewer checks after success_flag is up
 bool	stop_simulation(t_table *table)
 {
 	bool	death_flag;
 	bool	success_flag;
-	bool	simulation_run;
 
-	simulation_run
-		= get_bool(&(table->simulation_mutex), &table->simulation_run);
-	if (!simulation_run)
-		return (true);
 	death_flag
 		= get_bool(&(table->death_mutex), &table->death_flag);
 	if (death_flag)
-	{
-		set_bool(&(table->simulation_mutex), &table->simulation_run, false);
 		return (true);
-	}
 	success_flag
 		= get_bool(&(table->success_mutex), &table->success_flag);
 	if (success_flag)
-	{
-		set_bool(&(table->simulation_mutex), &table->simulation_run, false);
 		return (true);
-	}
 	return (false);
 }
 
