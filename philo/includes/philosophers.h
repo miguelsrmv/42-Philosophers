@@ -6,7 +6,7 @@
 /*   By: mde-sa-- <mde-sa--@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 15:59:16 by mde-sa--          #+#    #+#             */
-/*   Updated: 2024/04/09 22:07:43 by mde-sa--         ###   ########.fr       */
+/*   Updated: 2024/04/10 08:43:20 by mde-sa--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -197,7 +197,7 @@ void				print_philo_action(t_message current);
 void				add_message(t_philos *philo, t_table *table,
 						t_PhiloAction action);
 void				add_node_to_list(t_philos *philo, t_table *table,
-						t_PhiloAction action);
+						ssize_t time, t_PhiloAction action);
 
 /// end_conditions.c
 bool				stop_simulation(t_table *table);
