@@ -6,11 +6,11 @@
 /*   By: mde-sa-- <mde-sa--@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 18:01:16 by mde-sa--          #+#    #+#             */
-/*   Updated: 2024/04/24 16:29:15 by mde-sa--         ###   ########.fr       */
+/*   Updated: 2024/04/24 16:31:50 by mde-sa--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include <stddef.h>
+#include <stddef.h>
 
 size_t	ft_strlen(const char *str)
 {
