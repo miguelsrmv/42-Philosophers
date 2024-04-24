@@ -6,7 +6,7 @@
 /*   By: mde-sa-- <mde-sa--@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 12:13:06 by mde-sa--          #+#    #+#             */
-/*   Updated: 2024/04/10 08:34:33 by mde-sa--         ###   ########.fr       */
+/*   Updated: 2024/04/24 15:04:10 by mde-sa--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,6 @@
 /// If too much time has passed before grabbing the fork, dies
 bool	take_first_fork_routine(t_philos *philo)
 {
-	if (someone_died(philo->table))
-		return (false);
 	pthread_mutex_lock(&(philo->first_fork->fork_mutex));
 	if (get_current_time(philo) > philo->time_last_meal + philo->time_to_die)
 	{
@@ -114,6 +112,7 @@ bool	think_routine(t_philos *philo, size_t current_time)
 		< philo->time_last_meal + philo->time_to_die)
 	{
 		ft_usleep(philo->time_to_think);
+		return (true);
 	}
 	else
 	{
@@ -121,5 +120,4 @@ bool	think_routine(t_philos *philo, size_t current_time)
 			(philo->time_to_die) - (current_time - philo->time_last_meal));
 		return (false);
 	}
-	return (true);
 }

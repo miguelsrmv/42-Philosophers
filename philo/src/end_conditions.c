@@ -6,7 +6,7 @@
 /*   By: mde-sa-- <mde-sa--@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 12:03:33 by mde-sa--          #+#    #+#             */
-/*   Updated: 2024/04/10 08:44:27 by mde-sa--         ###   ########.fr       */
+/*   Updated: 2024/04/24 12:26:45 by mde-sa--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,7 @@ bool	stop_simulation(t_table *table)
 // Returns death_flag
 bool	someone_died(t_table *table)
 {
-	bool	death_flag;
-
-	death_flag = get_bool(&(table->death_mutex), &table->death_flag);
-	return (death_flag);
+	return (get_bool(&(table->death_mutex), &table->death_flag));
 }
 
 // Sleeps for appropriate time, adds death message and sets death_flag to true

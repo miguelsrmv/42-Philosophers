@@ -6,7 +6,7 @@
 /*   By: mde-sa-- <mde-sa--@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 19:46:08 by mde-sa--          #+#    #+#             */
-/*   Updated: 2024/04/09 22:05:02 by mde-sa--         ###   ########.fr       */
+/*   Updated: 2024/04/24 15:20:13 by mde-sa--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,12 +68,13 @@ void	setup_philo_times(t_philos *philo, int argc, char **argv)
 	philo->time_to_die = (size_t)ft_atoi(argv[TIME_TO_DIE]);
 	philo->time_to_eat = (size_t)ft_atoi(argv[TIME_TO_EAT]);
 	philo->time_to_sleep = (size_t)ft_atoi(argv[TIME_TO_SLEEP]);
-	if ((philo->table->number_of_philos % 2)
-		&& philo->time_to_eat <= philo->time_to_sleep)
+  	if ((philo->table->number_of_philos % 2)
+		&& (philo->time_to_eat * 2 > philo->time_to_sleep))
 		philo->time_to_think = philo->time_to_eat * 2 - philo->time_to_sleep;
 	else
 		philo->time_to_think = 0;
-	if (argc == 6)
+/* 	philo->time_to_think = 0;
+ */	if (argc == 6)
 		philo->times_each_philosopher_must_eat
 			= ft_atoi(argv[NUMBER_OF_TIMES_EACH_PHILOSOPHER_MUST_EAT]);
 	else

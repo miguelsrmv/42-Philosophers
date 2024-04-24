@@ -6,7 +6,7 @@
 /*   By: mde-sa-- <mde-sa--@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 18:07:40 by mde-sa--          #+#    #+#             */
-/*   Updated: 2024/04/09 21:39:56 by mde-sa--         ###   ########.fr       */
+/*   Updated: 2024/04/24 12:27:33 by mde-sa--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,6 @@ void	wait_for_threads(t_table *table)
 // Waits for all threads to be created, then sets simulation_run to TRUE
 void	sync_threads(t_table *table)
 {
-	ft_usleep(table->number_of_philos * BEGINNING_WAIT_BUFFER);
 	table->table_start_time = get_abs_time();
 	set_bool(&(table->simulation_mutex), &(table->simulation_run), true);
 }
