@@ -6,7 +6,7 @@
 /*   By: mde-sa-- <mde-sa--@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 15:59:16 by mde-sa--          #+#    #+#             */
-/*   Updated: 2024/04/24 16:16:46 by mde-sa--         ###   ########.fr       */
+/*   Updated: 2024/04/24 16:28:52 by mde-sa--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,12 @@
 # define PHILOSOPHERS_H
 
 // Includes
-# include "../src/libft/libft.h"
 # include <unistd.h>
 # include <stdio.h>
+# include <stdlib.h>
+# include <stdint.h>
+# include <stdbool.h>
+# include <stddef.h>
 # include <pthread.h>
 # include <sys/time.h>
 # include <stdbool.h>
@@ -232,5 +235,11 @@ void				set_size_t(pthread_mutex_t *mutex,
 
 /// warning.c
 void				warning(char **argv);
+
+/// extras
+int					ft_atoi(const char *nptr);
+long				ft_atol(const char *nptr);
+int					ft_isdigit(int c);
+size_t				ft_strlen(const char *str);
 
 #endif

@@ -6,7 +6,7 @@
 #    By: mde-sa-- <mde-sa--@student.42porto.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/23 09:55:46 by mde-sa--          #+#    #+#              #
-#    Updated: 2024/04/24 16:01:22 by mde-sa--         ###   ########.fr        #
+#    Updated: 2024/04/24 16:30:50 by mde-sa--         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,45 +20,34 @@ SRCDIR	=	src
 
 INCDIR	=   includes
 
-LIBFTDIR =  src/libft
-
-LIBS	=   -L$(LIBFTDIR) -lft
-
-INCFLAGS =  -I $(INCDIR) -I $(LIBFTDIR)
+INCFLAGS =  -I $(INCDIR)
 
 SRC		=	main.c arg_check.c arg_init.c mutexes_init.c manage_threads.c \
 			routines.c fork_eat_think_sleep.c monitoring_printing_thread.c \
 			printing_buffer.c end_conditions.c \
 			mutex_utils_getter.c mutex_utils_setter.c time_utils.c \
-			clean_data.c warning.c
+			clean_data.c warning.c \
+			extras/ft_atoi.c extras/ft_atol.c extras/ft_isdigit.c extras/ft_strlen.c
 
 OBJS	= 	$(addprefix $(SRCDIR)/, $(SRC:.c=.o))
 
 RM      = 	rm -rf
 
 
-all: libft $(NAME)
+all: $(NAME)
 
 $(NAME): $(OBJS) 
-	$(CC) $(CFLAGS) $(OBJS) $(LIBS) -o $(NAME) 
-
-thread: $(OBJS) 
-	$(CC) $(CFLAGS) -g -fsanitize=thread $(OBJS) $(LIBS) -o $(NAME) 
+	$(CC) $(CFLAGS) $(OBJS) -o $(NAME) 
 
 $(SRCDIR)/%.o: $(SRCDIR)/%.c $(INCDIR)/*.h
 	$(CC) $(CFLAGS) $(INCFLAGS) -c $< -o $@
 
-libft:
-	@ cd $(LIBFTDIR) && make -s
-
 clean:
-	$(MAKE) -sC $(LIBFTDIR) clean
 	$(RM) $(OBJS)
 
 fclean: clean
-	$(MAKE) -sC $(LIBFTDIR) fclean
 	$(RM) $(NAME)
 
 re: fclean all
 
-.PHONY: all clean fclean re libft
+.PHONY: all clean fclean re
