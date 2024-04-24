@@ -6,7 +6,7 @@
 /*   By: mde-sa-- <mde-sa--@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 18:12:40 by mde-sa--          #+#    #+#             */
-/*   Updated: 2024/04/24 15:05:10 by mde-sa--         ###   ########.fr       */
+/*   Updated: 2024/04/24 15:55:24 by mde-sa--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,6 @@ void	philo_thread(t_philos *philo)
 {
 	wait_for_threads(philo->table);
 	ft_usleep(((philo->philo_id) % 2) * BEGINNING_WAIT_BUFFER_ODD);
-/*  	philo->time_last_meal
-		= 0 + ((philo->philo_id) % 2) * BEGINNING_WAIT_BUFFER_ODD; */
 	philo->time_last_meal = get_current_time(philo);
 	while (!stop_simulation(philo->table))
 	{

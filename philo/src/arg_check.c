@@ -6,7 +6,7 @@
 /*   By: mde-sa-- <mde-sa--@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 09:33:22 by mde-sa--          #+#    #+#             */
-/*   Updated: 2024/04/03 00:52:13 by mde-sa--         ###   ########.fr       */
+/*   Updated: 2024/04/24 16:12:50 by mde-sa--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,13 @@
 /// (optional)"
 t_ErrorCode	check_args(int argc, char **argv)
 {
-	if (is_argc_inadequate(argc) == true)
+	if (is_argc_inadequate(argc)
+		|| arg_has_non_digit_chars(argv)
+		|| is_arg_larger_than_int(argv))
+	{
+		printf(ARG_MESSAGE);
 		return (ARG_ERROR);
-	if (arg_has_non_digit_chars(argv) == true)
-		return (ARG_ERROR);
-	if (is_arg_larger_than_int(argv) == true)
-		return (ARG_ERROR);
+	}
 	warning(argv);
 	return (SUCCESS);
 }
@@ -33,10 +34,7 @@ t_ErrorCode	check_args(int argc, char **argv)
 bool	is_argc_inadequate(int argc)
 {
 	if (argc < 5 || argc > 6)
-	{
-		printf(ARG_MESSAGE);
 		return (true);
-	}
 	return (false);
 }
 
@@ -49,14 +47,13 @@ bool	arg_has_non_digit_chars(char **argv)
 	i = 1;
 	while (argv[i])
 	{
+		if (!ft_strlen(argv[i]))
+			return (true);
 		j = 0;
 		while (argv[i][j])
 		{
 			if (!ft_isdigit(argv[i][j++]))
-			{
-				printf(ARG_MESSAGE);
 				return (true);
-			}
 		}
 		i++;
 	}

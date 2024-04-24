@@ -1,7 +1,0 @@
-Get current time não dá race?? Já que vão buscar tudo ao mesmo data point?
-
-Se sim, criar um mutex para proteger a variável global OU copiar data para uma variável local e depois fazer as contas.
-
-
-
-Correr Valgrind com Helgrind

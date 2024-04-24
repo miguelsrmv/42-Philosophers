@@ -6,7 +6,7 @@
 /*   By: mde-sa-- <mde-sa--@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 15:59:16 by mde-sa--          #+#    #+#             */
-/*   Updated: 2024/04/10 08:49:16 by mde-sa--         ###   ########.fr       */
+/*   Updated: 2024/04/24 16:15:19 by mde-sa--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,14 +35,14 @@ typedef enum e_ErrorCode
 // Error Messages
 # define ARG_MESSAGE "Usage: ./philo [number_of_philosophers] [time_to_die] \
 [time_to_eat] [time_to_sleep] [number_of_times_each_philosopher_must_eat] \
-(optional)\n"
+(optional)\n(Valid args are non-null, digit-only and range from 0 to INT_MAX)\n"
 # define MUTEX_MESSAGE "Mutex error\n"
 # define MALLOC_MESSAGE "Malloc error\n"
 # define THREAD_MESSAGE "Thread error\n"
 # define PHILO_NO_MESSAGE "(Evaluation sheet states: \
 'Do not test with more than 200 philosophers.')\n\n"
 # define TIME_ERROR_MESSAGE "(Evaluation sheet states: \
-'Do not test time_to_die or time_to_eat or time_to_sleep \
+'Do not test [time_to_die] or [time_to_eat] or [time_to_sleep] \
 set to values lower than 60ms')\n\n"
 
 // Program arguments (argv)
@@ -60,8 +60,8 @@ typedef enum e_PhiloAction
 {
 	TOOK_A_FORK,
 	IS_EATING,
-	IS_THINKING,
 	IS_SLEEPING,
+	IS_THINKING,
 	DIED
 }	t_PhiloAction;
 
@@ -75,7 +75,7 @@ typedef enum e_PhiloAction
 // Wait constants
 # define PHILO_NO_WAIT_TIME 25
 # define LIST_WAIT_TIME 20
-# define BEGINNING_WAIT_BUFFER 10
+# define BEGINNING_WAIT_BUFFER_ODD 20
 
 // Structs
 typedef struct s_table	t_table;
