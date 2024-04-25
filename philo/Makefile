@@ -6,7 +6,7 @@
 #    By: mde-sa-- <mde-sa--@student.42porto.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/23 09:55:46 by mde-sa--          #+#    #+#              #
-#    Updated: 2024/04/24 16:30:50 by mde-sa--         ###   ########.fr        #
+#    Updated: 2024/04/25 08:56:15 by mde-sa--         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME	=   philo
 
 CC      = 	cc
 
-CFLAGS   =  -Wall -Wextra -Werror -pthread -g #-fsanitize=thread
+CFLAGS   =  -Wall -Wextra -Werror -pthread #-g fsanitize=thread
 
 SRCDIR	=	src
 

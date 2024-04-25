@@ -6,7 +6,7 @@
 /*   By: mde-sa-- <mde-sa--@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 18:07:40 by mde-sa--          #+#    #+#             */
-/*   Updated: 2024/04/24 12:27:33 by mde-sa--         ###   ########.fr       */
+/*   Updated: 2024/04/25 09:18:07 by mde-sa--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,12 +56,13 @@ void	wait_for_threads(t_table *table)
 {
 	while (!get_bool(&table->simulation_mutex, &table->simulation_run))
 		;
+	ft_usleep(BEGINNING_WAIT_BUFFER);
 }
 
 // Waits for all threads to be created, then sets simulation_run to TRUE
 void	sync_threads(t_table *table)
 {
-	table->table_start_time = get_abs_time();
+	table->table_start_time = get_abs_time() + BEGINNING_WAIT_BUFFER;
 	set_bool(&(table->simulation_mutex), &(table->simulation_run), true);
 }
 

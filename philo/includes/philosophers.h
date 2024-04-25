@@ -6,7 +6,7 @@
 /*   By: mde-sa-- <mde-sa--@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 15:59:16 by mde-sa--          #+#    #+#             */
-/*   Updated: 2024/04/24 16:28:52 by mde-sa--         ###   ########.fr       */
+/*   Updated: 2024/04/25 09:17:59 by mde-sa--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ typedef enum e_PhiloAction
 // Wait constants
 # define PHILO_NO_WAIT_TIME 25
 # define LIST_WAIT_TIME 20
+# define BEGINNING_WAIT_BUFFER 50
 # define BEGINNING_WAIT_BUFFER_ODD 20
 
 // Structs
